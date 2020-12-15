@@ -33,3 +33,7 @@ java -jar ./task-manager.jar
 #SCREENSHOTS 
 
 https://yadi.sk/i/uHUZRXr8ESrhOQ
+
+https://yadi.sk/i/PARzJgyly7092Q
+
+https://yadi.sk/i/FFptxyBczKK4eA
