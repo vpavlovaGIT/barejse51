@@ -1,27 +1,27 @@
 ##############################
-## Ява
+## Java
 ##############################
-.mtj.ПТМ/
-*.класс
-*.кувшин
-*.Война
-*.ухо
-*.нар
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
 hs_err_pid*
 
 ##############################
-## Знаток
+## Maven
 ##############################
-цель/
-ПФЛ.XML.метка
-ПФЛ.XML.releaseBackup
-ПФЛ.XML.versionsBackup
-ПФЛ.XML.Далее
-ПФЛ.XML.bak
-освобождать.свойства
-зависимость-уменьшена-пом.XML
-номер здания.свойства
-.МВН / хронометраж.свойства
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+pom.xml.bak
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
 ##############################
@@ -56,27 +56,27 @@ tmp/
 *.tmp
 *.bak
 *.swp
-*~.перо
-Местные новости.свойства
-.дорожка загрузки
+*~.nib
+local.properties
+.loadpath
 .factorypath
 
 ##############################
-## среда NetBeans
+## NetBeans
 ##############################
-nbproject / private/
-строить/
+nbproject/private/
+build/
 nbbuild/
-расстояние/
+dist/
 nbdist/
-отвлечения внимания.XML
-nb-конфигурация.XML
+nbactions.xml
+nb-configuration.xml
 
 ##############################
-## Код Visual Studio
+## Visual Studio Code
 ##############################
 .vscode/
-.код-рабочее пространство
+.code-workspace
 
 ##############################
 ## OS X
