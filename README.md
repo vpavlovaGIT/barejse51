@@ -8,6 +8,8 @@ NAME: Victoria Pavlova
 
 E-MAIL: vpavlova@tsconsulting.com
 
+E-MAIL: vikkkapaw@mail.ru
+
 # SOFTWARE 
 
 * JDK 1.8 
@@ -24,16 +26,12 @@ E-MAIL: vpavlova@tsconsulting.com
 
 # RUN PROGRAM
 
-'''
+```
 java -jar ./task-manager.jar
-'''
+```
 
 
 
 #SCREENSHOTS 
 
-https://yadi.sk/i/uHUZRXr8ESrhOQ
-
-https://yadi.sk/i/PARzJgyly7092Q
-
-https://yadi.sk/i/FFptxyBczKK4eA
+https://yadi.sk/d/uk2kYD-SbO1jpw?w=1
