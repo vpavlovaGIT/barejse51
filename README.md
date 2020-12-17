@@ -24,9 +24,9 @@ E-MAIL: vpavlova@tsconsulting.com
 
 # RUN PROGRAM
 
-'''
+```
 java -jar ./task-manager.jar
-'''
+```
 
 
 
