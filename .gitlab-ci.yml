@@ -9,7 +9,7 @@ build:
    image: maven:3-jdk-8
    stage: build
    script: 
-   - "mvn clean install"
+   - mvn clean install
    artifacts:
      paths:
        - target/*.jar
