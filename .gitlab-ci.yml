@@ -6,10 +6,10 @@ variables:
     DOCKER_DRIVER: overlay2
 
 build:
-    image: maven:3-jdk-8
-    stage: build
-    script: 
-    - mvn clean install
-    artifacts:
-        paths:
-            - target/*.jar
+   image: maven:3-jdk-8
+   stage: build
+   script: 
+   - mvn clean install
+   artifacts:
+     paths:
+       - target/*.jar
