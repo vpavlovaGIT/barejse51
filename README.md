@@ -24,6 +24,12 @@ E-MAIL: vikkkapaw@mail.ru
 
 * HDD 476Gb
 
+# BUILD PROGRAM
+
+```
+mvn clean install 
+```
+
 # RUN PROGRAM
 
 ```
