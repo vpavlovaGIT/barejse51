@@ -8,4 +8,6 @@ public class TerminalConst {
 
     public static final String CMD_HELP = "help";
 
+    public static final String CMD_EXIT = "exit";
+
 }

@@ -9,13 +9,15 @@
     <version>1.0.0</version>
 
     <name>Task Manager</name>
-    <url>http://tm.vpavlova.ru</url>
+    <url>https://gitlab.com/vpavlova/task-manager-tsk-06</url>
 
     <developers>
         <developer>
             <id>vpavlova</id>
             <email>vpavlova@tsconsulting.com</email>
-            <url>http://www.vpavlova.ru</url>
+            <url>https://gitlab.com/vpavlova</url>
+			<organization>TSC</organization>
+			<organizationUrl>http://www.tsconsulting.com</organizationUrl>
         </developer>
     </developers>
 
