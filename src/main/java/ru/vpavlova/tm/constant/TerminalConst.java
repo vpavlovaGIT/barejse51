@@ -10,4 +10,6 @@ public class TerminalConst {
 
     public static final String CMD_EXIT = "exit";
 
+    public static final String CMD_INFO = "info";
+
 }
