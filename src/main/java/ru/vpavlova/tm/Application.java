@@ -3,11 +3,14 @@ package ru.vpavlova.tm;
 import ru.vpavlova.tm.constant.ArgumentConst;
 import ru.vpavlova.tm.constant.TerminalConst;
 import ru.vpavlova.tm.model.Command;
+import ru.vpavlova.tm.repository.CommandRepository;
 import ru.vpavlova.tm.util.NumberUtil;
 
 import java.util.Scanner;
 
 public class Application {
+
+    private static final CommandRepository COMMAND_REPOSITORY = new CommandRepository();
 
     public static void main(final String[] args) {
         System.out.println("*** WELCOME TO TASK MANAGER ***");
@@ -38,6 +41,8 @@ public class Application {
             case TerminalConst.CMD_HELP: showHelp(); break;
             case TerminalConst.CMD_VERSION: showVersion(); break;
             case TerminalConst.CMD_INFO: showSystemInfo(); break;
+            case TerminalConst.CMD_COMMANDS: showCommands(); break;
+            case TerminalConst.CMD_ARGUMENTS: showArguments(); break;
             case TerminalConst.CMD_EXIT: exit(); break;
             default: showIncorrectCommand();
         }
@@ -73,13 +78,28 @@ public class Application {
         System.out.println("1.0.0");
     }
 
+    private static void showCommands() {
+        final Command[] commands = COMMAND_REPOSITORY.getTerminalCommands();
+        for (final Command command: commands) System.out.println(command.getName());
+    }
+
+    private static void showArguments() {
+        final Command[] commands = COMMAND_REPOSITORY.getTerminalCommands();
+        for (final Command command: commands) {
+            final String arg = command.getArg();
+            if (arg == null) continue;
+            System.out.println(arg);
+        }
+    }
+
     private static void showHelp() {
         System.out.println("[HELP]");
-        System.out.println(Command.ABOUT);
-        System.out.println(Command.VERSION);
-        System.out.println(Command.HELP);
-        System.out.println(Command.INFO);
-        System.out.println(Command.EXIT);
+        final Command[] commands = COMMAND_REPOSITORY.getTerminalCommands();
+        for (final Command command: commands) {
+            final String name = command.getName();
+            if (name == null) continue;
+            System.out.println(command);
+        }
     }
 
     private  static void showSystemInfo() {
