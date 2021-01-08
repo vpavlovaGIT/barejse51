@@ -1,6 +1,7 @@
 package ru.vpavlova.tm.bootstrap;
 
 import ru.vpavlova.tm.api.ICommandController;
+import ru.vpavlova.tm.api.ICommandRepository;
 import ru.vpavlova.tm.api.ICommandService;
 import ru.vpavlova.tm.constant.ArgumentConst;
 import ru.vpavlova.tm.constant.TerminalConst;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class Bootstrap {
 
-    private final CommandRepository commandRepository = new CommandRepository();
+    private final ICommandRepository commandRepository = new CommandRepository();
 
     private final ICommandService commandService = new CommandService(commandRepository);
 
