@@ -1,13 +1,15 @@
 package ru.vpavlova.tm.bootstrap;
 
-import ru.vpavlova.tm.api.ICommandController;
-import ru.vpavlova.tm.api.ICommandRepository;
-import ru.vpavlova.tm.api.ICommandService;
+import ru.vpavlova.tm.api.*;
 import ru.vpavlova.tm.constant.ArgumentConst;
 import ru.vpavlova.tm.constant.TerminalConst;
 import ru.vpavlova.tm.controller.CommandController;
+import ru.vpavlova.tm.controller.TaskController;
 import ru.vpavlova.tm.repository.CommandRepository;
+import ru.vpavlova.tm.repository.TaskRepository;
 import ru.vpavlova.tm.service.CommandService;
+import ru.vpavlova.tm.service.TaskService;
+import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Scanner;
 
@@ -19,13 +21,18 @@ public class Bootstrap {
 
     private final ICommandController commandController = new CommandController(commandService);
 
+    private final ITaskRepository taskRepository = new TaskRepository();
+
+    private  final ITaskService taskService = new TaskService(taskRepository);
+
+    private  final ITaskController taskController = new TaskController(taskService);
+
     public void run(final String... args) {
         System.out.println("*** WELCOME TO TASK MANAGER ***");
         if (parseArgs(args)) System.exit(0);
-        final Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("ENTER COMMAND: ");
-            final String command = scanner.nextLine();
+            final String command = TerminalUtil.nextLine();
             parseCommand(command);
         }
     }
@@ -51,6 +58,9 @@ public class Bootstrap {
             case TerminalConst.CMD_COMMANDS: commandController.showCommands(); break;
             case TerminalConst.CMD_ARGUMENTS: commandController.showArguments(); break;
             case TerminalConst.CMD_EXIT: commandController.exit(); break;
+            case TerminalConst.CMD_TASK_LIST: taskController.showList(); break;
+            case TerminalConst.CMD_TASK_CREATE: taskController.create(); break;
+            case TerminalConst.CMD_TASK_CLEAR: taskController.clear(); break;
             default: showIncorrectCommand();
         }
     }

@@ -12,6 +12,12 @@ public class TerminalConst {
 
     public static final String CMD_INFO = "info";
 
+    public static final String CMD_TASK_CREATE = "task-create";
+
+    public static final String CMD_TASK_CLEAR = "task-clear";
+
+    public static final String CMD_TASK_LIST = "task-list";
+
     public static final String CMD_COMMANDS = "commands";
 
     public static final String CMD_ARGUMENTS = "arguments";

@@ -35,8 +35,22 @@ public class CommandRepository implements ICommandRepository {
             TerminalConst.CMD_COMMANDS, null, "Show program commands."
     );
 
+    private static final Command TASK_CREATE = new Command(
+            TerminalConst.CMD_TASK_CREATE, null, "Create new task."
+    );
+
+    private static final Command TASK_CLEAR = new Command(
+            TerminalConst.CMD_TASK_CLEAR, null, "Clear all tasks."
+    );
+
+    private static final Command TASK_LIST = new Command(
+            TerminalConst.CMD_TASK_LIST, null, "Show task list."
+    );
+
     private static final Command[] TERMINAL_COMMANDS = new Command[] {
-            ABOUT, HELP, VERSION, INFO, EXIT, ARGUMENTS, COMMANDS
+            ABOUT, HELP, VERSION, INFO, ARGUMENTS, COMMANDS,
+            TASK_LIST, TASK_CREATE, TASK_CLEAR,
+            EXIT
     };
 
     public Command[] getTerminalCommands() {
