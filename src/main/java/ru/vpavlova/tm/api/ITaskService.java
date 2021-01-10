@@ -1,7 +1,6 @@
 package ru.vpavlova.tm.api;
 
 import ru.vpavlova.tm.model.Task;
-
 import java.util.List;
 
 public interface ITaskService {

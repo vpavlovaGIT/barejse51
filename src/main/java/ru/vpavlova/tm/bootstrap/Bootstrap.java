@@ -26,9 +26,9 @@ public class Bootstrap {
 
     private final ITaskRepository taskRepository = new TaskRepository();
 
-    private  final ITaskService taskService = new TaskService(taskRepository);
+    private final ITaskService taskService = new TaskService(taskRepository);
 
-    private  final ITaskController taskController = new TaskController(taskService);
+    private final ITaskController taskController = new TaskController(taskService);
 
     private final IProjectRepository projectRepository = new ProjectRepository();
 
