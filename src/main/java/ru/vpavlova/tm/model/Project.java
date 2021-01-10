@@ -10,6 +10,13 @@ public class Project {
 
     private String description = "";
 
+    public Project() {
+    }
+
+    public Project(String name) {
+        this.name = name;
+    }
+
     public String getId() {
         return id;
     }
@@ -32,6 +39,11 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return id + ": " + name;
     }
 
 }

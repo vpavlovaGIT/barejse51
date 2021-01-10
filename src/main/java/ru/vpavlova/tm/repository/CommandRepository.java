@@ -47,9 +47,22 @@ public class CommandRepository implements ICommandRepository {
             TerminalConst.CMD_TASK_LIST, null, "Show task list."
     );
 
-    private static final Command[] TERMINAL_COMMANDS = new Command[] {
+    private static final Command PROJECT_CREATE = new Command(
+            TerminalConst.CMD_PROJECT_CREATE, null, "Create new project."
+    );
+
+    private static final Command PROJECT_CLEAR = new Command(
+            TerminalConst.CMD_PROJECT_CLEAR, null, "Clear all projects."
+    );
+
+    private static final Command PROJECT_LIST = new Command(
+            TerminalConst.CMD_PROJECT_LIST, null, "Show project list."
+    );
+
+    private static final Command[] TERMINAL_COMMANDS = new Command[]{
             ABOUT, HELP, VERSION, INFO, ARGUMENTS, COMMANDS,
             TASK_LIST, TASK_CREATE, TASK_CLEAR,
+            PROJECT_LIST, PROJECT_CREATE, PROJECT_CLEAR,
             EXIT
     };
 

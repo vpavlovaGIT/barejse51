@@ -18,6 +18,12 @@ public class TerminalConst {
 
     public static final String CMD_TASK_LIST = "task-list";
 
+    public static final String CMD_PROJECT_CREATE = "project-create";
+
+    public static final String CMD_PROJECT_CLEAR = "project-clear";
+
+    public static final String CMD_PROJECT_LIST = "project-list";
+
     public static final String CMD_COMMANDS = "commands";
 
     public static final String CMD_ARGUMENTS = "arguments";
