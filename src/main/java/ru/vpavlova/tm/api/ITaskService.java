@@ -15,4 +15,20 @@ public interface ITaskService {
 
     void clear();
 
+    Task findOneById(String id);
+
+    Task findOneByIndex(Integer index);
+
+    Task findOneByName(String name);
+
+    Task removeOneById(String id);
+
+    Task removeOneByIndex(Integer index);
+
+    Task removeOneByName(String name);
+
+    Task updateTaskById(String id, String name, String description);
+
+    Task updateTaskByIndex(Integer index, String name, String description);
+
 }

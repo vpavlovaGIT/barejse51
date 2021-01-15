@@ -46,4 +46,63 @@ public class TaskService implements ITaskService {
         taskRepository.clear();
     }
 
+    @Override
+    public Task findOneById(final String id) {
+        if (id == null || id.isEmpty()) return null;
+        return taskRepository.findOneById(id);
+    }
+
+    @Override
+    public Task findOneByIndex(final Integer index) {
+        if (index == null || index < 0) return null;
+        return taskRepository.findOneByIndex(index);
+    }
+
+    @Override
+    public Task findOneByName(final String name) {
+        if (name == null || name.isEmpty()) return null;
+        return taskRepository.findOneByName(name);
+
+    }
+
+    @Override
+    public Task removeOneById(final String id) {
+        if (id == null || id.isEmpty()) return null;
+        return taskRepository.removeOneById(id);
+    }
+
+    @Override
+    public Task removeOneByIndex(final Integer index) {
+        if (index == null || index < 0) return null;
+        return taskRepository.removeOneByIndex(index);
+    }
+
+    @Override
+    public Task removeOneByName(final String name) {
+        if (name == null || name.isEmpty()) return null;
+        return taskRepository.removeOneByName(name);
+    }
+
+    @Override
+    public Task updateTaskById(final String id, final String name, final String description) {
+        if (id == null || id.isEmpty()) return null;
+        if (name == null || name.isEmpty()) return null;
+        final Task task = findOneById(id);
+        if (task == null) return null;
+        task.setName(name);
+        task.setDescription(description);
+        return task;
+    }
+
+    @Override
+    public Task updateTaskByIndex(final Integer index, final String name, final String description) {
+        if (index == null || index < 0) return null;
+        if (name == null || name.isEmpty()) return null;
+        final Task task = findOneByIndex(index);
+        if (task == null) return null;
+        task.setName(name);
+        task.setDescription(description);
+        return task;
+    }
+
 }

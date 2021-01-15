@@ -10,4 +10,9 @@ public interface TerminalUtil {
         return SCANNER.nextLine();
     }
 
+    static Integer nextNumber() {
+        final String value = nextLine();
+        return Integer.parseInt(value);
+    }
+
 }

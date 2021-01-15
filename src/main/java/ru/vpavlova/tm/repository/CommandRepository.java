@@ -36,15 +36,47 @@ public class CommandRepository implements ICommandRepository {
     );
 
     private static final Command TASK_CREATE = new Command(
-            TerminalConst.CMD_TASK_CREATE, null, "Create new task."
+            TerminalConst.TASK_CREATE, null, "Create new task."
     );
 
     private static final Command TASK_CLEAR = new Command(
-            TerminalConst.CMD_TASK_CLEAR, null, "Clear all tasks."
+            TerminalConst.TASK_CLEAR, null, "Clear all tasks."
     );
 
     private static final Command TASK_LIST = new Command(
-            TerminalConst.CMD_TASK_LIST, null, "Show task list."
+            TerminalConst.TASK_LIST, null, "Show task list."
+    );
+
+    private static final Command TASK_VIEW_BY_ID = new Command(
+            TerminalConst.TASK_VIEW_BY_ID, null, "Show task by id."
+    );
+
+    private static final Command TASK_VIEW_BY_INDEX = new Command(
+            TerminalConst.TASK_VIEW_BY_INDEX, null, "Show task by index."
+    );
+
+    private static final Command TASK_VIEW_BY_NAME = new Command(
+            TerminalConst.TASK_VIEW_BY_NAME, null, "Show task by name."
+    );
+
+    private static final Command TASK_REMOVE_BY_ID = new Command(
+            TerminalConst.TASK_REMOVE_BY_ID, null, "Remove task by id."
+    );
+
+    private static final Command TASK_REMOVE_BY_INDEX = new Command(
+            TerminalConst.TASK_REMOVE_BY_INDEX, null, "Remove task by index."
+    );
+
+    private static final Command TASK_REMOVE_BY_NAME = new Command(
+            TerminalConst.TASK_REMOVE_BY_NAME, null, "Remove task by name."
+    );
+
+    private static final Command TASK_UPDATE_BY_ID = new Command(
+            TerminalConst.TASK_UPDATE_BY_ID, null, "Update task by id."
+    );
+
+    private static final Command TASK_UPDATE_BY_INDEX = new Command(
+            TerminalConst.TASK_UPDATE_BY_INDEX, null, "Update task by index."
     );
 
     private static final Command PROJECT_CREATE = new Command(
@@ -61,7 +93,8 @@ public class CommandRepository implements ICommandRepository {
 
     private static final Command[] TERMINAL_COMMANDS = new Command[]{
             ABOUT, HELP, VERSION, INFO, ARGUMENTS, COMMANDS,
-            TASK_LIST, TASK_CREATE, TASK_CLEAR,
+            TASK_LIST, TASK_CREATE, TASK_CLEAR, TASK_VIEW_BY_ID, TASK_VIEW_BY_INDEX, TASK_VIEW_BY_NAME,
+            TASK_REMOVE_BY_ID, TASK_REMOVE_BY_INDEX, TASK_REMOVE_BY_NAME, TASK_UPDATE_BY_ID, TASK_UPDATE_BY_INDEX,
             PROJECT_LIST, PROJECT_CREATE, PROJECT_CLEAR,
             EXIT
     };

@@ -13,4 +13,16 @@ public interface ITaskRepository {
 
     void clear();
 
+    Task findOneById(String id);
+
+    Task findOneByIndex(Integer index);
+
+    Task findOneByName(String name);
+
+    Task removeOneById(String id);
+
+    Task removeOneByIndex(Integer index);
+
+    Task removeOneByName(String name);
+
 }
