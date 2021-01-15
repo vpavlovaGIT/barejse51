@@ -65,7 +65,6 @@ public class TaskRepository implements ITaskRepository {
         if (task == null) return null;
         remove(task);
         return task;
-
     }
 
     @Override

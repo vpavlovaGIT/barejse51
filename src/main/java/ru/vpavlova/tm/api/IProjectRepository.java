@@ -13,4 +13,16 @@ public interface IProjectRepository {
 
     void clear();
 
+    Project findOneById(String id);
+
+    Project findOneByIndex(Integer index);
+
+    Project findOneByName(String name);
+
+    Project removeOneById(String id);
+
+    Project removeOneByIndex(Integer index);
+
+    Project removeOneByName(String name);
+
 }

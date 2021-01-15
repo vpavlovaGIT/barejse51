@@ -15,4 +15,20 @@ public interface IProjectService {
 
     void clear();
 
+    Project findOneById(String id);
+
+    Project findOneByIndex(Integer index);
+
+    Project findOneByName(String name);
+
+    Project removeOneById(String id);
+
+    Project removeOneByIndex(Integer index);
+
+    Project removeOneByName(String name);
+
+    Project updateTaskById(String id, String name, String description);
+
+    Project updateTaskByIndex(Integer index, String name, String description);
+
 }

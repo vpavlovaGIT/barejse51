@@ -8,4 +8,20 @@ public interface IProjectController {
 
     void clearProject();
 
+    void showProjectById();
+
+    void showProjectByIndex();
+
+    void showProjectByName();
+
+    void removeProjectById();
+
+    void removeProjectByIndex();
+
+    void removeProjectByName();
+
+    void updateProjectById();
+
+    void updateProjectByIndex();
+
 }

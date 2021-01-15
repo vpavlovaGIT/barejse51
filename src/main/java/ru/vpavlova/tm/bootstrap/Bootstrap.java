@@ -78,9 +78,17 @@ public class Bootstrap {
             case TerminalConst.TASK_REMOVE_BY_NAME: taskController.removeTaskByName(); break;
             case TerminalConst.TASK_UPDATE_BY_ID: taskController.updateTaskById(); break;
             case TerminalConst.TASK_UPDATE_BY_INDEX: taskController.updateTaskByIndex(); break;
-            case TerminalConst.CMD_PROJECT_LIST: projectController.showProjectList(); break;
-            case TerminalConst.CMD_PROJECT_CREATE: projectController.createProject(); break;
-            case TerminalConst.CMD_PROJECT_CLEAR: projectController.clearProject(); break;
+            case TerminalConst.PROJECT_LIST: projectController.showProjectList(); break;
+            case TerminalConst.PROJECT_CREATE: projectController.createProject(); break;
+            case TerminalConst.PROJECT_CLEAR: projectController.clearProject(); break;
+            case TerminalConst.PROJECT_VIEW_BY_ID: projectController.showProjectById(); break;
+            case TerminalConst.PROJECT_VIEW_BY_INDEX: projectController.showProjectByIndex(); break;
+            case TerminalConst.PROJECT_VIEW_BY_NAME: projectController.showProjectByName(); break;
+            case TerminalConst.PROJECT_REMOVE_BY_ID: projectController.removeProjectById(); break;
+            case TerminalConst.PROJECT_REMOVE_BY_INDEX: projectController.removeProjectByIndex(); break;
+            case TerminalConst.PROJECT_REMOVE_BY_NAME: projectController.removeProjectByName(); break;
+            case TerminalConst.PROJECT_UPDATE_BY_ID: projectController.updateProjectById(); break;
+            case TerminalConst.PROJECT_UPDATE_BY_INDEX: projectController.updateProjectByIndex(); break;
             default: showIncorrectCommand();
         }
     }

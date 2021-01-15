@@ -80,22 +80,55 @@ public class CommandRepository implements ICommandRepository {
     );
 
     private static final Command PROJECT_CREATE = new Command(
-            TerminalConst.CMD_PROJECT_CREATE, null, "Create new project."
+            TerminalConst.PROJECT_CREATE, null, "Create new project."
     );
 
     private static final Command PROJECT_CLEAR = new Command(
-            TerminalConst.CMD_PROJECT_CLEAR, null, "Clear all projects."
+            TerminalConst.PROJECT_CLEAR, null, "Clear all projects."
     );
 
     private static final Command PROJECT_LIST = new Command(
-            TerminalConst.CMD_PROJECT_LIST, null, "Show project list."
+            TerminalConst.PROJECT_LIST, null, "Show project list."
+    );
+
+    private static final Command PROJECT_VIEW_BY_ID = new Command(
+            TerminalConst.PROJECT_VIEW_BY_ID, null, "Show project by id."
+    );
+
+    private static final Command PROJECT_VIEW_BY_INDEX = new Command(
+            TerminalConst.PROJECT_VIEW_BY_INDEX, null, "Show project by index."
+    );
+
+    private static final Command PROJECT_VIEW_BY_NAME = new Command(
+            TerminalConst.PROJECT_VIEW_BY_NAME, null, "Show project by name."
+    );
+
+    private static final Command PROJECT_REMOVE_BY_ID = new Command(
+            TerminalConst.PROJECT_REMOVE_BY_ID, null, "Remove project by id."
+    );
+
+    private static final Command PROJECT_REMOVE_BY_INDEX = new Command(
+            TerminalConst.PROJECT_REMOVE_BY_INDEX, null, "Remove project by index."
+    );
+
+    private static final Command PROJECT_REMOVE_BY_NAME = new Command(
+            TerminalConst.PROJECT_REMOVE_BY_NAME, null, "Remove project by name."
+    );
+
+    private static final Command PROJECT_UPDATE_BY_ID = new Command(
+            TerminalConst.PROJECT_UPDATE_BY_ID, null, "Update project by id."
+    );
+
+    private static final Command PROJECT_UPDATE_BY_INDEX = new Command(
+            TerminalConst.PROJECT_UPDATE_BY_INDEX, null, "Update project by index."
     );
 
     private static final Command[] TERMINAL_COMMANDS = new Command[]{
             ABOUT, HELP, VERSION, INFO, ARGUMENTS, COMMANDS,
             TASK_LIST, TASK_CREATE, TASK_CLEAR, TASK_VIEW_BY_ID, TASK_VIEW_BY_INDEX, TASK_VIEW_BY_NAME,
             TASK_REMOVE_BY_ID, TASK_REMOVE_BY_INDEX, TASK_REMOVE_BY_NAME, TASK_UPDATE_BY_ID, TASK_UPDATE_BY_INDEX,
-            PROJECT_LIST, PROJECT_CREATE, PROJECT_CLEAR,
+            PROJECT_LIST, PROJECT_CREATE, PROJECT_CLEAR, PROJECT_VIEW_BY_ID, PROJECT_VIEW_BY_INDEX, PROJECT_VIEW_BY_NAME,
+            PROJECT_REMOVE_BY_ID, PROJECT_REMOVE_BY_INDEX, PROJECT_REMOVE_BY_NAME, PROJECT_UPDATE_BY_ID, PROJECT_UPDATE_BY_INDEX,
             EXIT
     };
 
