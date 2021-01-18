@@ -1,6 +1,14 @@
 package ru.vpavlova.tm.bootstrap;
 
-import ru.vpavlova.tm.api.*;
+import ru.vpavlova.tm.api.controller.ICommandController;
+import ru.vpavlova.tm.api.controller.IProjectController;
+import ru.vpavlova.tm.api.controller.ITaskController;
+import ru.vpavlova.tm.api.repository.ICommandRepository;
+import ru.vpavlova.tm.api.repository.IProjectRepository;
+import ru.vpavlova.tm.api.repository.ITaskRepository;
+import ru.vpavlova.tm.api.service.ICommandService;
+import ru.vpavlova.tm.api.service.IProjectService;
+import ru.vpavlova.tm.api.service.ITaskService;
 import ru.vpavlova.tm.constant.ArgumentConst;
 import ru.vpavlova.tm.constant.TerminalConst;
 import ru.vpavlova.tm.controller.CommandController;

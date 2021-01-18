@@ -1,14 +1,11 @@
 package ru.vpavlova.tm.controller;
 
-import ru.vpavlova.tm.api.IProjectController;
-import ru.vpavlova.tm.api.IProjectRepository;
-import ru.vpavlova.tm.api.IProjectService;
+import ru.vpavlova.tm.api.controller.IProjectController;
+import ru.vpavlova.tm.api.service.IProjectService;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
-import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.util.TerminalUtil;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 

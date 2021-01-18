@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.api;
+package ru.vpavlova.tm.api.repository;
 
 import ru.vpavlova.tm.model.Project;
 import java.util.List;

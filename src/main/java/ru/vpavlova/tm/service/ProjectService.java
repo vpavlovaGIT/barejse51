@@ -1,7 +1,7 @@
 package ru.vpavlova.tm.service;
 
-import ru.vpavlova.tm.api.IProjectRepository;
-import ru.vpavlova.tm.api.IProjectService;
+import ru.vpavlova.tm.api.repository.IProjectRepository;
+import ru.vpavlova.tm.api.service.IProjectService;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
 
@@ -134,7 +134,7 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public Project finishProjectById(String id) {
+    public Project finishProjectById(final String id) {
         if (id == null || id.isEmpty()) return null;
         final Project project = findOneById(id);
         if (project == null) return null;
@@ -143,7 +143,7 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public Project finishProjectByIndex(Integer index) {
+    public Project finishProjectByIndex(final Integer index) {
         if (index == null || index < 0) return null;
         final Project project = findOneByIndex(index);
         if (project == null) return null;
@@ -152,7 +152,7 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public Project finishProjectByName(String name) {
+    public Project finishProjectByName(final String name) {
         if (name == null || name.isEmpty()) return null;
         final Project project = findOneByName(name);
         if (project == null) return null;
@@ -161,7 +161,7 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public Project changeProjectStatusById(String id, Status status) {
+    public Project changeProjectStatusById(final String id, final Status status) {
         if (id == null || id.isEmpty()) return null;
         if (status == null) return null;
         final Project project = findOneById(id);
@@ -171,7 +171,7 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public Project changeProjectStatusByIndex(Integer index, Status status) {
+    public Project changeProjectStatusByIndex(final Integer index, final Status status) {
         if (index == null) return null;
         if (status == null) return null;
         final Project project = findOneByIndex(index);
@@ -181,7 +181,7 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public Project changeProjectStatusByName(String name, Status status) {
+    public Project changeProjectStatusByName(final String name, final Status status) {
         if (name == null || name.isEmpty()) return null;
         if (status == null) return null;
         final Project project = findOneByName(name);

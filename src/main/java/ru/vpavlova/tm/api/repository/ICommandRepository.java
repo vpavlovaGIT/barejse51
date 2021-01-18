@@ -1,8 +1,8 @@
-package ru.vpavlova.tm.api;
+package ru.vpavlova.tm.api.repository;
 
 import ru.vpavlova.tm.model.Command;
 
-public interface ICommandService {
+public interface ICommandRepository {
 
     Command[] getTerminalCommands();
 

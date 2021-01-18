@@ -1,7 +1,8 @@
 package ru.vpavlova.tm.service;
 
-import ru.vpavlova.tm.api.ITaskRepository;
-import ru.vpavlova.tm.api.ITaskService;
+import ru.vpavlova.tm.api.repository.ITaskRepository;
+import ru.vpavlova.tm.api.service.ITaskService;
+import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Task;
 import java.util.List;
 
@@ -103,6 +104,51 @@ public class TaskService implements ITaskService {
         task.setName(name);
         task.setDescription(description);
         return task;
+    }
+
+    @Override
+    public Task startProjectById(final String id) {
+        return null;
+    }
+
+    @Override
+    public Task startProjectByIndex(final Integer index) {
+        return null;
+    }
+
+    @Override
+    public Task startProjectByName(final String name) {
+        return null;
+    }
+
+    @Override
+    public Task finishProjectById(final String id) {
+        return null;
+    }
+
+    @Override
+    public Task finishProjectByIndex(final Integer index) {
+        return null;
+    }
+
+    @Override
+    public Task finishProjectByName(final String name) {
+        return null;
+    }
+
+    @Override
+    public Task changeProjectStatusById(final String id, final Status status) {
+        return null;
+    }
+
+    @Override
+    public Task changeProjectStatusByIndex(final Integer index, final Status status) {
+        return null;
+    }
+
+    @Override
+    public Task changeProjectStatusByName(final String name, final Status status) {
+        return null;
     }
 
 }

@@ -1,7 +1,7 @@
 package ru.vpavlova.tm.controller;
 
-import ru.vpavlova.tm.api.ITaskController;
-import ru.vpavlova.tm.api.ITaskService;
+import ru.vpavlova.tm.api.controller.ITaskController;
+import ru.vpavlova.tm.api.service.ITaskService;
 import ru.vpavlova.tm.model.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 

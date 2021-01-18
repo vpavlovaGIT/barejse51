@@ -1,6 +1,6 @@
 package ru.vpavlova.tm.repository;
 
-import ru.vpavlova.tm.api.ICommandRepository;
+import ru.vpavlova.tm.api.repository.ICommandRepository;
 import ru.vpavlova.tm.constant.ArgumentConst;
 import ru.vpavlova.tm.constant.TerminalConst;
 import ru.vpavlova.tm.model.Command;

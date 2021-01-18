@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.api;
+package ru.vpavlova.tm.api.controller;
 
 public interface ITaskController {
 

@@ -1,6 +1,6 @@
 package ru.vpavlova.tm.repository;
 
-import ru.vpavlova.tm.api.ITaskRepository;
+import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.model.Task;
 
 import java.util.ArrayList;

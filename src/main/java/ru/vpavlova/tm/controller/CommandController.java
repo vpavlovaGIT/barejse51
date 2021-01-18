@@ -1,7 +1,7 @@
 package ru.vpavlova.tm.controller;
 
-import ru.vpavlova.tm.api.ICommandController;
-import ru.vpavlova.tm.api.ICommandService;
+import ru.vpavlova.tm.api.controller.ICommandController;
+import ru.vpavlova.tm.api.service.ICommandService;
 import ru.vpavlova.tm.model.Command;
 import ru.vpavlova.tm.util.NumberUtil;
 

@@ -1,6 +1,6 @@
 package ru.vpavlova.tm.repository;
 
-import ru.vpavlova.tm.api.IProjectRepository;
+import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.model.Project;
 import java.util.ArrayList;
 import java.util.List;

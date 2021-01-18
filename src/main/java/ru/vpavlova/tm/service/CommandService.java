@@ -1,7 +1,7 @@
 package ru.vpavlova.tm.service;
 
-import ru.vpavlova.tm.api.ICommandRepository;
-import ru.vpavlova.tm.api.ICommandService;
+import ru.vpavlova.tm.api.repository.ICommandRepository;
+import ru.vpavlova.tm.api.service.ICommandService;
 import ru.vpavlova.tm.model.Command;
 
 public class CommandService implements ICommandService {

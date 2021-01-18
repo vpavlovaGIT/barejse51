@@ -1,13 +1,11 @@
-package ru.vpavlova.tm.api;
+package ru.vpavlova.tm.api.repository;
 
 import ru.vpavlova.tm.model.Task;
 import java.util.List;
 
-public interface ITaskService {
+public interface ITaskRepository {
 
     List<Task> findAll();
-
-    Task add(String name, String description);
 
     void add(Task task);
 
@@ -26,9 +24,5 @@ public interface ITaskService {
     Task removeOneByIndex(Integer index);
 
     Task removeOneByName(String name);
-
-    Task updateTaskById(String id, String name, String description);
-
-    Task updateTaskByIndex(Integer index, String name, String description);
 
 }

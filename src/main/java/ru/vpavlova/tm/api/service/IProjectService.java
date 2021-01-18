@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.api;
+package ru.vpavlova.tm.api.service;
 
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
