@@ -14,8 +14,6 @@ import ru.vpavlova.tm.service.ProjectService;
 import ru.vpavlova.tm.service.TaskService;
 import ru.vpavlova.tm.util.TerminalUtil;
 
-import java.util.Scanner;
-
 public class Bootstrap {
 
     private final ICommandRepository commandRepository = new CommandRepository();
@@ -89,6 +87,15 @@ public class Bootstrap {
             case TerminalConst.PROJECT_REMOVE_BY_NAME: projectController.removeProjectByName(); break;
             case TerminalConst.PROJECT_UPDATE_BY_ID: projectController.updateProjectById(); break;
             case TerminalConst.PROJECT_UPDATE_BY_INDEX: projectController.updateProjectByIndex(); break;
+            case TerminalConst.PROJECT_START_STATUS_BY_ID: projectController.startProjectById(); break;
+            case TerminalConst.PROJECT_START_STATUS_BY_INDEX: projectController.startProjectByIndex(); break;
+            case TerminalConst.PROJECT_START_STATUS_BY_NAME: projectController.startProjectByName(); break;
+            case TerminalConst.PROJECT_FINISH_STATUS_BY_ID: projectController.finishProjectById(); break;
+            case TerminalConst.PROJECT_FINISH_STATUS_BY_INDEX: projectController.finishProjectByIndex(); break;
+            case TerminalConst.PROJECT_FINISH_STATUS_BY_NAME: projectController.finishProjectByName(); break;
+            case TerminalConst.PROJECT_UPDATE_STATUS_BY_ID: projectController.changeProjectStatusById(); break;
+            case TerminalConst.PROJECT_UPDATE_STATUS_BY_INDEX: projectController.changeProjectStatusByIndex(); break;
+            case TerminalConst.PROJECT_UPDATE_STATUS_BY_NAME: projectController.changeProjectStatusByName(); break;
             default: showIncorrectCommand();
         }
     }

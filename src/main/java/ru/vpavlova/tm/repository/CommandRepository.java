@@ -123,12 +123,51 @@ public class CommandRepository implements ICommandRepository {
             TerminalConst.PROJECT_UPDATE_BY_INDEX, null, "Update project by index."
     );
 
+    private static final Command PROJECT_START_STATUS_BY_ID = new Command(
+            TerminalConst.PROJECT_START_STATUS_BY_ID, null, "Start project status by id."
+    );
+
+    private static final Command PROJECT_START_STATUS_BY_INDEX = new Command(
+            TerminalConst.PROJECT_START_STATUS_BY_INDEX, null, "Start project status by index."
+    );
+
+    private static final Command PROJECT_START_STATUS_BY_NAME = new Command(
+            TerminalConst.PROJECT_START_STATUS_BY_NAME, null, "Start project status by name."
+    );
+
+    private static final Command PROJECT_FINISH_STATUS_BY_ID = new Command(
+            TerminalConst.PROJECT_FINISH_STATUS_BY_ID, null, "Finish project status by id."
+    );
+
+    private static final Command PROJECT_FINISH_STATUS_BY_INDEX = new Command(
+            TerminalConst.PROJECT_FINISH_STATUS_BY_INDEX, null, "Finish project status by index."
+    );
+
+    private static final Command PROJECT_FINISH_STATUS_BY_NAME = new Command(
+            TerminalConst.PROJECT_FINISH_STATUS_BY_NAME, null, "Finish project status by name."
+    );
+
+    private static final Command PROJECT_UPDATE_STATUS_BY_ID = new Command(
+            TerminalConst.PROJECT_UPDATE_STATUS_BY_ID, null, "Update project status by id."
+    );
+
+    private static final Command PROJECT_UPDATE_STATUS_BY_INDEX = new Command(
+            TerminalConst.PROJECT_UPDATE_STATUS_BY_INDEX, null, "Update project status by index."
+    );
+
+    private static final Command PROJECT_UPDATE_STATUS_BY_NAME = new Command(
+            TerminalConst.PROJECT_UPDATE_STATUS_BY_NAME, null, "Update project status by name."
+    );
+
     private static final Command[] TERMINAL_COMMANDS = new Command[]{
             ABOUT, HELP, VERSION, INFO, ARGUMENTS, COMMANDS,
             TASK_LIST, TASK_CREATE, TASK_CLEAR, TASK_VIEW_BY_ID, TASK_VIEW_BY_INDEX, TASK_VIEW_BY_NAME,
             TASK_REMOVE_BY_ID, TASK_REMOVE_BY_INDEX, TASK_REMOVE_BY_NAME, TASK_UPDATE_BY_ID, TASK_UPDATE_BY_INDEX,
             PROJECT_LIST, PROJECT_CREATE, PROJECT_CLEAR, PROJECT_VIEW_BY_ID, PROJECT_VIEW_BY_INDEX, PROJECT_VIEW_BY_NAME,
             PROJECT_REMOVE_BY_ID, PROJECT_REMOVE_BY_INDEX, PROJECT_REMOVE_BY_NAME, PROJECT_UPDATE_BY_ID, PROJECT_UPDATE_BY_INDEX,
+            PROJECT_START_STATUS_BY_ID, PROJECT_START_STATUS_BY_INDEX, PROJECT_START_STATUS_BY_NAME,
+            PROJECT_FINISH_STATUS_BY_ID, PROJECT_FINISH_STATUS_BY_INDEX, PROJECT_FINISH_STATUS_BY_NAME,
+            PROJECT_UPDATE_STATUS_BY_ID, PROJECT_UPDATE_STATUS_BY_INDEX, PROJECT_UPDATE_STATUS_BY_NAME,
             EXIT
     };
 

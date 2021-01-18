@@ -54,6 +54,7 @@ public class TaskController implements ITaskController {
         System.out.println("ID: " + task.getId());
         System.out.println("NAME: " + task.getName());
         System.out.println("DESCRIPTION: " + task.getDescription());
+        System.out.println("STATUS: " + task.getStatus().getDisplayName());
     }
 
     @Override

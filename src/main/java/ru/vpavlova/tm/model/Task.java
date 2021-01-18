@@ -1,5 +1,6 @@
 package ru.vpavlova.tm.model;
 
+import ru.vpavlova.tm.enumerated.Status;
 import java.util.UUID;
 
 public class Task {
@@ -9,6 +10,16 @@ public class Task {
     private String name = "";
 
     private String description = "";
+
+    private Status status = Status.NOT_STARTED;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Task() {
     }

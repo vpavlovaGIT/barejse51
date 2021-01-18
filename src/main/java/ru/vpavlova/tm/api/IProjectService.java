@@ -1,5 +1,6 @@
 package ru.vpavlova.tm.api;
 
+import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
 import java.util.List;
 
@@ -30,5 +31,23 @@ public interface IProjectService {
     Project updateTaskById(String id, String name, String description);
 
     Project updateTaskByIndex(Integer index, String name, String description);
+
+    Project startProjectById(String id);
+
+    Project startProjectByIndex(Integer index);
+
+    Project startProjectByName(String name);
+
+    Project finishProjectById(String id);
+
+    Project finishProjectByIndex(Integer index);
+
+    Project finishProjectByName(String name);
+
+    Project changeProjectStatusById(String id, Status status);
+
+    Project changeProjectStatusByIndex(Integer index, Status status);
+
+    Project changeProjectStatusByName(String name, Status status);
 
 }

@@ -2,7 +2,9 @@ package ru.vpavlova.tm.service;
 
 import ru.vpavlova.tm.api.IProjectRepository;
 import ru.vpavlova.tm.api.IProjectService;
+import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
+
 import java.util.List;
 
 public class ProjectService implements IProjectService {
@@ -101,6 +103,90 @@ public class ProjectService implements IProjectService {
         if (project == null) return null;
         project.setName(name);
         project.setDescription(description);
+        return project;
+    }
+
+    @Override
+    public Project startProjectById(final String id) {
+        if (id == null || id.isEmpty()) return null;
+        final Project project = findOneById(id);
+        if (project == null) return null;
+        project.setStatus(Status.IN_PROGRESS);
+        return project;
+    }
+
+    @Override
+    public Project startProjectByIndex(final Integer index) {
+        if (index == null || index < 0) return null;
+        final Project project = findOneByIndex(index);
+        if (project == null) return null;
+        project.setStatus(Status.IN_PROGRESS);
+        return project;
+    }
+
+    @Override
+    public Project startProjectByName(final String name) {
+        if (name == null || name.isEmpty()) return null;
+        final Project project = findOneByName(name);
+        if (project == null) return null;
+        project.setStatus(Status.IN_PROGRESS);
+        return project;
+    }
+
+    @Override
+    public Project finishProjectById(String id) {
+        if (id == null || id.isEmpty()) return null;
+        final Project project = findOneById(id);
+        if (project == null) return null;
+        project.setStatus(Status.COMPLETE);
+        return project;
+    }
+
+    @Override
+    public Project finishProjectByIndex(Integer index) {
+        if (index == null || index < 0) return null;
+        final Project project = findOneByIndex(index);
+        if (project == null) return null;
+        project.setStatus(Status.COMPLETE);
+        return project;
+    }
+
+    @Override
+    public Project finishProjectByName(String name) {
+        if (name == null || name.isEmpty()) return null;
+        final Project project = findOneByName(name);
+        if (project == null) return null;
+        project.setStatus(Status.COMPLETE);
+        return project;
+    }
+
+    @Override
+    public Project changeProjectStatusById(String id, Status status) {
+        if (id == null || id.isEmpty()) return null;
+        if (status == null) return null;
+        final Project project = findOneById(id);
+        if (project == null) return null;
+        project.setStatus(status);
+        return project;
+    }
+
+    @Override
+    public Project changeProjectStatusByIndex(Integer index, Status status) {
+        if (index == null) return null;
+        if (status == null) return null;
+        final Project project = findOneByIndex(index);
+        if (project == null) return null;
+        project.setStatus(status);
+        return project;
+    }
+
+    @Override
+    public Project changeProjectStatusByName(String name, Status status) {
+        if (name == null || name.isEmpty()) return null;
+        if (status == null) return null;
+        final Project project = findOneByName(name);
+        if (project == null) return null;
+        project.setStatus(status);
         return project;
     }
 

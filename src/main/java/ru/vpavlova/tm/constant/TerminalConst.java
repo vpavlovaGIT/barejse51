@@ -56,6 +56,24 @@ public class TerminalConst {
 
     public static final String PROJECT_LIST = "project-list";
 
+    public static final String PROJECT_START_STATUS_BY_ID = "project-start-status-by-id";
+
+    public static final String PROJECT_START_STATUS_BY_INDEX = "project-start-status-by-index";
+
+    public static final String PROJECT_START_STATUS_BY_NAME = "project-start-status-by-name";
+
+    public static final String PROJECT_FINISH_STATUS_BY_ID = "project-finish-status-by-id";
+
+    public static final String PROJECT_FINISH_STATUS_BY_INDEX = "project-finish-status-by-index";
+
+    public static final String PROJECT_FINISH_STATUS_BY_NAME = "project-finish-status-by-name";
+
+    public static final String PROJECT_UPDATE_STATUS_BY_ID = "project-update-status-by-id";
+
+    public static final String PROJECT_UPDATE_STATUS_BY_INDEX = "project-update-status-by-index";
+
+    public static final String PROJECT_UPDATE_STATUS_BY_NAME = "project-update-status-by-name";
+
     public static final String CMD_COMMANDS = "commands";
 
     public static final String CMD_ARGUMENTS = "arguments";
