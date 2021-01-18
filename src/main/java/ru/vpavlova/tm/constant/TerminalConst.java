@@ -34,6 +34,24 @@ public class TerminalConst {
 
     public static final String TASK_UPDATE_BY_ID = "task-update-by-id";
 
+    public static final String TASK_START_STATUS_BY_ID = "task-start-status-by-id";
+
+    public static final String TASK_START_STATUS_BY_INDEX = "task-start-status-by-index";
+
+    public static final String TASK_START_STATUS_BY_NAME = "task-start-status-by-name";
+
+    public static final String TASK_FINISH_STATUS_BY_ID = "task-finish-status-by-id";
+
+    public static final String TASK_FINISH_STATUS_BY_INDEX = "task-finish-status-by-index";
+
+    public static final String TASK_FINISH_STATUS_BY_NAME = "task-finish-status-by-name";
+
+    public static final String TASK_UPDATE_STATUS_BY_ID = "task-update-status-by-id";
+
+    public static final String TASK_UPDATE_STATUS_BY_INDEX = "task-update-status-by-index";
+
+    public static final String TASK_UPDATE_STATUS_BY_NAME = "task-update-status-by-name";
+
     public static final String PROJECT_VIEW_BY_ID = "project-view-by-id";
 
     public static final String PROJECT_VIEW_BY_NAME = "project-view-by-name";

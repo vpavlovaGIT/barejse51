@@ -84,6 +84,15 @@ public class Bootstrap {
             case TerminalConst.TASK_REMOVE_BY_NAME: taskController.removeTaskByName(); break;
             case TerminalConst.TASK_UPDATE_BY_ID: taskController.updateTaskById(); break;
             case TerminalConst.TASK_UPDATE_BY_INDEX: taskController.updateTaskByIndex(); break;
+            case TerminalConst.TASK_START_STATUS_BY_ID: taskController.startProjectById(); break;
+            case TerminalConst.TASK_START_STATUS_BY_INDEX: taskController.startProjectByIndex(); break;
+            case TerminalConst.TASK_START_STATUS_BY_NAME: taskController.startProjectByName(); break;
+            case TerminalConst.TASK_FINISH_STATUS_BY_ID: taskController.finishProjectById(); break;
+            case TerminalConst.TASK_FINISH_STATUS_BY_INDEX: taskController.finishProjectByIndex(); break;
+            case TerminalConst.TASK_FINISH_STATUS_BY_NAME: taskController.finishProjectByName(); break;
+            case TerminalConst.TASK_UPDATE_STATUS_BY_ID: taskController.changeProjectStatusById(); break;
+            case TerminalConst.TASK_UPDATE_STATUS_BY_INDEX: taskController.changeProjectStatusByIndex(); break;
+            case TerminalConst.TASK_UPDATE_STATUS_BY_NAME: taskController.changeProjectStatusByName(); break;
             case TerminalConst.PROJECT_LIST: projectController.showProjectList(); break;
             case TerminalConst.PROJECT_CREATE: projectController.createProject(); break;
             case TerminalConst.PROJECT_CLEAR: projectController.clearProject(); break;

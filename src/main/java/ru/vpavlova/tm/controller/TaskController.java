@@ -2,9 +2,12 @@ package ru.vpavlova.tm.controller;
 
 import ru.vpavlova.tm.api.controller.ITaskController;
 import ru.vpavlova.tm.api.service.ITaskService;
+import ru.vpavlova.tm.enumerated.Status;
+import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.model.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class TaskController implements ITaskController {
@@ -183,6 +186,108 @@ public class TaskController implements ITaskController {
             return;
         }
         System.out.println("[OK]");
+    }
+
+    @Override
+    public void startProjectById() {
+        System.out.println("[SHOW PROJECT]");
+        System.out.println("ENTER ID:");
+        final String id = TerminalUtil.nextLine();
+        final Task task = taskService.startProjectById(id);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+    }
+
+    @Override
+    public void startProjectByIndex() {
+        System.out.println("[SHOW PROJECT]");
+        System.out.println("ENTER INDEX:");
+        final Integer index = TerminalUtil.nextNumber() - 1;
+        final Task task = taskService.startProjectByIndex(index);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+    }
+
+    @Override
+    public void startProjectByName() {
+        System.out.println("[SHOW PROJECT]");
+        System.out.println("ENTER NAME:");
+        final String name = TerminalUtil.nextLine();
+        final Task task = taskService.startProjectByName(name);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+    }
+
+    @Override
+    public void finishProjectById() {
+        System.out.println("[SHOW PROJECT]");
+        System.out.println("ENTER ID:");
+        final String id = TerminalUtil.nextLine();
+        final Task task = taskService.finishProjectById(id);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+    }
+
+    @Override
+    public void finishProjectByIndex() {
+        System.out.println("[SHOW PROJECT]");
+        System.out.println("ENTER INDEX:");
+        final Integer index = TerminalUtil.nextNumber() - 1;
+        final Task task = taskService.finishProjectByIndex(index);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+    }
+
+    @Override
+    public void finishProjectByName() {
+        System.out.println("[SHOW PROJECT]");
+        System.out.println("ENTER NAME:");
+        final String name = TerminalUtil.nextLine();
+        final Task task = taskService.finishProjectByName(name);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+    }
+
+    @Override
+    public void changeProjectStatusById() {
+        System.out.println("[SHOW PROJECT]");
+        System.out.println("ENTER ID:");
+        final String id = TerminalUtil.nextLine();
+        System.out.println("ENTER STATUS:");
+        System.out.println(Arrays.toString(Status.values()));
+        final String statusId = TerminalUtil.nextLine();
+        final Status status = Status.valueOf(statusId);
+        final Task task = taskService.changeProjectStatusById(id, status);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+    }
+
+    @Override
+    public void changeProjectStatusByIndex() {
+        System.out.println("[SHOW PROJECT]");
+        System.out.println("ENTER INDEX:");
+        final Integer index = TerminalUtil.nextNumber() - 1;
+        System.out.println("ENTER STATUS:");
+        System.out.println(Arrays.toString(Status.values()));
+        final String statusId = TerminalUtil.nextLine();
+        final Status status = Status.valueOf(statusId);
+        final Task task = taskService.changeProjectStatusByIndex(index, status);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+    }
+
+    @Override
+    public void changeProjectStatusByName() {
+        System.out.println("[SHOW PROJECT]");
+        System.out.println("ENTER NAME:");
+        final String name = TerminalUtil.nextLine();
+        System.out.println("ENTER STATUS:");
+        System.out.println(Arrays.toString(Status.values()));
+        final String statusId = TerminalUtil.nextLine();
+        final Status status = Status.valueOf(statusId);
+        final Task task = taskService.changeProjectStatusByName(name, status);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
     }
 
 }

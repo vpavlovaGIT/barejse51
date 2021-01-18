@@ -3,7 +3,9 @@ package ru.vpavlova.tm.service;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.api.service.ITaskService;
 import ru.vpavlova.tm.enumerated.Status;
+import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.model.Task;
+
 import java.util.List;
 
 public class TaskService implements ITaskService {
@@ -108,47 +110,86 @@ public class TaskService implements ITaskService {
 
     @Override
     public Task startProjectById(final String id) {
-        return null;
+        if (id == null || id.isEmpty()) return null;
+        final Task task = findOneById(id);
+        if (task == null) return null;
+        task.setStatus(Status.IN_PROGRESS);
+        return task;
     }
 
     @Override
     public Task startProjectByIndex(final Integer index) {
-        return null;
+        if (index == null || index < 0) return null;
+        final Task task = findOneByIndex(index);
+        if (task == null) return null;
+        task.setStatus(Status.IN_PROGRESS);
+        return task;
     }
 
     @Override
     public Task startProjectByName(final String name) {
-        return null;
+        if (name == null || name.isEmpty()) return null;
+        final Task task = findOneByName(name);
+        if (task == null) return null;
+        task.setStatus(Status.IN_PROGRESS);
+        return task;
     }
 
     @Override
     public Task finishProjectById(final String id) {
-        return null;
+        if (id == null || id.isEmpty()) return null;
+        final Task task = findOneById(id);
+        if (task == null) return null;
+        task.setStatus(Status.COMPLETE);
+        return task;
     }
 
     @Override
     public Task finishProjectByIndex(final Integer index) {
-        return null;
+        if (index == null || index < 0) return null;
+        final Task task = findOneByIndex(index);
+        if (task == null) return null;
+        task.setStatus(Status.COMPLETE);
+        return task;
     }
 
     @Override
     public Task finishProjectByName(final String name) {
-        return null;
+        if (name == null || name.isEmpty()) return null;
+        final Task task = findOneByName(name);
+        if (task == null) return null;
+        task.setStatus(Status.COMPLETE);
+        return task;
     }
 
     @Override
     public Task changeProjectStatusById(final String id, final Status status) {
-        return null;
+        if (id == null || id.isEmpty()) return null;
+        if (status == null) return null;
+        final Task task = findOneById(id);
+        if (task == null) return null;
+        task.setStatus(status);
+        return task;
     }
 
     @Override
     public Task changeProjectStatusByIndex(final Integer index, final Status status) {
-        return null;
+        if (index == null) return null;
+        if (status == null) return null;
+        final Task task = findOneByIndex(index);
+        if (task == null) return null;
+        task.setStatus(status);
+        return task;
     }
 
     @Override
     public Task changeProjectStatusByName(final String name, final Status status) {
-        return null;
+        if (name == null || name.isEmpty()) return null;
+        if (status == null) return null;
+        final Task task = findOneByName(name);
+        if (task == null) return null;
+        task.setStatus(status);
+        return task;
     }
 
 }
