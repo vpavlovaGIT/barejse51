@@ -1,9 +1,9 @@
 package ru.vpavlova.tm.controller;
 
 import ru.vpavlova.tm.api.controller.ITaskController;
+import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.api.service.ITaskService;
 import ru.vpavlova.tm.enumerated.Status;
-import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.model.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
@@ -14,8 +14,11 @@ public class TaskController implements ITaskController {
 
     private final ITaskService taskService;
 
-    public TaskController(final ITaskService taskService) {
+    private final IProjectTaskService projectTaskService;
+
+    public TaskController(final ITaskService taskService, IProjectTaskService projectTaskService) {
         this.taskService = taskService;
+        this.projectTaskService = projectTaskService;
     }
 
     @Override
@@ -288,6 +291,44 @@ public class TaskController implements ITaskController {
         final Task task = taskService.changeProjectStatusByName(name, status);
         if (task == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
+    }
+
+    @Override
+    public void findAllTaskByProjectId() {
+        System.out.println("[TASKS BY PROJECT]");
+        System.out.println("[ENTER ID:]");
+        final String projectId = TerminalUtil.nextLine();
+        final List<Task> tasks = projectTaskService.findAllTaskByProjectId(projectId);
+        int index = 1;
+        for (Task task : tasks) {
+            System.out.println(index + ". " + task);
+            index++;
+        }
+        System.out.println("[OK]");
+    }
+
+    @Override
+    public void bindTaskByProject() {
+        System.out.println("[BIND TASK WITH PROJECT]");
+        System.out.println("[ENTER PROJECT ID:]");
+        final String projectId = TerminalUtil.nextLine();
+        System.out.println("[ENTER TASK ID:]");
+        final String taskId = TerminalUtil.nextLine();
+        final Task task = projectTaskService.bindTaskByProject(projectId, taskId);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+        System.out.println("TASK ADD TO PROJECT");
+    }
+
+    @Override
+    public void unbindTaskFromProject() {
+        System.out.println("[UNBIND TASK WITH PROJECT]");
+        System.out.println("[ENTER PROJECT ID:]");
+        final String taskId = TerminalUtil.nextLine();
+        final Task task = projectTaskService.unbindTaskFromProject(taskId);
+        if (task == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+        System.out.println("TASK REMOVE FROM PROJECT");
     }
 
 }

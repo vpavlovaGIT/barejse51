@@ -1,5 +1,9 @@
 package ru.vpavlova.tm.api.controller;
 
+import ru.vpavlova.tm.model.Task;
+
+import java.util.List;
+
 public interface ITaskController {
 
     void showList();
@@ -41,5 +45,11 @@ public interface ITaskController {
     void changeProjectStatusByIndex();
 
     void changeProjectStatusByName();
+
+    void findAllTaskByProjectId();
+
+    void bindTaskByProject();
+
+    void unbindTaskFromProject();
 
 }

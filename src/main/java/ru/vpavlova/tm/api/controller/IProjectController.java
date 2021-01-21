@@ -42,4 +42,6 @@ public interface IProjectController {
 
     void changeProjectStatusByName();
 
+    void removeProjectAndTaskById();
+
 }

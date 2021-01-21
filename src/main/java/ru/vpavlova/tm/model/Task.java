@@ -11,6 +11,8 @@ public class Task {
 
     private String description = "";
 
+    private String projectId;
+
     private Status status = Status.NOT_STARTED;
 
     public Status getStatus() {
@@ -19,6 +21,14 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public Task() {
@@ -54,6 +64,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return id + ": " + name;
+        return id + ": " + name + "; " + description + ";" + status + "; project id: " + projectId;
     }
+
 }

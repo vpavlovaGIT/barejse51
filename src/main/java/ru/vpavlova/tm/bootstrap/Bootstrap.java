@@ -8,6 +8,7 @@ import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.api.service.ICommandService;
 import ru.vpavlova.tm.api.service.IProjectService;
+import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.api.service.ITaskService;
 import ru.vpavlova.tm.constant.ArgumentConst;
 import ru.vpavlova.tm.constant.TerminalConst;
@@ -19,6 +20,7 @@ import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.repository.TaskRepository;
 import ru.vpavlova.tm.service.CommandService;
 import ru.vpavlova.tm.service.ProjectService;
+import ru.vpavlova.tm.service.ProjectTaskService;
 import ru.vpavlova.tm.service.TaskService;
 import ru.vpavlova.tm.util.TerminalUtil;
 
@@ -34,13 +36,15 @@ public class Bootstrap {
 
     private final ITaskService taskService = new TaskService(taskRepository);
 
-    private final ITaskController taskController = new TaskController(taskService);
-
     private final IProjectRepository projectRepository = new ProjectRepository();
+
+    private final IProjectTaskService projectTaskService = new ProjectTaskService(projectRepository, taskRepository);
+
+    private final ITaskController taskController = new TaskController(taskService, projectTaskService);
 
     private final IProjectService projectService = new ProjectService(projectRepository);
 
-    private final IProjectController projectController = new ProjectController(projectService);
+    private final IProjectController projectController = new ProjectController(projectService, projectTaskService);
 
     public void run(final String... args) {
         System.out.println("*** WELCOME TO TASK MANAGER ***");
@@ -55,65 +59,181 @@ public class Bootstrap {
     public void parseArg(final String arg) {
         if (arg == null) return;
         switch (arg) {
-            case ArgumentConst.ARG_ABOUT: commandController.showAbout(); break;
-            case ArgumentConst.ARG_HELP: commandController.showHelp(); break;
-            case ArgumentConst.ARG_VERSION: commandController.showVersion(); break;
-            case ArgumentConst.ARG_INFO: commandController.showSystemInfo(); break;
-            default: showIncorrectCommand();
+            case ArgumentConst.ARG_ABOUT:
+                commandController.showAbout();
+                break;
+            case ArgumentConst.ARG_HELP:
+                commandController.showHelp();
+                break;
+            case ArgumentConst.ARG_VERSION:
+                commandController.showVersion();
+                break;
+            case ArgumentConst.ARG_INFO:
+                commandController.showSystemInfo();
+                break;
+            default:
+                showIncorrectCommand();
         }
     }
 
     public void parseCommand(final String command) {
         if (command == null) return;
         switch (command) {
-            case TerminalConst.CMD_ABOUT: commandController.showAbout(); break;
-            case TerminalConst.CMD_HELP: commandController.showHelp(); break;
-            case TerminalConst.CMD_VERSION: commandController.showVersion(); break;
-            case TerminalConst.CMD_INFO: commandController.showSystemInfo(); break;
-            case TerminalConst.CMD_COMMANDS: commandController.showCommands(); break;
-            case TerminalConst.CMD_ARGUMENTS: commandController.showArguments(); break;
-            case TerminalConst.CMD_EXIT: commandController.exit(); break;
-            case TerminalConst.TASK_LIST: taskController.showList(); break;
-            case TerminalConst.TASK_CREATE: taskController.create(); break;
-            case TerminalConst.TASK_CLEAR: taskController.clear(); break;
-            case TerminalConst.TASK_VIEW_BY_ID: taskController.showTaskById(); break;
-            case TerminalConst.TASK_VIEW_BY_INDEX: taskController.showTaskByIndex(); break;
-            case TerminalConst.TASK_VIEW_BY_NAME: taskController.showTaskByName(); break;
-            case TerminalConst.TASK_REMOVE_BY_ID: taskController.removeTaskById(); break;
-            case TerminalConst.TASK_REMOVE_BY_INDEX: taskController.removeTaskByIndex(); break;
-            case TerminalConst.TASK_REMOVE_BY_NAME: taskController.removeTaskByName(); break;
-            case TerminalConst.TASK_UPDATE_BY_ID: taskController.updateTaskById(); break;
-            case TerminalConst.TASK_UPDATE_BY_INDEX: taskController.updateTaskByIndex(); break;
-            case TerminalConst.TASK_START_STATUS_BY_ID: taskController.startProjectById(); break;
-            case TerminalConst.TASK_START_STATUS_BY_INDEX: taskController.startProjectByIndex(); break;
-            case TerminalConst.TASK_START_STATUS_BY_NAME: taskController.startProjectByName(); break;
-            case TerminalConst.TASK_FINISH_STATUS_BY_ID: taskController.finishProjectById(); break;
-            case TerminalConst.TASK_FINISH_STATUS_BY_INDEX: taskController.finishProjectByIndex(); break;
-            case TerminalConst.TASK_FINISH_STATUS_BY_NAME: taskController.finishProjectByName(); break;
-            case TerminalConst.TASK_UPDATE_STATUS_BY_ID: taskController.changeProjectStatusById(); break;
-            case TerminalConst.TASK_UPDATE_STATUS_BY_INDEX: taskController.changeProjectStatusByIndex(); break;
-            case TerminalConst.TASK_UPDATE_STATUS_BY_NAME: taskController.changeProjectStatusByName(); break;
-            case TerminalConst.PROJECT_LIST: projectController.showProjectList(); break;
-            case TerminalConst.PROJECT_CREATE: projectController.createProject(); break;
-            case TerminalConst.PROJECT_CLEAR: projectController.clearProject(); break;
-            case TerminalConst.PROJECT_VIEW_BY_ID: projectController.showProjectById(); break;
-            case TerminalConst.PROJECT_VIEW_BY_INDEX: projectController.showProjectByIndex(); break;
-            case TerminalConst.PROJECT_VIEW_BY_NAME: projectController.showProjectByName(); break;
-            case TerminalConst.PROJECT_REMOVE_BY_ID: projectController.removeProjectById(); break;
-            case TerminalConst.PROJECT_REMOVE_BY_INDEX: projectController.removeProjectByIndex(); break;
-            case TerminalConst.PROJECT_REMOVE_BY_NAME: projectController.removeProjectByName(); break;
-            case TerminalConst.PROJECT_UPDATE_BY_ID: projectController.updateProjectById(); break;
-            case TerminalConst.PROJECT_UPDATE_BY_INDEX: projectController.updateProjectByIndex(); break;
-            case TerminalConst.PROJECT_START_STATUS_BY_ID: projectController.startProjectById(); break;
-            case TerminalConst.PROJECT_START_STATUS_BY_INDEX: projectController.startProjectByIndex(); break;
-            case TerminalConst.PROJECT_START_STATUS_BY_NAME: projectController.startProjectByName(); break;
-            case TerminalConst.PROJECT_FINISH_STATUS_BY_ID: projectController.finishProjectById(); break;
-            case TerminalConst.PROJECT_FINISH_STATUS_BY_INDEX: projectController.finishProjectByIndex(); break;
-            case TerminalConst.PROJECT_FINISH_STATUS_BY_NAME: projectController.finishProjectByName(); break;
-            case TerminalConst.PROJECT_UPDATE_STATUS_BY_ID: projectController.changeProjectStatusById(); break;
-            case TerminalConst.PROJECT_UPDATE_STATUS_BY_INDEX: projectController.changeProjectStatusByIndex(); break;
-            case TerminalConst.PROJECT_UPDATE_STATUS_BY_NAME: projectController.changeProjectStatusByName(); break;
-            default: showIncorrectCommand();
+            case TerminalConst.CMD_ABOUT:
+                commandController.showAbout();
+                break;
+            case TerminalConst.CMD_HELP:
+                commandController.showHelp();
+                break;
+            case TerminalConst.CMD_VERSION:
+                commandController.showVersion();
+                break;
+            case TerminalConst.CMD_INFO:
+                commandController.showSystemInfo();
+                break;
+            case TerminalConst.CMD_COMMANDS:
+                commandController.showCommands();
+                break;
+            case TerminalConst.CMD_ARGUMENTS:
+                commandController.showArguments();
+                break;
+            case TerminalConst.CMD_EXIT:
+                commandController.exit();
+                break;
+            case TerminalConst.TASK_LIST:
+                taskController.showList();
+                break;
+            case TerminalConst.TASK_CREATE:
+                taskController.create();
+                break;
+            case TerminalConst.TASK_CLEAR:
+                taskController.clear();
+                break;
+            case TerminalConst.TASK_VIEW_BY_ID:
+                taskController.showTaskById();
+                break;
+            case TerminalConst.TASK_VIEW_BY_INDEX:
+                taskController.showTaskByIndex();
+                break;
+            case TerminalConst.TASK_VIEW_BY_NAME:
+                taskController.showTaskByName();
+                break;
+            case TerminalConst.TASK_REMOVE_BY_ID:
+                taskController.removeTaskById();
+                break;
+            case TerminalConst.TASK_REMOVE_BY_INDEX:
+                taskController.removeTaskByIndex();
+                break;
+            case TerminalConst.TASK_REMOVE_BY_NAME:
+                taskController.removeTaskByName();
+                break;
+            case TerminalConst.TASK_UPDATE_BY_ID:
+                taskController.updateTaskById();
+                break;
+            case TerminalConst.TASK_UPDATE_BY_INDEX:
+                taskController.updateTaskByIndex();
+                break;
+            case TerminalConst.TASK_START_STATUS_BY_ID:
+                taskController.startProjectById();
+                break;
+            case TerminalConst.TASK_START_STATUS_BY_INDEX:
+                taskController.startProjectByIndex();
+                break;
+            case TerminalConst.TASK_START_STATUS_BY_NAME:
+                taskController.startProjectByName();
+                break;
+            case TerminalConst.TASK_FINISH_STATUS_BY_ID:
+                taskController.finishProjectById();
+                break;
+            case TerminalConst.TASK_FINISH_STATUS_BY_INDEX:
+                taskController.finishProjectByIndex();
+                break;
+            case TerminalConst.TASK_FINISH_STATUS_BY_NAME:
+                taskController.finishProjectByName();
+                break;
+            case TerminalConst.TASK_UPDATE_STATUS_BY_ID:
+                taskController.changeProjectStatusById();
+                break;
+            case TerminalConst.TASK_UPDATE_STATUS_BY_INDEX:
+                taskController.changeProjectStatusByIndex();
+                break;
+            case TerminalConst.TASK_UPDATE_STATUS_BY_NAME:
+                taskController.changeProjectStatusByName();
+                break;
+            case TerminalConst.TASK_FIND_ALL_BY_PROJECT:
+                taskController.findAllTaskByProjectId();
+                break;
+            case TerminalConst.TASK_BIND_BY_PROJECT:
+                taskController.bindTaskByProject();
+                break;
+            case TerminalConst.TASK_UNBIND_BY_PROJECT:
+                taskController.unbindTaskFromProject();
+                break;
+            case TerminalConst.TASK_REMOVE_AND_PROJECT_BY_PROJECT:
+                projectController.removeProjectAndTaskById();
+                break;
+            case TerminalConst.PROJECT_LIST:
+                projectController.showProjectList();
+                break;
+            case TerminalConst.PROJECT_CREATE:
+                projectController.createProject();
+                break;
+            case TerminalConst.PROJECT_CLEAR:
+                projectController.clearProject();
+                break;
+            case TerminalConst.PROJECT_VIEW_BY_ID:
+                projectController.showProjectById();
+                break;
+            case TerminalConst.PROJECT_VIEW_BY_INDEX:
+                projectController.showProjectByIndex();
+                break;
+            case TerminalConst.PROJECT_VIEW_BY_NAME:
+                projectController.showProjectByName();
+                break;
+            case TerminalConst.PROJECT_REMOVE_BY_ID:
+                projectController.removeProjectById();
+                break;
+            case TerminalConst.PROJECT_REMOVE_BY_INDEX:
+                projectController.removeProjectByIndex();
+                break;
+            case TerminalConst.PROJECT_REMOVE_BY_NAME:
+                projectController.removeProjectByName();
+                break;
+            case TerminalConst.PROJECT_UPDATE_BY_ID:
+                projectController.updateProjectById();
+                break;
+            case TerminalConst.PROJECT_UPDATE_BY_INDEX:
+                projectController.updateProjectByIndex();
+                break;
+            case TerminalConst.PROJECT_START_STATUS_BY_ID:
+                projectController.startProjectById();
+                break;
+            case TerminalConst.PROJECT_START_STATUS_BY_INDEX:
+                projectController.startProjectByIndex();
+                break;
+            case TerminalConst.PROJECT_START_STATUS_BY_NAME:
+                projectController.startProjectByName();
+                break;
+            case TerminalConst.PROJECT_FINISH_STATUS_BY_ID:
+                projectController.finishProjectById();
+                break;
+            case TerminalConst.PROJECT_FINISH_STATUS_BY_INDEX:
+                projectController.finishProjectByIndex();
+                break;
+            case TerminalConst.PROJECT_FINISH_STATUS_BY_NAME:
+                projectController.finishProjectByName();
+                break;
+            case TerminalConst.PROJECT_UPDATE_STATUS_BY_ID:
+                projectController.changeProjectStatusById();
+                break;
+            case TerminalConst.PROJECT_UPDATE_STATUS_BY_INDEX:
+                projectController.changeProjectStatusByIndex();
+                break;
+            case TerminalConst.PROJECT_UPDATE_STATUS_BY_NAME:
+                projectController.changeProjectStatusByName();
+                break;
+            default:
+                showIncorrectCommand();
         }
     }
 

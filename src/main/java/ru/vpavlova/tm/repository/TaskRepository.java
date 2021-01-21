@@ -16,6 +16,40 @@ public class TaskRepository implements ITaskRepository {
     }
 
     @Override
+    public List<Task> findAllByProjectId(final String projectId) {
+        final List<Task> listTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getProjectId() == projectId) listTasks.add(task);
+        }
+        return listTasks;
+    }
+
+    @Override
+    public List<Task> removeAllByProjectId(final String projectId) {
+        if (projectId == null || projectId.isEmpty()) return null;
+        for (Task task : tasks) {
+            if (task.getProjectId().equals(projectId)) task.setProjectId(null);
+        }
+        return tasks;
+    }
+
+    @Override
+    public Task bindTaskByProject(final String projectId, final String taskId) {
+        final Task task = findOneById(taskId);
+        if (task == null) return null;
+        task.setProjectId(projectId);
+        return task;
+    }
+
+    @Override
+    public Task unbindTaskFromProject(final String taskId) {
+        final Task task = findOneById(taskId);
+        if (task == null) return null;
+        task.setProjectId(null);
+        return task;
+    }
+
+    @Override
     public void add(final Task task) {
         tasks.add(task);
     }

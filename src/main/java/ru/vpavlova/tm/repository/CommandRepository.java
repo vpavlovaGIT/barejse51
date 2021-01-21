@@ -4,6 +4,7 @@ import ru.vpavlova.tm.api.repository.ICommandRepository;
 import ru.vpavlova.tm.constant.ArgumentConst;
 import ru.vpavlova.tm.constant.TerminalConst;
 import ru.vpavlova.tm.model.Command;
+import ru.vpavlova.tm.util.TerminalUtil;
 
 public class CommandRepository implements ICommandRepository {
 
@@ -115,6 +116,22 @@ public class CommandRepository implements ICommandRepository {
             TerminalConst.TASK_UPDATE_STATUS_BY_NAME, null, "Update task status by name."
     );
 
+    private static final Command TASK_FIND_ALL_BY_PROJECT = new Command(
+            TerminalConst.TASK_FIND_ALL_BY_PROJECT, null, "task-find-all-by-project-id"
+    );
+
+    private static final Command TASK_BIND_BY_PROJECT = new Command(
+           TerminalConst.TASK_BIND_BY_PROJECT, null, "task-bind-by-project-id"
+    );
+
+    private static final Command TASK_UNBIND_BY_PROJECT = new Command(
+            TerminalConst.TASK_UNBIND_BY_PROJECT, null, "task-unbind-by-project-id"
+    );
+
+    private static final Command TASK_REMOVE_AND_PROJECT_BY_PROJECT = new Command(
+            TerminalConst.TASK_REMOVE_AND_PROJECT_BY_PROJECT, null, "task-remove-and-project-by-project-id"
+    );
+
     private static final Command PROJECT_CREATE = new Command(
             TerminalConst.PROJECT_CREATE, null, "Create new project."
     );
@@ -202,6 +219,7 @@ public class CommandRepository implements ICommandRepository {
             TASK_START_STATUS_BY_ID, TASK_START_STATUS_BY_INDEX, TASK_START_STATUS_BY_NAME,
             TASK_FINISH_STATUS_BY_ID, TASK_FINISH_STATUS_BY_INDEX, TASK_FINISH_STATUS_BY_NAME,
             TASK_UPDATE_STATUS_BY_ID, TASK_UPDATE_STATUS_BY_INDEX, TASK_UPDATE_STATUS_BY_NAME,
+            TASK_FIND_ALL_BY_PROJECT, TASK_BIND_BY_PROJECT, TASK_UNBIND_BY_PROJECT, TASK_REMOVE_AND_PROJECT_BY_PROJECT,
             PROJECT_LIST, PROJECT_CREATE, PROJECT_CLEAR, PROJECT_VIEW_BY_ID, PROJECT_VIEW_BY_INDEX, PROJECT_VIEW_BY_NAME,
             PROJECT_REMOVE_BY_ID, PROJECT_REMOVE_BY_INDEX, PROJECT_REMOVE_BY_NAME, PROJECT_UPDATE_BY_ID, PROJECT_UPDATE_BY_INDEX,
             PROJECT_START_STATUS_BY_ID, PROJECT_START_STATUS_BY_INDEX, PROJECT_START_STATUS_BY_NAME,

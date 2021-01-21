@@ -2,6 +2,7 @@ package ru.vpavlova.tm.controller;
 
 import ru.vpavlova.tm.api.controller.IProjectController;
 import ru.vpavlova.tm.api.service.IProjectService;
+import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
@@ -13,8 +14,11 @@ public class ProjectController implements IProjectController {
 
     private final IProjectService projectService;
 
-    public ProjectController(final IProjectService projectService) {
+    private final IProjectTaskService projectTaskService;
+
+    public ProjectController(final IProjectService projectService, IProjectTaskService projectTaskService) {
         this.projectService = projectService;
+        this.projectTaskService = projectTaskService;
     }
 
     @Override
@@ -291,5 +295,15 @@ public class ProjectController implements IProjectController {
         if (project == null) System.out.println("[FAIL]");
         else System.out.println("[OK]");
     }
+
+    @Override
+    public void removeProjectAndTaskById() {
+        System.out.println("[REMOVE ALL TASKS FROM PROJECT]");
+        System.out.println("[ENTER ID]");
+        final String projectId = TerminalUtil.nextLine();
+        final Project project = projectTaskService.removeProjectById(projectId);
+        if (project == null) System.out.println("[FAIL]");
+        else System.out.println("[OK]");
+        }
 
 }

@@ -7,6 +7,14 @@ public interface ITaskRepository {
 
     List<Task> findAll();
 
+    List<Task> findAllByProjectId(String projectId);
+
+    List<Task> removeAllByProjectId(String projectId);
+
+    Task bindTaskByProject(String projectId, String taskId);
+
+    Task unbindTaskFromProject(String taskId);
+
     void add(Task task);
 
     void remove(Task task);

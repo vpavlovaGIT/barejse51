@@ -52,6 +52,14 @@ public class TerminalConst {
 
     public static final String TASK_UPDATE_STATUS_BY_NAME = "task-update-status-by-name";
 
+    public static final String TASK_FIND_ALL_BY_PROJECT = "task-find-all-by-project-id";
+
+    public static final String TASK_BIND_BY_PROJECT = "task-bind-by-project-id";
+
+    public static final String TASK_UNBIND_BY_PROJECT = "task-unbind-by-project-id";
+
+    public static final String TASK_REMOVE_AND_PROJECT_BY_PROJECT = "task-remove-and-project-by-project-id";
+
     public static final String PROJECT_VIEW_BY_ID = "project-view-by-id";
 
     public static final String PROJECT_VIEW_BY_NAME = "project-view-by-name";
