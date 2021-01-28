@@ -1,11 +1,15 @@
 package ru.vpavlova.tm.api.repository;
 
 import ru.vpavlova.tm.model.Project;
+
+import java.util.Comparator;
 import java.util.List;
 
 public interface IProjectRepository {
 
     List<Project> findAll();
+
+    List<Project> findAll(Comparator<Project> comparator);
 
     void add(Project project);
 

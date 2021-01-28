@@ -1,11 +1,16 @@
 package ru.vpavlova.tm.api.repository;
 
+import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.model.Task;
+
+import java.util.Comparator;
 import java.util.List;
 
 public interface ITaskRepository {
 
     List<Task> findAll();
+
+    List<Task> findAll(Comparator<Task> comparator);
 
     List<Task> findAllByProjectId(String projectId);
 

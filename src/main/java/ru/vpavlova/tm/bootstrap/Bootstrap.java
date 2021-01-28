@@ -15,6 +15,7 @@ import ru.vpavlova.tm.constant.TerminalConst;
 import ru.vpavlova.tm.controller.CommandController;
 import ru.vpavlova.tm.controller.ProjectController;
 import ru.vpavlova.tm.controller.TaskController;
+import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.repository.CommandRepository;
 import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.repository.TaskRepository;
@@ -46,9 +47,18 @@ public class Bootstrap {
 
     private final IProjectController projectController = new ProjectController(projectService, projectTaskService);
 
+    private void initData() {
+        projectService.add("DEMO 1", "description1").setStatus(Status.COMPLETE);
+        projectService.add("BETA 2", "description2").setStatus(Status.IN_PROGRESS);
+        projectService.add("LAMBDA 3", "description3").setStatus(Status.IN_PROGRESS);
+        projectService.add("OMEGA 4", "description4").setStatus(Status.NOT_STARTED);
+        projectService.add("GAMMA 5", "description5").setStatus(Status.COMPLETE);
+    }
+
     public void run(final String... args) {
         System.out.println("*** WELCOME TO TASK MANAGER ***");
         if (parseArgs(args)) System.exit(0);
+        initData();
         while (true) {
             System.out.println("ENTER COMMAND: ");
             final String command = TerminalUtil.nextLine();

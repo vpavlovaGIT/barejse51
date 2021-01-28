@@ -3,6 +3,7 @@ package ru.vpavlova.tm.controller;
 import ru.vpavlova.tm.api.controller.IProjectController;
 import ru.vpavlova.tm.api.service.IProjectService;
 import ru.vpavlova.tm.api.service.IProjectTaskService;
+import ru.vpavlova.tm.enumerated.Sort;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
@@ -24,9 +25,19 @@ public class ProjectController implements IProjectController {
     @Override
     public void showProjectList() {
         System.out.println("[PROJECT LIST]");
-        final List<Project> projects = projectService.findAll();
+        System.out.println("ENTER SORT:");
+        System.out.println(Arrays.toString(Sort.values()));
+        final String sort = TerminalUtil.nextLine();
+        List<Project> list;
+        if (sort == null || sort.isEmpty()) list = projectService.findAll();
+        else {
+            final Sort sortType = Sort.valueOf(sort);
+            System.out.println(sortType.getDisplayName());
+            list = projectService.findAll(sortType.getComparator());
+        }
+
         int index = 1;
-        for (final Project project : projects) {
+        for (final Project project : list) {
             System.out.println(index + ". " + project);
             index++;
         }

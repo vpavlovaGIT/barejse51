@@ -1,9 +1,11 @@
 package ru.vpavlova.tm.repository;
 
 import ru.vpavlova.tm.api.repository.ITaskRepository;
+import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.model.Task;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TaskRepository implements ITaskRepository {
@@ -13,6 +15,13 @@ public class TaskRepository implements ITaskRepository {
     @Override
     public List<Task> findAll() {
         return tasks;
+    }
+
+    @Override
+    public List<Task> findAll(Comparator<Task> comparator) {
+        final List<Task> taskList = new ArrayList<>(tasks);
+        taskList.sort(comparator);
+        return taskList;
     }
 
     @Override

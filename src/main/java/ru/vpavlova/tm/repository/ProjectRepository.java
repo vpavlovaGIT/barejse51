@@ -3,6 +3,7 @@ package ru.vpavlova.tm.repository;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.model.Project;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ProjectRepository implements IProjectRepository {
@@ -12,6 +13,13 @@ public class ProjectRepository implements IProjectRepository {
     @Override
     public List<Project> findAll() {
         return list;
+    }
+
+    @Override
+    public List<Project> findAll(Comparator<Project> comparator) {
+        final List<Project> projects = new ArrayList<>(list);
+        projects.sort(comparator);
+        return projects;
     }
 
     @Override

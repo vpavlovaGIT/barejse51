@@ -6,6 +6,7 @@ import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.model.Task;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class TaskService implements ITaskService {
@@ -19,6 +20,12 @@ public class TaskService implements ITaskService {
     @Override
     public List<Task> findAll() {
         return taskRepository.findAll();
+    }
+
+    @Override
+    public List<Task> findAll(Comparator<Task> comparator) {
+        if (comparator == null) return null;
+        return taskRepository.findAll(comparator);
     }
 
     @Override

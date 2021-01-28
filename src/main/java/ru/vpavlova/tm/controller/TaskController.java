@@ -3,6 +3,7 @@ package ru.vpavlova.tm.controller;
 import ru.vpavlova.tm.api.controller.ITaskController;
 import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.api.service.ITaskService;
+import ru.vpavlova.tm.enumerated.Sort;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
@@ -24,7 +25,16 @@ public class TaskController implements ITaskController {
     @Override
     public void showList() {
         System.out.println("[TASK LIST]");
-        final List<Task> tasks = taskService.findAll();
+        System.out.println("ENTER SORT:");
+        System.out.println(Arrays.toString(Sort.values()));
+        final String sort = TerminalUtil.nextLine();
+        List<Task> tasks;
+        if (sort == null || sort.isEmpty()) tasks = taskService.findAll();
+        else {
+            final Sort sortType = Sort.valueOf(sort);
+            System.out.println(sortType.getDisplayName());
+            tasks = taskService.findAll(sortType.getComparator());
+        }
         int index = 1;
         for (final Task task : tasks) {
             System.out.println(index + ". " + task);

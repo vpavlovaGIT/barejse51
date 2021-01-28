@@ -3,11 +3,15 @@ package ru.vpavlova.tm.api.service;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.model.Task;
+
+import java.util.Comparator;
 import java.util.List;
 
 public interface ITaskService {
 
     List<Task> findAll();
+
+    List<Task> findAll(Comparator<Task> comparator);
 
     Task add(String name, String description);
 

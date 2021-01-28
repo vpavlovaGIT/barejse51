@@ -1,9 +1,12 @@
 package ru.vpavlova.tm.model;
 
+import ru.vpavlova.tm.api.entity.IWBS;
 import ru.vpavlova.tm.enumerated.Status;
+
+import java.util.Date;
 import java.util.UUID;
 
-public class Task {
+public class Task implements IWBS {
 
     private String id = UUID.randomUUID().toString();
 
@@ -14,6 +17,36 @@ public class Task {
     private String projectId;
 
     private Status status = Status.NOT_STARTED;
+
+    private Date dateStart;
+
+    private Date dateFinish;
+
+    private Date created = new Date();
+
+    public Date getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public Date getDateFinish() {
+        return dateFinish;
+    }
+
+    public void setDateFinish(Date dateFinish) {
+        this.dateFinish = dateFinish;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
     public Status getStatus() {
         return status;

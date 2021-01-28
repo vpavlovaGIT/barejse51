@@ -5,6 +5,7 @@ import ru.vpavlova.tm.api.service.IProjectService;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.model.Project;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class ProjectService implements IProjectService {
@@ -18,6 +19,12 @@ public class ProjectService implements IProjectService {
     @Override
     public List<Project> findAll() {
         return projectRepository.findAll();
+    }
+
+    @Override
+    public List<Project> findAll(Comparator<Project> comparator) {
+        if (comparator == null) return null;
+        return projectRepository.findAll(comparator);
     }
 
     @Override
