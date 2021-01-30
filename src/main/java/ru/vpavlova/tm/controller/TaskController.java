@@ -5,6 +5,7 @@ import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.api.service.ITaskService;
 import ru.vpavlova.tm.enumerated.Sort;
 import ru.vpavlova.tm.enumerated.Status;
+import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.model.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
@@ -40,7 +41,6 @@ public class TaskController implements ITaskController {
             System.out.println(index + ". " + task);
             index++;
         }
-        System.out.println("[OK]");
     }
 
     @Override
@@ -51,11 +51,7 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
         final Task task = taskService.add(name, description);
-        if (task == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
-        System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -79,12 +75,8 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Task task = taskService.findOneById(id);
-        if (task == null) {
-            System.out.println("[FAILED]");
-            return;
-        }
+        if (task == null) throw new TaskNotFoundException();
         showTask(task);
-        System.out.println("[OK]");
     }
 
     @Override
@@ -93,12 +85,8 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Task task = taskService.findOneByIndex(index);
-        if (task == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (task == null) throw new TaskNotFoundException();
         showTask(task);
-        System.out.println("[OK]");
     }
 
     @Override
@@ -107,12 +95,8 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final Task task = taskService.findOneByName(name);
-        if (task == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (task == null) throw new TaskNotFoundException();
         showTask(task);
-        System.out.println("[OK]");
     }
 
     @Override
@@ -121,12 +105,8 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Task task = taskService.removeOneById(id);
-        if (task == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (task == null) throw new TaskNotFoundException();
         showTask(task);
-        System.out.println("[OK]");
     }
 
     @Override
@@ -135,12 +115,8 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Task task = taskService.removeOneByIndex(index);
-        if (task == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (task == null) throw new TaskNotFoundException();
         showTask(task);
-        System.out.println("[OK]");
     }
 
     @Override
@@ -149,12 +125,8 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final Task task = taskService.removeOneByName(name);
-        if (task == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (task == null) throw new TaskNotFoundException();
         showTask(task);
-        System.out.println("[OK]");
     }
 
     @Override
@@ -163,20 +135,13 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Task task = taskService.findOneById(id);
-        if (task == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (task == null) throw new TaskNotFoundException();
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
         final Task taskUpdatedId = taskService.updateTaskById(id, name, description);
-        if (taskUpdatedId == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
-        System.out.println("[OK]");
+        if (taskUpdatedId == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -185,20 +150,13 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Task task = taskService.findOneByIndex(index);
-        if (task == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (task == null) throw new TaskNotFoundException();
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
         final Task taskUpdatedIndex = taskService.updateTaskByIndex(index, name, description);
-        if (taskUpdatedIndex == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
-        System.out.println("[OK]");
+        if (taskUpdatedIndex == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -207,8 +165,7 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Task task = taskService.startProjectById(id);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -217,8 +174,7 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Task task = taskService.startProjectByIndex(index);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -227,8 +183,7 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final Task task = taskService.startProjectByName(name);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -237,8 +192,7 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Task task = taskService.finishProjectById(id);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -247,8 +201,7 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Task task = taskService.finishProjectByIndex(index);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -257,8 +210,7 @@ public class TaskController implements ITaskController {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final Task task = taskService.finishProjectByName(name);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -271,8 +223,7 @@ public class TaskController implements ITaskController {
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
         final Task task = taskService.changeProjectStatusById(id, status);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -285,8 +236,7 @@ public class TaskController implements ITaskController {
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
         final Task task = taskService.changeProjectStatusByIndex(index, status);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -299,8 +249,7 @@ public class TaskController implements ITaskController {
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
         final Task task = taskService.changeProjectStatusByName(name, status);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
     }
 
     @Override
@@ -314,7 +263,6 @@ public class TaskController implements ITaskController {
             System.out.println(index + ". " + task);
             index++;
         }
-        System.out.println("[OK]");
     }
 
     @Override
@@ -325,8 +273,7 @@ public class TaskController implements ITaskController {
         System.out.println("[ENTER TASK ID:]");
         final String taskId = TerminalUtil.nextLine();
         final Task task = projectTaskService.bindTaskByProject(projectId, taskId);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
         System.out.println("TASK ADD TO PROJECT");
     }
 
@@ -336,8 +283,7 @@ public class TaskController implements ITaskController {
         System.out.println("[ENTER PROJECT ID:]");
         final String taskId = TerminalUtil.nextLine();
         final Task task = projectTaskService.unbindTaskFromProject(taskId);
-        if (task == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (task == null) throw new TaskNotFoundException();
         System.out.println("TASK REMOVE FROM PROJECT");
     }
 

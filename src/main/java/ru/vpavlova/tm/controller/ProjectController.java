@@ -5,6 +5,7 @@ import ru.vpavlova.tm.api.service.IProjectService;
 import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.enumerated.Sort;
 import ru.vpavlova.tm.enumerated.Status;
+import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
 import ru.vpavlova.tm.model.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
 
@@ -41,7 +42,6 @@ public class ProjectController implements IProjectController {
             System.out.println(index + ". " + project);
             index++;
         }
-        System.out.println("[OK]");
     }
 
     @Override
@@ -52,11 +52,7 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
         final Project project = projectService.add(name, description);
-        if (project == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
-        System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -80,12 +76,8 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Project project = projectService.findOneById(id);
-        if (project == null) {
-            System.out.println("[FAILED]");
-            return;
-        }
+        if (project == null) throw new ProjectNotFoundException();
         showProject(project);
-        System.out.println("[OK]");
     }
 
     @Override
@@ -94,13 +86,8 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Project project = projectService.findOneByIndex(index);
-        if (project == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (project == null) throw new ProjectNotFoundException();
         showProject(project);
-        System.out.println("[OK]");
-
     }
 
     @Override
@@ -109,13 +96,8 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final Project project = projectService.findOneByName(name);
-        if (project == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (project == null) throw new ProjectNotFoundException();
         showProject(project);
-        System.out.println("[OK]");
-
     }
 
     @Override
@@ -124,13 +106,8 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Project project = projectService.removeOneById(id);
-        if (project == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (project == null) throw new ProjectNotFoundException();
         showProject(project);
-        System.out.println("[OK]");
-
     }
 
     @Override
@@ -139,12 +116,8 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Project project = projectService.removeOneByIndex(index);
-        if (project == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (project == null) throw new ProjectNotFoundException();
         showProject(project);
-        System.out.println("[OK]");
     }
 
     @Override
@@ -153,12 +126,8 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final Project project = projectService.removeOneByName(name);
-        if (project == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (project == null) throw new ProjectNotFoundException();
         showProject(project);
-        System.out.println("[OK]");
     }
 
     @Override
@@ -167,20 +136,13 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Project project = projectService.findOneById(id);
-        if (project == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (project == null) throw new ProjectNotFoundException();
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
         final Project projectUpdatedId = projectService.updateTaskById(id, name, description);
-        if (projectUpdatedId == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
-        System.out.println("[OK]");
+        if (projectUpdatedId == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -189,20 +151,13 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Project project = projectService.findOneByIndex(index);
-        if (project == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
+        if (project == null) throw new ProjectNotFoundException();
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
         final Project projectUpdatedIndex = projectService.updateTaskByIndex(index, name, description);
-        if (projectUpdatedIndex == null) {
-            System.out.println("[FAIL]");
-            return;
-        }
-        System.out.println("[OK]");
+        if (projectUpdatedIndex == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -211,8 +166,7 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Project project = projectService.startProjectById(id);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -221,8 +175,7 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Project project = projectService.startProjectByIndex(index);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -231,8 +184,7 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final Project project = projectService.startProjectByName(name);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -241,8 +193,7 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final Project project = projectService.finishProjectById(id);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -251,8 +202,7 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Project project = projectService.finishProjectByIndex(index);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -261,8 +211,7 @@ public class ProjectController implements IProjectController {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final Project project = projectService.finishProjectByName(name);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -275,8 +224,7 @@ public class ProjectController implements IProjectController {
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
         final Project project = projectService.changeProjectStatusById(id, status);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -289,8 +237,7 @@ public class ProjectController implements IProjectController {
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
         final Project project = projectService.changeProjectStatusByIndex(index, status);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -303,8 +250,7 @@ public class ProjectController implements IProjectController {
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
         final Project project = projectService.changeProjectStatusByName(name, status);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
+        if (project == null) throw new ProjectNotFoundException();
     }
 
     @Override
@@ -313,8 +259,7 @@ public class ProjectController implements IProjectController {
         System.out.println("[ENTER ID]");
         final String projectId = TerminalUtil.nextLine();
         final Project project = projectTaskService.removeProjectById(projectId);
-        if (project == null) System.out.println("[FAIL]");
-        else System.out.println("[OK]");
-        }
+        if (project == null) throw new ProjectNotFoundException();
+    }
 
 }

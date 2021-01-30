@@ -16,6 +16,8 @@ import ru.vpavlova.tm.controller.CommandController;
 import ru.vpavlova.tm.controller.ProjectController;
 import ru.vpavlova.tm.controller.TaskController;
 import ru.vpavlova.tm.enumerated.Status;
+import ru.vpavlova.tm.exception.system.UnknownArgumentException;
+import ru.vpavlova.tm.exception.system.UnknownCommandException;
 import ru.vpavlova.tm.repository.CommandRepository;
 import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.repository.TaskRepository;
@@ -62,7 +64,13 @@ public class Bootstrap {
         while (true) {
             System.out.println("ENTER COMMAND: ");
             final String command = TerminalUtil.nextLine();
-            parseCommand(command);
+            try {
+                parseCommand(command);
+                System.out.println("[OK]");
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                System.err.println("[FAIL]");
+            }
         }
     }
 
@@ -81,8 +89,7 @@ public class Bootstrap {
             case ArgumentConst.ARG_INFO:
                 commandController.showSystemInfo();
                 break;
-            default:
-                showIncorrectCommand();
+            default: throw new UnknownArgumentException();
         }
     }
 
@@ -242,17 +249,8 @@ public class Bootstrap {
             case TerminalConst.PROJECT_UPDATE_STATUS_BY_NAME:
                 projectController.changeProjectStatusByName();
                 break;
-            default:
-                showIncorrectCommand();
+            default: throw new UnknownCommandException();
         }
-    }
-
-    public void showIncorrectArgument() {
-        System.out.println("Error! Argument not found...");
-    }
-
-    public void showIncorrectCommand() {
-        System.out.println("Error! Command not found...");
     }
 
     public boolean parseArgs(final String[] args) {

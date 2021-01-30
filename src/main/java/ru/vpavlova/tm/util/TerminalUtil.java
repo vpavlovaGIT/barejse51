@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.util;
 
+import ru.vpavlova.tm.exception.system.IndexIncorrectException;
+
 import java.util.Scanner;
 
 public interface TerminalUtil {
@@ -12,7 +14,11 @@ public interface TerminalUtil {
 
     static Integer nextNumber() {
         final String value = nextLine();
-        return Integer.parseInt(value);
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            throw new IndexIncorrectException(value);
+        }
     }
 
 }
