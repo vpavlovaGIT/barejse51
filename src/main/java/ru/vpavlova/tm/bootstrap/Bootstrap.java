@@ -55,6 +55,12 @@ public class Bootstrap {
         projectService.add("LAMBDA 3", "description3").setStatus(Status.IN_PROGRESS);
         projectService.add("OMEGA 4", "description4").setStatus(Status.NOT_STARTED);
         projectService.add("GAMMA 5", "description5").setStatus(Status.COMPLETE);
+
+        taskService.add("A_TASK 1","aaa").setStatus(Status.COMPLETE);
+        taskService.add("D_TASK 2","ddd").setStatus(Status.IN_PROGRESS);
+        taskService.add("E_TASK 3","eee").setStatus(Status.IN_PROGRESS);
+        taskService.add("B_TASK 4", "bbb").setStatus(Status.NOT_STARTED);
+        taskService.add("C_TASK 5", "ccc").setStatus(Status.COMPLETE);
     }
 
     public void run(final String... args) {
