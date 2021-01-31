@@ -6,10 +6,7 @@ import ru.vpavlova.tm.api.controller.ITaskController;
 import ru.vpavlova.tm.api.repository.ICommandRepository;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
-import ru.vpavlova.tm.api.service.ICommandService;
-import ru.vpavlova.tm.api.service.IProjectService;
-import ru.vpavlova.tm.api.service.IProjectTaskService;
-import ru.vpavlova.tm.api.service.ITaskService;
+import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.constant.ArgumentConst;
 import ru.vpavlova.tm.constant.TerminalConst;
 import ru.vpavlova.tm.controller.CommandController;
@@ -21,10 +18,7 @@ import ru.vpavlova.tm.exception.system.UnknownCommandException;
 import ru.vpavlova.tm.repository.CommandRepository;
 import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.repository.TaskRepository;
-import ru.vpavlova.tm.service.CommandService;
-import ru.vpavlova.tm.service.ProjectService;
-import ru.vpavlova.tm.service.ProjectTaskService;
-import ru.vpavlova.tm.service.TaskService;
+import ru.vpavlova.tm.service.*;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 public class Bootstrap {
@@ -49,6 +43,8 @@ public class Bootstrap {
 
     private final IProjectController projectController = new ProjectController(projectService, projectTaskService);
 
+    private final ILoggerService loggerService = new LoggerService();
+
     private void initData() {
         projectService.add("DEMO 1", "description1").setStatus(Status.COMPLETE);
         projectService.add("BETA 2", "description2").setStatus(Status.IN_PROGRESS);
@@ -64,17 +60,19 @@ public class Bootstrap {
     }
 
     public void run(final String... args) {
-        System.out.println("*** WELCOME TO TASK MANAGER ***");
+        loggerService.debug("TEST!!");
+        loggerService.info("*** WELCOME TO TASK MANAGER ***");
         if (parseArgs(args)) System.exit(0);
         initData();
         while (true) {
             System.out.println("ENTER COMMAND: ");
             final String command = TerminalUtil.nextLine();
+            loggerService.command(command);
             try {
                 parseCommand(command);
                 System.out.println("[OK]");
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+            } catch (final Exception e) {
+                loggerService.error(e);
                 System.err.println("[FAIL]");
             }
         }
@@ -95,7 +93,7 @@ public class Bootstrap {
             case ArgumentConst.ARG_INFO:
                 commandController.showSystemInfo();
                 break;
-            default: throw new UnknownArgumentException();
+            default: throw new UnknownArgumentException(arg);
         }
     }
 
@@ -255,7 +253,7 @@ public class Bootstrap {
             case TerminalConst.PROJECT_UPDATE_STATUS_BY_NAME:
                 projectController.changeProjectStatusByName();
                 break;
-            default: throw new UnknownCommandException();
+            default: throw new UnknownCommandException(command);
         }
     }
 

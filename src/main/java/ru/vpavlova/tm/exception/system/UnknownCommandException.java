@@ -4,8 +4,8 @@ import ru.vpavlova.tm.exception.AbstractException;
 
 public class UnknownCommandException extends AbstractException {
 
-    public UnknownCommandException() {
-        super("Error! Command not found...");
+    public UnknownCommandException(String command) {
+        super("Error! Command ``" + command + "`` not found...");
     }
 
 }
