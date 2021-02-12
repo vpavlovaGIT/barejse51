@@ -1,4 +1,34 @@
 package ru.vpavlova.tm.command.project;
 
-public class ProjectByIdFinishCommand {
+import ru.vpavlova.tm.command.AbstractProjectCommand;
+import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
+import ru.vpavlova.tm.model.Project;
+import ru.vpavlova.tm.util.TerminalUtil;
+
+public class ProjectByIdFinishCommand extends AbstractProjectCommand {
+
+    @Override
+    public String arg() {
+        return null;
+    }
+
+    @Override
+    public String name() {
+        return "project-finish-status-by-id";
+    }
+
+    @Override
+    public String description() {
+        return "Finish project status by id.";
+    }
+
+    @Override
+    public void execute() {
+        System.out.println("[FINISH PROJECT]");
+        System.out.println("ENTER ID:");
+        final String id = TerminalUtil.nextLine();
+        final Project project = serviceLocator.getProjectService().finishProjectById(id);
+        if (project == null) throw new ProjectNotFoundException();
+    }
+    
 }
