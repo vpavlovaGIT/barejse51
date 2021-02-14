@@ -18,7 +18,7 @@ public final class TaskByIdRemoveCommand extends AbstractTaskCommand {
 
     @Override
     public String description() {
-        return "Remove task by id";
+        return "Remove task by id.";
     }
 
     @Override

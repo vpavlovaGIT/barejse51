@@ -4,7 +4,7 @@ import ru.vpavlova.tm.model.Task;
 
 public abstract class AbstractTaskCommand extends AbstractCommand {
 
-    protected void showTask(final Task task) throws Exception {
+    protected void showTask(final Task task) {
         if (task == null) throw new NullPointerException();
         System.out.println("ID: " + task.getId());
         System.out.println("NAME: " + task.getName());
