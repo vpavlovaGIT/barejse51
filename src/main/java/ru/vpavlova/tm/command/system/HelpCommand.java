@@ -26,7 +26,7 @@ public class HelpCommand extends AbstractCommand {
         System.out.println("[HELP]");
         final Collection<AbstractCommand> commands = serviceLocator.getCommandService().getCommands();
         for (final AbstractCommand command : commands)
-            System.out.println(command);
+            System.out.println(command.name() + ": " + command.description());
     }
 
 }

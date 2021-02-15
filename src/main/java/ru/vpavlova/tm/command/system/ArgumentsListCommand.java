@@ -23,8 +23,8 @@ public class ArgumentsListCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        final Collection<AbstractCommand> arguments = serviceLocator.getCommandService().getListArgumentName();
-        for (final AbstractCommand argument: arguments) {
+        final Collection<String> arguments = serviceLocator.getCommandService().getListArgumentName();
+        for (final String argument: arguments) {
             if (argument != null) System.out.println(argument);
         }
     }
