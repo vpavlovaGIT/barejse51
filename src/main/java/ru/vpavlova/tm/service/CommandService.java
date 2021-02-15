@@ -51,5 +51,5 @@ public class CommandService implements ICommandService {
         if (command == null) return;
         commandRepository.add(command);
     }
-    
+
 }
