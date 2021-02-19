@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.model;
+package ru.vpavlova.tm.entity;
 
 public class Command {
 

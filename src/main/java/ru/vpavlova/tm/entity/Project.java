@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.model;
+package ru.vpavlova.tm.entity;
 
 import ru.vpavlova.tm.api.entity.IWBS;
 import ru.vpavlova.tm.enumerated.Status;
@@ -6,15 +6,13 @@ import ru.vpavlova.tm.enumerated.Status;
 import java.util.Date;
 import java.util.UUID;
 
-public class Task implements IWBS {
+public class Project implements IWBS {
 
     private String id = UUID.randomUUID().toString();
 
     private String name = "";
 
     private String description = "";
-
-    private String projectId;
 
     private Status status = Status.NOT_STARTED;
 
@@ -56,18 +54,10 @@ public class Task implements IWBS {
         this.status = status;
     }
 
-    public String getProjectId() {
-        return projectId;
+    public Project() {
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
-
-    public Task() {
-    }
-
-    public Task(String name) {
+    public Project(String name) {
         this.name = name;
     }
 
@@ -97,7 +87,7 @@ public class Task implements IWBS {
 
     @Override
     public String toString() {
-        return id + ": " + name + "; " + description + ";" + status + "; project id: " + projectId;
+        return id + ": " + name;
     }
 
 }

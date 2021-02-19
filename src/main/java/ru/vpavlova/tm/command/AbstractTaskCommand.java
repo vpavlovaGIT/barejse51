@@ -1,6 +1,6 @@
 package ru.vpavlova.tm.command;
 
-import ru.vpavlova.tm.model.Task;
+import ru.vpavlova.tm.entity.Task;
 
 public abstract class AbstractTaskCommand extends AbstractCommand {
 

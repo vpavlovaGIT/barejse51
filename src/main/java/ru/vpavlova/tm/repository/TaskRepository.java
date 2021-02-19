@@ -1,8 +1,7 @@
 package ru.vpavlova.tm.repository;
 
 import ru.vpavlova.tm.api.repository.ITaskRepository;
-import ru.vpavlova.tm.model.Project;
-import ru.vpavlova.tm.model.Task;
+import ru.vpavlova.tm.entity.Task;
 
 import java.util.ArrayList;
 import java.util.Comparator;

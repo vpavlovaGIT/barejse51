@@ -3,7 +3,7 @@ package ru.vpavlova.tm.command.project;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
-import ru.vpavlova.tm.model.Project;
+import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Arrays;

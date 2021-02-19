@@ -1,8 +1,8 @@
 package ru.vpavlova.tm.api.service;
 
 import ru.vpavlova.tm.enumerated.Status;
-import ru.vpavlova.tm.model.Project;
-import ru.vpavlova.tm.model.Task;
+import ru.vpavlova.tm.entity.Project;
+import ru.vpavlova.tm.entity.Task;
 
 import java.util.Comparator;
 import java.util.List;

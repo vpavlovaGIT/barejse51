@@ -4,8 +4,8 @@ import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.exception.empty.EmptyIdException;
-import ru.vpavlova.tm.model.Project;
-import ru.vpavlova.tm.model.Task;
+import ru.vpavlova.tm.entity.Project;
+import ru.vpavlova.tm.entity.Task;
 
 import java.util.List;
 

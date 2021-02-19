@@ -2,7 +2,7 @@ package ru.vpavlova.tm.command.project;
 
 import ru.vpavlova.tm.command.AbstractProjectCommand;
 import ru.vpavlova.tm.enumerated.Sort;
-import ru.vpavlova.tm.model.Project;
+import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Arrays;

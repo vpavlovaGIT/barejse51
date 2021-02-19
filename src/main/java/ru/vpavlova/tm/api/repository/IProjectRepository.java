@@ -1,6 +1,6 @@
 package ru.vpavlova.tm.api.repository;
 
-import ru.vpavlova.tm.model.Project;
+import ru.vpavlova.tm.entity.Project;
 
 import java.util.Comparator;
 import java.util.List;

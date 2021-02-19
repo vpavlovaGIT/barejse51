@@ -1,7 +1,7 @@
 package ru.vpavlova.tm.command.task;
 
 import ru.vpavlova.tm.command.AbstractTaskCommand;
-import ru.vpavlova.tm.model.Task;
+import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.List;
