@@ -3,15 +3,18 @@ package ru.vpavlova.tm.bootstrap;
 import ru.vpavlova.tm.api.repository.ICommandRepository;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
+import ru.vpavlova.tm.api.repository.IUserRepository;
 import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.command.AbstractCommand;
 import ru.vpavlova.tm.command.project.*;
 import ru.vpavlova.tm.command.system.*;
 import ru.vpavlova.tm.command.task.*;
+import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.repository.CommandRepository;
 import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.repository.TaskRepository;
+import ru.vpavlova.tm.repository.UserRepository;
 import ru.vpavlova.tm.service.*;
 import ru.vpavlova.tm.util.TerminalUtil;
 
@@ -33,6 +36,12 @@ public class Bootstrap implements ServiceLocator {
 
     private final ILoggerService loggerService = new LoggerService();
 
+    private final IUserRepository userRepository = new UserRepository();
+
+    private final IUserService userService = new UserService(userRepository);
+
+    private final IAuthService authService = new AuthService(userService);
+
     private void initData() {
         projectService.add("DEMO 1", "description1").setStatus(Status.COMPLETE);
         projectService.add("BETA 2", "description2").setStatus(Status.IN_PROGRESS);
@@ -47,11 +56,17 @@ public class Bootstrap implements ServiceLocator {
         taskService.add("C_TASK 5", "ccc").setStatus(Status.COMPLETE);
     }
 
+    private void initUsers() {
+        userService.create("test", "test", "user@mail.ru");
+        userService.create("admin", "admin", Role.ADMIN);
+    }
+
     public void run(final String... args) {
         loggerService.debug("TEST!!");
         loggerService.info("*** WELCOME TO TASK MANAGER ***");
         if (parseArgs(args)) System.exit(0);
         initData();
+        initUsers();
         while (true) {
             try {
                 final String command = TerminalUtil.nextLine();
@@ -166,6 +181,16 @@ public class Bootstrap implements ServiceLocator {
     @Override
     public IProjectTaskService getProjectTaskService() {
         return projectTaskService;
+    }
+
+    @Override
+    public IUserService getUserService() {
+        return userService;
+    }
+
+    @Override
+    public IAuthService getAuthService() {
+        return authService;
     }
 
 }

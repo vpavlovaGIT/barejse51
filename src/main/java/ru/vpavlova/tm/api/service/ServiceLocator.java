@@ -10,4 +10,8 @@ public interface ServiceLocator {
 
     IProjectTaskService getProjectTaskService();
 
+    IUserService getUserService();
+
+    IAuthService getAuthService();
+
 }
