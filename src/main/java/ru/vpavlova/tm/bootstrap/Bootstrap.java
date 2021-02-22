@@ -9,6 +9,7 @@ import ru.vpavlova.tm.command.AbstractCommand;
 import ru.vpavlova.tm.command.project.*;
 import ru.vpavlova.tm.command.system.*;
 import ru.vpavlova.tm.command.task.*;
+import ru.vpavlova.tm.command.user.*;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.repository.CommandRepository;
@@ -141,6 +142,15 @@ public class Bootstrap implements ServiceLocator {
         registry(new TaskFindAllByProjectIdCommand());
         registry(new TaskListCommand());
         registry(new TaskUnbindFromProjectCommand());
+
+        registry(new UserChangePasswordCommand());
+        registry(new UserLoginCommand());
+        registry(new UserLogoutCommand());
+        registry(new UserRegistryCommand());
+        registry(new UserRemoveByIdCommand());
+        registry(new UserRemoveByLoginCommand());
+        registry(new UserUpdateCommand());
+        registry(new UserViewCommand());
     }
 
     public void parseCommand(final String cmd) {

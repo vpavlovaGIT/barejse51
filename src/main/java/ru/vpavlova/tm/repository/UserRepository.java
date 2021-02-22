@@ -49,7 +49,6 @@ public class UserRepository implements IUserRepository {
     public User removeUser(final User user) {
         users.remove(user);
         return user;
-
     }
 
     @Override

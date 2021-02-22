@@ -83,7 +83,6 @@ public class UserService implements IUserService {
         user.setLogin(login);
         user.setPasswordHash(HashUtil.salt(password));
         return userRepository.add(user);
-
     }
 
     @Override
@@ -93,7 +92,7 @@ public class UserService implements IUserService {
         if (email == null || email.isEmpty()) throw new EmptyEmailException();
         if (isLoginExists(login)) throw new LoginExistsException();
         if (isEmailExists(email)) throw new EmailExistsException();
-      final User user = create(login, password);
+        final User user = create(login, password);
         if (user == null) return null;
         user.setEmail(email);
         return user;
