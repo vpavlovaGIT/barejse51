@@ -1,12 +1,13 @@
 package ru.vpavlova.tm.api.service;
 
+import ru.vpavlova.tm.api.IService;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.entity.Project;
 
 import java.util.Comparator;
 import java.util.List;
 
-public interface IProjectService {
+public interface IProjectService extends IService<Project> {
 
     List<Project> findAll();
 
@@ -14,21 +15,9 @@ public interface IProjectService {
 
     Project add(String name, String description);
 
-    void add(Project project);
-
     void remove(Project project);
 
-    void clear();
-
-    Project findOneById(String id);
-
-    Project findOneByIndex(Integer index);
-
     Project findOneByName(String name);
-
-    Project removeOneById(String id);
-
-    Project removeOneByIndex(Integer index);
 
     Project removeOneByName(String name);
 

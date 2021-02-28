@@ -2,11 +2,7 @@ package ru.vpavlova.tm.entity;
 
 import ru.vpavlova.tm.enumerated.Role;
 
-import java.util.UUID;
-
-public class User {
-
-    private String id = UUID.randomUUID().toString();
+public final class User extends AbstractEntity {
 
     private String login;
 
@@ -45,15 +41,6 @@ public class User {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
 
     public String getEmail() {
         return email;

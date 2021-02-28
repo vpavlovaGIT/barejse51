@@ -1,15 +1,12 @@
 package ru.vpavlova.tm.api.service;
 
+import ru.vpavlova.tm.api.IService;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
 
 import java.util.List;
 
-public interface IUserService {
-
-    List<User> findAll();
-
-    User findById(String id);
+public interface IUserService extends IService<User> {
 
     User findByLogin(String login);
 
@@ -20,8 +17,6 @@ public interface IUserService {
     boolean isEmailExists(String email);
 
     User removeUser(User user);
-
-    User removeById(String id);
 
     User removeByLogin(String login);
 

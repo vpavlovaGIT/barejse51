@@ -4,11 +4,8 @@ import ru.vpavlova.tm.api.entity.IWBS;
 import ru.vpavlova.tm.enumerated.Status;
 
 import java.util.Date;
-import java.util.UUID;
 
-public class Task implements IWBS {
-
-    private String id = UUID.randomUUID().toString();
+public final class Task extends AbstractEntity implements IWBS {
 
     private String name = "";
 
@@ -71,14 +68,6 @@ public class Task implements IWBS {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -97,7 +86,7 @@ public class Task implements IWBS {
 
     @Override
     public String toString() {
-        return id + ": " + name + "; " + description + ";" + status + "; project id: " + projectId;
+        return getId() + ": " + name + "; " + description + ";" + status + "; project id: " + projectId;
     }
 
 }

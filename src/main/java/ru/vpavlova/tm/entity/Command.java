@@ -49,4 +49,5 @@ public class Command {
         if (description != null && !description.isEmpty()) result += " - " + description;
         return result;
     }
+
 }

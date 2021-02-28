@@ -2,76 +2,26 @@ package ru.vpavlova.tm.repository;
 
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.entity.Project;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class ProjectRepository implements IProjectRepository {
-
-    private final List<Project> list = new ArrayList<>();
+public class ProjectRepository extends AbstractRepository<Project> implements IProjectRepository {
 
     @Override
-    public List<Project> findAll() {
-        return list;
-    }
-
-    @Override
-    public List<Project> findAll(Comparator<Project> comparator) {
-        final List<Project> projects = new ArrayList<>(list);
+    public List<Project> findAll(final Comparator<Project> comparator) {
+        final List<Project> projects = new ArrayList<>(entities);
         projects.sort(comparator);
         return projects;
     }
 
     @Override
-    public void add(final Project project) {
-        list.add(project);
-    }
-
-    @Override
-    public void remove(final Project project) {
-        list.remove(project);
-    }
-
-    @Override
-    public void clear() {
-        list.clear();
-    }
-
-    @Override
-    public Project findOneById(final String id) {
-        for (final Project project : list) {
-            if (id.equals(project.getId())) return project;
-        }
-        return null;
-    }
-
-    @Override
-    public Project findOneByIndex(final Integer index) {
-        return list.get(index);
-    }
-
-    @Override
     public Project findOneByName(final String name) {
-        for (final Project project : list) {
+        for (final Project project : entities) {
             if (name.equals(project.getName())) return project;
         }
         return null;
-    }
-
-    @Override
-    public Project removeOneById(final String id) {
-        final Project project = findOneById(id);
-        if (project == null) return null;
-        list.remove(project);
-        return project;
-    }
-
-    @Override
-    public Project removeOneByIndex(final Integer index) {
-        final Project project = findOneByIndex(index);
-        if (project == null) return null;
-        remove(project);
-        return project;
     }
 
     @Override

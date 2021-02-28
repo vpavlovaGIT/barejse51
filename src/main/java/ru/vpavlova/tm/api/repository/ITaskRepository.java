@@ -1,14 +1,13 @@
 package ru.vpavlova.tm.api.repository;
 
+import ru.vpavlova.tm.api.IRepository;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.entity.Task;
 
 import java.util.Comparator;
 import java.util.List;
 
-public interface ITaskRepository {
-
-    List<Task> findAll();
+public interface ITaskRepository extends IRepository<Task> {
 
     List<Task> findAll(Comparator<Task> comparator);
 
@@ -20,21 +19,7 @@ public interface ITaskRepository {
 
     Task unbindTaskFromProject(String taskId);
 
-    void add(Task task);
-
-    void remove(Task task);
-
-    void clear();
-
-    Task findOneById(String id);
-
-    Task findOneByIndex(Integer index);
-
     Task findOneByName(String name);
-
-    Task removeOneById(String id);
-
-    Task removeOneByIndex(Integer index);
 
     Task removeOneByName(String name);
 
