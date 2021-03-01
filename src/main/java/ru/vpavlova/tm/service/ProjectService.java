@@ -11,17 +11,13 @@ import ru.vpavlova.tm.entity.Project;
 import java.util.Comparator;
 import java.util.List;
 
-public class ProjectService implements IProjectService {
+public class ProjectService extends AbstractService<Project> implements IProjectService {
 
     private final IProjectRepository projectRepository;
 
     public ProjectService(final IProjectRepository projectRepository) {
+        super(projectRepository);
         this.projectRepository = projectRepository;
-    }
-
-    @Override
-    public List<Project> findAll() {
-        return projectRepository.findAll();
     }
 
     @Override
@@ -42,50 +38,9 @@ public class ProjectService implements IProjectService {
     }
 
     @Override
-    public void add(final Project project) {
-        if (project == null) return;
-        projectRepository.add(project);
-    }
-
-    @Override
-    public void remove(final Project project) {
-        if (project == null) return;
-        projectRepository.remove(project);
-    }
-
-    @Override
-    public void clear() {
-        projectRepository.clear();
-    }
-
-    @Override
-    public Project findOneById(final String id) {
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return projectRepository.findOneById(id);
-    }
-
-    @Override
-    public Project findOneByIndex(final Integer index) {
-        if (index == null || index < 0) throw new IndexIncorrectException();
-        return projectRepository.findOneByIndex(index);
-    }
-
-    @Override
     public Project findOneByName(final String name) {
         if (name == null || name.isEmpty()) throw new EmptyNameException();
         return projectRepository.findOneByName(name);
-    }
-
-    @Override
-    public Project removeOneById(final String id) {
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return projectRepository.removeOneById(id);
-    }
-
-    @Override
-    public Project removeOneByIndex(final Integer index) {
-        if (index == null || index < 0) throw new IndexIncorrectException();
-        return projectRepository.removeOneByIndex(index);
     }
 
     @Override

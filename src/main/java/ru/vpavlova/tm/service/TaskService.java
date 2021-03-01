@@ -11,17 +11,13 @@ import ru.vpavlova.tm.entity.Task;
 import java.util.Comparator;
 import java.util.List;
 
-public class TaskService implements ITaskService {
+public class TaskService extends AbstractService<Task> implements ITaskService {
 
     private final ITaskRepository taskRepository;
 
     public TaskService(final ITaskRepository taskRepository) {
+        super(taskRepository);
         this.taskRepository = taskRepository;
-    }
-
-    @Override
-    public List<Task> findAll() {
-        return taskRepository.findAll();
     }
 
     @Override
@@ -40,53 +36,11 @@ public class TaskService implements ITaskService {
         taskRepository.add(task);
         return task;
     }
-
-    @Override
-    public void add(final Task task) {
-        if (task == null) return;
-        taskRepository.add(task);
-    }
-
-    @Override
-    public void remove(final Task task) {
-        if (task == null) return;
-        taskRepository.remove(task);
-    }
-
-    @Override
-    public void clear() {
-        taskRepository.clear();
-    }
-
-    @Override
-    public Task findOneById(final String id) {
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return taskRepository.findOneById(id);
-    }
-
-    @Override
-    public Task findOneByIndex(final Integer index) {
-        if (index == null || index < 0) throw new IndexIncorrectException();
-        return taskRepository.findOneByIndex(index);
-    }
-
     @Override
     public Task findOneByName(final String name) {
         if (name == null || name.isEmpty()) throw new EmptyNameException();
         return taskRepository.findOneByName(name);
 
-    }
-
-    @Override
-    public Task removeOneById(final String id) {
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return taskRepository.removeOneById(id);
-    }
-
-    @Override
-    public Task removeOneByIndex(final Integer index) {
-        if (index == null || index < 0) throw new IndexIncorrectException();
-        return taskRepository.removeOneByIndex(index);
     }
 
     @Override

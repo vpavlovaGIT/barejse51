@@ -12,23 +12,13 @@ import ru.vpavlova.tm.util.HashUtil;
 
 import java.util.List;
 
-public class UserService implements IUserService {
+public class UserService extends AbstractService<User> implements IUserService {
 
     private final IUserRepository userRepository;
 
     public UserService(final IUserRepository userRepository) {
+        super(userRepository);
         this.userRepository = userRepository;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public User findById(final String id) {
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return userRepository.removeById(id);
     }
 
     @Override
@@ -60,12 +50,6 @@ public class UserService implements IUserService {
     public User removeUser(final User user) {
         if (user == null) return null;
         return userRepository.removeUser(user);
-    }
-
-    @Override
-    public User removeById(final String id) {
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return userRepository.removeById(id);
     }
 
     @Override
@@ -113,7 +97,7 @@ public class UserService implements IUserService {
     public User setPassword(final String userId, final String password) {
         if (userId == null || userId.isEmpty()) throw new EmptyPasswordException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
-        final User user = findById(userId);
+        final User user = findOneById(userId);
         if (user == null) return null;
         final String hash = HashUtil.salt(password);
         user.setPasswordHash(hash);
@@ -123,7 +107,7 @@ public class UserService implements IUserService {
     @Override
     public User updateUser(final String userId, final String firstName, final String lastName, final String middleName) {
         if (userId == null || userId.isEmpty()) throw new AccessDeniedException();
-        final User user = findById(userId);
+        final User user = findOneById(userId);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setMiddleName(middleName);

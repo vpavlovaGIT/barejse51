@@ -9,13 +9,9 @@ import java.util.List;
 
 public interface IProjectService extends IService<Project> {
 
-    List<Project> findAll();
-
     List<Project> findAll(Comparator<Project> comparator);
 
     Project add(String name, String description);
-
-    void remove(Project project);
 
     Project findOneByName(String name);
 

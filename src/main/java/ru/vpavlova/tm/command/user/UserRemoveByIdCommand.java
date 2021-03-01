@@ -25,7 +25,7 @@ public class UserRemoveByIdCommand extends AbstractCommand {
         System.out.println("[REMOVE USER]");
         System.out.println("ENTER ID:");
         final String userId = TerminalUtil.nextLine();
-        serviceLocator.getUserService().removeById(userId);
+        serviceLocator.getUserService().removeOneById(userId);
     }
 
 }

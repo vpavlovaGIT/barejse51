@@ -10,13 +10,9 @@ import java.util.List;
 
 public interface ITaskService extends IService<Task> {
 
-    List<Task> findAll();
-
     List<Task> findAll(Comparator<Task> comparator);
 
     Task add(String name, String description);
-
-    void remove(Task task);
 
     Task findOneByName(String name);
 

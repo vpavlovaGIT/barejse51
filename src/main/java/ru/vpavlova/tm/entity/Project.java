@@ -58,6 +58,11 @@ public final class Project extends AbstractEntity implements IWBS {
         this.name = name;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
