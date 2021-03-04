@@ -44,11 +44,11 @@ public class Bootstrap implements ServiceLocator {
     private final IAuthService authService = new AuthService(userService);
 
     private void initData() {
-        projectService.add("DEMO 1", "description1").setStatus(Status.COMPLETE);
-        projectService.add("BETA 2", "description2").setStatus(Status.IN_PROGRESS);
-        projectService.add("LAMBDA 3", "description3").setStatus(Status.IN_PROGRESS);
-        projectService.add("OMEGA 4", "description4").setStatus(Status.NOT_STARTED);
-        projectService.add("GAMMA 5", "description5").setStatus(Status.COMPLETE);
+        projectService.add("1","DEMO 1", "description1").setStatus(Status.COMPLETE);
+        projectService.add("2","BETA 2", "description2").setStatus(Status.IN_PROGRESS);
+        projectService.add("3","LAMBDA 3", "description3").setStatus(Status.IN_PROGRESS);
+        projectService.add("4","OMEGA 4", "description4").setStatus(Status.NOT_STARTED);
+        projectService.add("5","GAMMA 5", "description5").setStatus(Status.COMPLETE);
 
         taskService.add("A_TASK 1", "aaa").setStatus(Status.COMPLETE);
         taskService.add("D_TASK 2", "ddd").setStatus(Status.IN_PROGRESS);

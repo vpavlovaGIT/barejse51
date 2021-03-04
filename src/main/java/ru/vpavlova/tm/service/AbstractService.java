@@ -18,8 +18,8 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
     }
 
     @Override
-    public List<E> findAll() {
-        return repository.findAll();
+    public List<E> findAll(final String userId) {
+        return repository.findAll(userId);
     }
 
     @Override
@@ -35,9 +35,9 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
     }
 
     @Override
-    public E findOneById(final String id) {
+    public E findOneById(final String userId, final String id) {
         if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return repository.findOneById(id);
+        return repository.findOneById(userId, id);
     }
 
     @Override
@@ -52,15 +52,15 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
     }
 
     @Override
-    public void remove(final E entity) {
+    public void remove(final String userId, final E entity) {
         if (entity == null) return;
-        repository.remove(entity);
+        repository.remove(userId, entity);
     }
 
     @Override
-    public E removeOneById(final String id) {
+    public E removeOneById(final String userId, final String id) {
         if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return repository.removeOneById(id);
+        return repository.removeOneById(userId, id);
     }
 
     @Override

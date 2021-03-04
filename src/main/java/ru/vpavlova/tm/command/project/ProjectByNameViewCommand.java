@@ -27,7 +27,8 @@ public class ProjectByNameViewCommand extends AbstractProjectCommand {
         System.out.println("[SHOW PROJECT]");
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
-        final Project project = serviceLocator.getProjectService().findOneByName(name);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Project project = serviceLocator.getProjectService().findOneByName(userId, name);
         if (project == null) throw new ProjectNotFoundException();
         showProject(project);
     }

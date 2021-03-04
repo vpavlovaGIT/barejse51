@@ -11,32 +11,32 @@ public interface IProjectService extends IService<Project> {
 
     List<Project> findAll(Comparator<Project> comparator);
 
-    Project add(String name, String description);
+    Project add(String userId, String name, String description);
 
-    Project findOneByName(String name);
+    Project findOneByName(String userId, String name);
 
-    Project removeOneByName(String name);
+    Project removeOneByName(String userId, String name);
 
-    Project updateTaskById(String id, String name, String description);
+    Project updateTaskById(String userId, String id, String name, String description);
 
-    Project updateTaskByIndex(Integer index, String name, String description);
+    Project updateTaskByIndex(String userId, Integer index, String name, String description);
 
-    Project startProjectById(String id);
+    Project startProjectById(String userId, String id);
 
-    Project startProjectByIndex(Integer index);
+    Project startProjectByIndex(String userId, Integer index);
 
-    Project startProjectByName(String name);
+    Project startProjectByName(String userId, String name);
 
-    Project finishProjectById(String id);
+    Project finishProjectById(String userId, String id);
 
-    Project finishProjectByIndex(Integer index);
+    Project finishProjectByIndex(String userId, Integer index);
 
-    Project finishProjectByName(String name);
+    Project finishProjectByName(String userId, String name);
 
-    Project changeProjectStatusById(String id, Status status);
+    Project changeProjectStatusById(String userId, String id, Status status);
 
-    Project changeProjectStatusByIndex(Integer index, Status status);
+    Project changeProjectStatusByIndex(String userId, Integer index, Status status);
 
-    Project changeProjectStatusByName(String name, Status status);
+    Project changeProjectStatusByName(String userId, String name, Status status);
 
 }

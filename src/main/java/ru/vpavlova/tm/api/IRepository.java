@@ -7,21 +7,21 @@ import java.util.List;
 
 public interface IRepository<E extends AbstractEntity> {
 
-    List<E> findAll();
+    List<E> findAll(String userId);
 
     E add(E entity);
 
     void addAll(Collection<E> collection);
 
-    E findOneById(String id);
+    E findOneById(String userId, String id);
 
     E findOneByIndex(Integer index);
 
     void clear();
 
-    void remove(E entity);
+    void remove(String userId, E entity);
 
-    E removeOneById(String id);
+    E removeOneById(String userId, String id);
 
     E removeOneByIndex(Integer index);
 

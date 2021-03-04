@@ -21,8 +21,9 @@ public class TaskClearCommand extends AbstractTaskCommand {
 
     @Override
     public void execute() {
+        final String userId = serviceLocator.getAuthService().getUserId();
         System.out.println("[TASK CLEAR]");
-        serviceLocator.getTaskService().clear();
+        serviceLocator.getTaskService().clear(userId);
         System.out.println("[OK]");
     }
 

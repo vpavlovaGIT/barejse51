@@ -21,7 +21,7 @@ public class AuthService implements IAuthService {
     @Override
     public User getUser() {
         final String userId = getUserId();
-        return userService.findOneById(userId);
+        return userService.findOneById(userId, userId);
     }
 
     @Override

@@ -27,7 +27,8 @@ public class ProjectByNameRemoveCommand extends AbstractProjectCommand {
         System.out.println("[REMOVE PROJECT]");
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
-        final Project project = serviceLocator.getProjectService().removeOneByName(name);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Project project = serviceLocator.getProjectService().removeOneByName(userId, name);
         if (project == null) throw new ProjectNotFoundException();
         showProject(project);
     }

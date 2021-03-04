@@ -40,10 +40,11 @@ public class ProjectTaskService implements IProjectTaskService {
     }
 
     @Override
-    public Project removeProjectById(final String projectId) {
+    public Project removeProjectById(final String userId, final String projectId) {
+        if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
         taskRepository.removeAllByProjectId(projectId);
-        return projectRepository.removeOneById(projectId);
+        return projectRepository.removeOneById(userId, projectId);
     }
 
 }

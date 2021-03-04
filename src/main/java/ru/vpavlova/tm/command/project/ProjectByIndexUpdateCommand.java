@@ -27,13 +27,14 @@ public class ProjectByIndexUpdateCommand extends AbstractProjectCommand {
         System.out.println("[UPDATE PROJECT]");
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
+        final String userId = serviceLocator.getAuthService().getUserId();
         final Project project = serviceLocator.getProjectService().findOneByIndex(index);
         if (project == null) throw new ProjectNotFoundException();
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final Project projectUpdatedIndex = serviceLocator.getProjectService().updateTaskByIndex(index, name, description);
+        final Project projectUpdatedIndex = serviceLocator.getProjectService().updateTaskByIndex(userId, index, name, description);
         if (projectUpdatedIndex == null) throw new ProjectNotFoundException();
     }
 

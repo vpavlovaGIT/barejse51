@@ -13,6 +13,6 @@ public interface IProjectTaskService {
 
     Task unbindTaskFromProject(String taskId);
 
-    Project removeProjectById(String projectId);
+    Project removeProjectById(String userId, String projectId);
 
 }

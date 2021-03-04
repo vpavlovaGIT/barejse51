@@ -31,8 +31,9 @@ public class TaskListCommand extends AbstractTaskCommand {
         System.out.println("ENTER SORT:");
         System.out.println(Arrays.toString(Sort.values()));
         final String sort = TerminalUtil.nextLine();
+        final String userId = serviceLocator.getAuthService().getUserId();
         List<Task> tasks;
-        if (sort == null || sort.isEmpty()) tasks = serviceLocator.getTaskService().findAll();
+        if (sort == null || sort.isEmpty()) tasks = serviceLocator.getTaskService().findAll(userId);
         else {
             final Sort sortType = Sort.valueOf(sort);
             System.out.println(sortType.getDisplayName());

@@ -17,18 +17,17 @@ public class ProjectRepository extends AbstractRepository<Project> implements IP
     }
 
     @Override
-    public Project findOneByName(final String name) {
+    public Project findOneByName(final String userId, final String name) {
         for (final Project project : entities) {
-            if (name.equals(project.getName())) return project;
+            if (name.equals(project.getName()) && project.getUserId().equals(userId)) return project;
         }
         return null;
     }
 
     @Override
-    public Project removeOneByName(final String name) {
-        final Project project = findOneByName(name);
-        if (project == null) return null;
-        remove(project);
+    public Project removeOneByName(final String userId, final String name) {
+        final Project project = findOneByName(userId, name);
+        removeOneByName(userId, name);
         return project;
     }
 

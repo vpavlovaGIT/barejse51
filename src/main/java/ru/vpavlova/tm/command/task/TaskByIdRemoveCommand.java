@@ -26,7 +26,8 @@ public final class TaskByIdRemoveCommand extends AbstractTaskCommand {
         System.out.println("[REMOVE TASK]");
         System.out.println("ENTER ID:");
         final String taskId = TerminalUtil.nextLine();
-        final Task task = serviceLocator.getTaskService().removeOneById(taskId);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getTaskService().removeOneById(userId, taskId);
         if (task == null) throw new TaskNotFoundException();
     }
 

@@ -10,8 +10,8 @@ public interface IProjectRepository extends IRepository<Project> {
 
     List<Project> findAll(Comparator<Project> comparator);
 
-    Project findOneByName(String name);
+    Project findOneByName(String userId, String name);
 
-    Project removeOneByName(String name);
+    Project removeOneByName(String userId, String name);
 
 }

@@ -27,7 +27,8 @@ public class TaskByIdViewCommand extends AbstractTaskCommand {
         System.out.println("[SHOW TASK]");
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
-        final Task task = serviceLocator.getTaskService().findOneById(id);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getTaskService().findOneById(userId, id);
         if (task == null) throw new TaskNotFoundException();
         showTask(task);
     }

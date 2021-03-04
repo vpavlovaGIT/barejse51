@@ -24,12 +24,13 @@ public final class ProjectCreateCommand extends AbstractProjectCommand {
 
     @Override
     public void execute() {
+        final String userId = serviceLocator.getAuthService().getUserId();
         System.out.println("[PROJECT CREATE]");
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final Project project = serviceLocator.getProjectService().add(name, description);
+        final Project project = serviceLocator.getProjectService().add(userId, name, description);
         if (project == null) throw new ProjectNotFoundException();
     }
 

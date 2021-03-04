@@ -27,13 +27,14 @@ public class ProjectByIdUpdateCommand extends AbstractProjectCommand {
         System.out.println("[UPDATE PROJECT]");
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
-        final Project project = serviceLocator.getProjectService().findOneById(id);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Project project = serviceLocator.getProjectService().findOneById(userId, id);
         if (project == null) throw new ProjectNotFoundException();
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final Project projectUpdatedId = serviceLocator.getProjectService().updateTaskById(id, name, description);
+        final Project projectUpdatedId = serviceLocator.getProjectService().updateTaskById(userId, id, name, description);
         if (projectUpdatedId == null) throw new ProjectNotFoundException();
     }
 
