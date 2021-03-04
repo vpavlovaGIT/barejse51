@@ -95,9 +95,9 @@ public class UserService extends AbstractService<User> implements IUserService {
 
     @Override
     public User setPassword(final String userId, final String password) {
-        if (userId == null || userId.isEmpty()) throw new EmptyPasswordException();
+        if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
-        final User user = findOneById(userId);
+        final User user = findOneById(userId, userId);
         if (user == null) return null;
         final String hash = HashUtil.salt(password);
         user.setPasswordHash(hash);
@@ -107,7 +107,7 @@ public class UserService extends AbstractService<User> implements IUserService {
     @Override
     public User updateUser(final String userId, final String firstName, final String lastName, final String middleName) {
         if (userId == null || userId.isEmpty()) throw new AccessDeniedException();
-        final User user = findOneById(userId);
+        final User user = findOneById(userId, userId);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setMiddleName(middleName);

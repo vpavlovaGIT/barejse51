@@ -50,11 +50,11 @@ public class Bootstrap implements ServiceLocator {
         projectService.add("4","OMEGA 4", "description4").setStatus(Status.NOT_STARTED);
         projectService.add("5","GAMMA 5", "description5").setStatus(Status.COMPLETE);
 
-        taskService.add("A_TASK 1", "aaa").setStatus(Status.COMPLETE);
-        taskService.add("D_TASK 2", "ddd").setStatus(Status.IN_PROGRESS);
-        taskService.add("E_TASK 3", "eee").setStatus(Status.IN_PROGRESS);
-        taskService.add("B_TASK 4", "bbb").setStatus(Status.NOT_STARTED);
-        taskService.add("C_TASK 5", "ccc").setStatus(Status.COMPLETE);
+        taskService.add("1","A_TASK 1", "aaa").setStatus(Status.COMPLETE);
+        taskService.add("2","D_TASK 2", "ddd").setStatus(Status.IN_PROGRESS);
+        taskService.add("3","E_TASK 3", "eee").setStatus(Status.IN_PROGRESS);
+        taskService.add("4","B_TASK 4", "bbb").setStatus(Status.NOT_STARTED);
+        taskService.add("5","C_TASK 5", "ccc").setStatus(Status.COMPLETE);
     }
 
     private void initUsers() {

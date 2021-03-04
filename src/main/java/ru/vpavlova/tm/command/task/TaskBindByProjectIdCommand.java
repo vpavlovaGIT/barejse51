@@ -29,7 +29,8 @@ public class TaskBindByProjectIdCommand extends AbstractTaskCommand {
         final String projectId = TerminalUtil.nextLine();
         System.out.println("[ENTER TASK ID:]");
         final String taskId = TerminalUtil.nextLine();
-        final Task task = serviceLocator.getProjectTaskService().bindTaskByProject(projectId, taskId);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getProjectTaskService().bindTaskByProject(userId, projectId, taskId);
         if (task == null) throw new TaskNotFoundException();
         System.out.println("TASK ADD TO PROJECT");
     }

@@ -27,7 +27,8 @@ public class TaskByIndexStartCommand extends AbstractTaskCommand {
         System.out.println("[START PROJECT]");
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
-        final Task task = serviceLocator.getTaskService().startProjectByIndex(index);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getTaskService().startProjectByIndex(userId, index);
         if (task == null) throw new TaskNotFoundException();
     }
 

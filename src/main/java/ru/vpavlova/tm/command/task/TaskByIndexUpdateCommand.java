@@ -33,7 +33,8 @@ public class TaskByIndexUpdateCommand extends AbstractTaskCommand {
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final Task taskUpdatedIndex = serviceLocator.getTaskService().updateTaskByIndex(index, name, description);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task taskUpdatedIndex = serviceLocator.getTaskService().updateTaskByIndex(userId, index, name, description);
         if (taskUpdatedIndex == null) throw new TaskNotFoundException();
     }
 

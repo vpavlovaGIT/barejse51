@@ -29,7 +29,8 @@ public class TaskCreateCommand extends AbstractTaskCommand {
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final Task task = serviceLocator.getTaskService().add(name, description);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getTaskService().add(userId, name, description);
         if (task == null) throw new TaskNotFoundException();
     }
 

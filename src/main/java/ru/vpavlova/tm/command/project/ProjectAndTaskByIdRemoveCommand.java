@@ -27,7 +27,8 @@ public class ProjectAndTaskByIdRemoveCommand extends AbstractProjectCommand {
         System.out.println("[REMOVE ALL TASKS FROM PROJECT]");
         System.out.println("[ENTER ID]");
         final String projectId = TerminalUtil.nextLine();
-        final Project project = serviceLocator.getProjectTaskService().removeProjectById(projectId);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Project project = serviceLocator.getProjectTaskService().removeProjectById(userId, projectId);
         if (project == null) throw new ProjectNotFoundException();
     }
 

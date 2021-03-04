@@ -27,7 +27,8 @@ public class TaskByNameViewCommand extends AbstractTaskCommand {
         System.out.println("[SHOW TASK]");
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
-        final Task task = serviceLocator.getTaskService().findOneByName(name);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getTaskService().findOneByName(userId, name);
         if (task == null) throw new TaskNotFoundException();
         showTask(task);
     }

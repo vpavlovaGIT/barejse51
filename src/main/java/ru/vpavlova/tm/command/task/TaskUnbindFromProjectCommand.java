@@ -27,7 +27,8 @@ public class TaskUnbindFromProjectCommand extends AbstractTaskCommand {
         System.out.println("[UNBIND TASK WITH PROJECT]");
         System.out.println("[ENTER PROJECT ID:]");
         final String taskId = TerminalUtil.nextLine();
-        final Task task = serviceLocator.getProjectTaskService().unbindTaskFromProject(taskId);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getProjectTaskService().unbindTaskFromProject(userId, taskId);
         if (task == null) throw new TaskNotFoundException();
         System.out.println("TASK REMOVE FROM PROJECT");
     }

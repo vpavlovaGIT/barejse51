@@ -27,7 +27,8 @@ public class TaskByNameRemoveCommand extends AbstractTaskCommand {
         System.out.println("[REMOVE TASK]");
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
-        final Task task = serviceLocator.getTaskService().removeOneByName(name);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getTaskService().removeOneByName(userId, name);
         if (task == null) throw new TaskNotFoundException();
         showTask(task);
     }

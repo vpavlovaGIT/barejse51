@@ -27,7 +27,8 @@ public class TaskByNameFinishCommand extends AbstractTaskCommand {
         System.out.println("[FINISH PROJECT]");
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
-        final Task task = serviceLocator.getTaskService().finishProjectByName(name);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getTaskService().finishProjectByName(userId, name);
         if (task == null) throw new TaskNotFoundException();
     }
 

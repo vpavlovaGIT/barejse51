@@ -21,29 +21,32 @@ public class ProjectTaskService implements IProjectTaskService {
     }
 
     @Override
-    public List<Task> findAllTaskByProjectId(final String projectId) {
+    public List<Task> findAllTaskByProjectId(final String userId, final String projectId) {
+        if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
-         return taskRepository.findAllByProjectId(projectId);
+         return taskRepository.findAllByProjectId(userId, projectId);
     }
 
     @Override
-    public Task bindTaskByProject(final String projectId, final String taskId) {
+    public Task bindTaskByProject(final String userId, final String projectId, final String taskId) {
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
         if (taskId == null || taskId .isEmpty()) throw new EmptyIdException();
-        return taskRepository.bindTaskByProject(projectId, taskId);
+        if (userId == null || userId.isEmpty()) throw new EmptyIdException();
+        return taskRepository.bindTaskByProject(userId, projectId, taskId);
     }
 
     @Override
-    public Task unbindTaskFromProject(final String taskId) {
+    public Task unbindTaskFromProject(final String userId, final String taskId) {
+        if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (taskId == null || taskId.isEmpty()) throw new EmptyIdException();
-        return taskRepository.unbindTaskFromProject(taskId);
+        return taskRepository.unbindTaskFromProject(userId, taskId);
     }
 
     @Override
     public Project removeProjectById(final String userId, final String projectId) {
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
-        taskRepository.removeAllByProjectId(projectId);
+        taskRepository.removeAllByProjectId(userId, projectId);
         return projectRepository.removeOneById(userId, projectId);
     }
 

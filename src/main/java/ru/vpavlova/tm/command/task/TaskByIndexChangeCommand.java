@@ -34,7 +34,8 @@ public class TaskByIndexChangeCommand extends AbstractTaskCommand {
         System.out.println(Arrays.toString(Status.values()));
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
-        final Task task = serviceLocator.getTaskService().changeProjectStatusByIndex(index, status);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final Task task = serviceLocator.getTaskService().changeProjectStatusByIndex(userId, index, status);
         if (task == null) throw new TaskNotFoundException();
     }
 

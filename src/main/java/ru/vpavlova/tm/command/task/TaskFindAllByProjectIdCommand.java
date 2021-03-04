@@ -28,7 +28,8 @@ public class TaskFindAllByProjectIdCommand extends AbstractTaskCommand {
         System.out.println("[TASKS BY PROJECT]");
         System.out.println("[ENTER ID:]");
         final String projectId = TerminalUtil.nextLine();
-        final List<Task> tasks = serviceLocator.getProjectTaskService().findAllTaskByProjectId(projectId);
+        final String userId = serviceLocator.getAuthService().getUserId();
+        final List<Task> tasks = serviceLocator.getProjectTaskService().findAllTaskByProjectId(userId, projectId);
         int index = 1;
         for (Task task : tasks) {
             System.out.println(index + ". " + task);

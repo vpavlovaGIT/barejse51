@@ -21,9 +21,8 @@ public class ProjectClearCommand extends AbstractProjectCommand {
 
     @Override
     public void execute() {
-        final String userId = serviceLocator.getAuthService().getUserId();
         System.out.println("[PROJECT CLEAR]");
-        serviceLocator.getProjectService().clear(userId);
+        serviceLocator.getProjectService().clear();
         System.out.println("[OK]");
     }
 

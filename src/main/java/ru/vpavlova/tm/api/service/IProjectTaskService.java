@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface IProjectTaskService {
 
-    List<Task> findAllTaskByProjectId(String projectId);
+    List<Task> findAllTaskByProjectId(String userId, String projectId);
 
-    Task bindTaskByProject(String projectId, String taskId);
+    Task bindTaskByProject(String userId, String projectId, String taskId);
 
-    Task unbindTaskFromProject(String taskId);
+    Task unbindTaskFromProject(String userId, String taskId);
 
     Project removeProjectById(String userId, String projectId);
 

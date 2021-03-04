@@ -12,32 +12,32 @@ public interface ITaskService extends IService<Task> {
 
     List<Task> findAll(Comparator<Task> comparator);
 
-    Task add(String name, String description);
+    Task add(String userId, String name, String description);
 
-    Task findOneByName(String name);
+    Task findOneByName(String userId, String name);
 
-    Task removeOneByName(String name);
+    Task removeOneByName(String userId, String name);
 
-    Task updateTaskById(String id, String name, String description);
+    Task updateTaskById(String userId, String id, String name, String description);
 
-    Task updateTaskByIndex(Integer index, String name, String description);
+    Task updateTaskByIndex(String userId, Integer index, String name, String description);
 
-    Task startProjectById(String id);
+    Task startProjectById(String userId, String id);
 
-    Task startProjectByIndex(Integer index);
+    Task startProjectByIndex(String userId, Integer index);
 
-    Task startProjectByName(String name);
+    Task startProjectByName(String userId, String name);
 
-    Task finishProjectById(String id);
+    Task finishProjectById(String userId, String id);
 
-    Task finishProjectByIndex(Integer index);
+    Task finishProjectByIndex(String userId, Integer index);
 
-    Task finishProjectByName(String name);
+    Task finishProjectByName(String userId, String name);
 
-    Task changeProjectStatusById(String id, Status status);
+    Task changeProjectStatusById(String userId, String id, Status status);
 
-    Task changeProjectStatusByIndex(Integer index, Status status);
+    Task changeProjectStatusByIndex(String userId, Integer index, Status status);
 
-    Task changeProjectStatusByName(String name, Status status);
+    Task changeProjectStatusByName(String userId, String name, Status status);
 
 }

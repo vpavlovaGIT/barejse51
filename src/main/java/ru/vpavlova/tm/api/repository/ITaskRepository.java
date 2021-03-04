@@ -11,16 +11,16 @@ public interface ITaskRepository extends IRepository<Task> {
 
     List<Task> findAll(Comparator<Task> comparator);
 
-    List<Task> findAllByProjectId(String projectId);
+    List<Task> findAllByProjectId(String userId, String projectId);
 
-    List<Task> removeAllByProjectId(String projectId);
+    List<Task> removeAllByProjectId(String userId, String projectId);
 
-    Task bindTaskByProject(String projectId, String taskId);
+    Task bindTaskByProject(String userId, String projectId, String taskId);
 
-    Task unbindTaskFromProject(String taskId);
+    Task unbindTaskFromProject(String userId, String taskId);
 
-    Task findOneByName(String name);
+    Task findOneByName(String userId, String name);
 
-    Task removeOneByName(String name);
+    Task removeOneByName(String userId, String name);
 
 }
