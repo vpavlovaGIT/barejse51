@@ -42,20 +42,13 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
     }
 
     @Override
-    public E findOneByIndex(final Integer index) {
-        return entities.get(index);
-    }
-
-    @Override
     public void clear() {
         entities.clear();
     }
 
     @Override
-    public void remove(final String userId, final E entity) {
-        if (userId.equals(entity.getUserId())) {
-            entities.remove(entity);
-        }
+    public void remove(final E entity) {
+        entities.remove(entity);
     }
 
     @Override
@@ -66,12 +59,5 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
         return entity;
     }
 
-    @Override
-    public E removeOneByIndex(final Integer index) {
-        final E entity = findOneByIndex(index);
-        if (entity == null) return null;
-        entities.remove(entity);
-        return entity;
-    }
 
 }

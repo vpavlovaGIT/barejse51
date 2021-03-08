@@ -15,14 +15,10 @@ public interface IRepository<E extends AbstractEntity> {
 
     E findOneById(String userId, String id);
 
-    E findOneByIndex(Integer index);
-
     void clear();
 
-    void remove(String userId, E entity);
+    void remove(E entity);
 
     E removeOneById(String userId, String id);
-
-    E removeOneByIndex(Integer index);
 
 }

@@ -28,7 +28,7 @@ public class ProjectByIndexFinishCommand extends AbstractProjectCommand {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Project project = serviceLocator.getProjectService().finishProjectByIndex(userId, index);
+        final Project project = serviceLocator.getProjectService().finishOneByIndex(userId, index);
         if (project == null) throw new ProjectNotFoundException();
     }
 

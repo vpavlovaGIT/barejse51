@@ -24,10 +24,11 @@ public class TaskByIndexViewCommand extends AbstractTaskCommand {
 
     @Override
     public void execute() {
+        final String userId = serviceLocator.getAuthService().getUserId();
         System.out.println("[SHOW TASK]");
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
-        final Task task = serviceLocator.getTaskService().findOneByIndex(index);
+        final Task task = serviceLocator.getTaskService().findOneByIndex(userId, index);
         if (task == null) throw new TaskNotFoundException();
         showTask(task);
     }

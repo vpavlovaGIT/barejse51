@@ -35,7 +35,7 @@ public class TaskByIdChangeCommand extends AbstractTaskCommand {
         final String userId = serviceLocator.getAuthService().getUserId();
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
-        final Task task = serviceLocator.getTaskService().changeProjectStatusById(userId, id, status);
+        final Task task = serviceLocator.getTaskService().changeOneStatusById(userId, id, status);
         if (task == null) throw new TaskNotFoundException();
     }
 

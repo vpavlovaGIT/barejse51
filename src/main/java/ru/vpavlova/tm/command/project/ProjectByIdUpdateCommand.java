@@ -34,7 +34,7 @@ public class ProjectByIdUpdateCommand extends AbstractProjectCommand {
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final Project projectUpdatedId = serviceLocator.getProjectService().updateTaskById(userId, id, name, description);
+        final Project projectUpdatedId = serviceLocator.getProjectService().updateOneById(userId, id, name, description);
         if (projectUpdatedId == null) throw new ProjectNotFoundException();
     }
 

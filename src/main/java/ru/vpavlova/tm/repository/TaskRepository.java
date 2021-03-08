@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class TaskRepository extends AbstractRepository<Task> implements ITaskRepository {
+public class TaskRepository extends AbstractBusinessRepository<Task> implements ITaskRepository {
 
     private final List<Task> tasks = new ArrayList<>();
 
@@ -50,22 +50,6 @@ public class TaskRepository extends AbstractRepository<Task> implements ITaskRep
         final Task task = findOneById(userId, taskId);
         if (task == null) return null;
         task.setProjectId(null);
-        return task;
-    }
-
-    @Override
-    public Task findOneByName(final String userId, final String name) {
-        for (final Task task : tasks) {
-            if (name.equals(task.getName()) && userId.equals(task.getUserId())) return task;
-        }
-        return null;
-    }
-
-    @Override
-    public Task removeOneByName(final String userId, final String name) {
-        final Task task = findOneByName(userId, name);
-        if (task == null) return null;
-        remove(userId, task);
         return task;
     }
 

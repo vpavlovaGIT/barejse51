@@ -4,7 +4,6 @@ import ru.vpavlova.tm.api.IRepository;
 import ru.vpavlova.tm.api.IService;
 import ru.vpavlova.tm.entity.AbstractEntity;
 import ru.vpavlova.tm.exception.empty.EmptyIdException;
-import ru.vpavlova.tm.exception.system.IndexIncorrectException;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,38 +34,20 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
     }
 
     @Override
-    public E findOneById(final String userId, final String id) {
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return repository.findOneById(userId, id);
-    }
-
-    @Override
-    public E findOneByIndex(final Integer index) {
-        if (index == null || index < 0) throw new IndexIncorrectException();
-        return repository.findOneByIndex(index);
-    }
-
-    @Override
     public void clear() {
         repository.clear();
     }
 
     @Override
-    public void remove(final String userId, final E entity) {
+    public void remove(final E entity) {
         if (entity == null) return;
-        repository.remove(userId, entity);
+        repository.remove(entity);
     }
 
     @Override
     public E removeOneById(final String userId, final String id) {
         if (id == null || id.isEmpty()) throw new EmptyIdException();
         return repository.removeOneById(userId, id);
-    }
-
-    @Override
-    public E removeOneByIndex(final Integer index) {
-        if (index == null || index < 0) throw new IndexIncorrectException();
-        return repository.removeOneByIndex(index);
     }
 
 }

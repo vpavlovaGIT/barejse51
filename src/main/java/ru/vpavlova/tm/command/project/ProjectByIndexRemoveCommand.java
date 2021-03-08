@@ -24,10 +24,11 @@ public class ProjectByIndexRemoveCommand extends AbstractProjectCommand {
 
     @Override
     public void execute() {
+        final String userId = serviceLocator.getAuthService().getUserId();
         System.out.println("[REMOVE PROJECT]");
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
-        final Project project = serviceLocator.getProjectService().removeOneByIndex(index);
+        final Project project = serviceLocator.getProjectService().removeOneByIndex(userId, index);
         if (project == null) throw new ProjectNotFoundException();
         showProject(project);
     }

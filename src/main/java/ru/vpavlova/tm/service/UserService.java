@@ -10,8 +10,6 @@ import ru.vpavlova.tm.exception.user.EmailExistsException;
 import ru.vpavlova.tm.exception.user.LoginExistsException;
 import ru.vpavlova.tm.util.HashUtil;
 
-import java.util.List;
-
 public class UserService extends AbstractService<User> implements IUserService {
 
     private final IUserRepository userRepository;
@@ -26,7 +24,6 @@ public class UserService extends AbstractService<User> implements IUserService {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         return userRepository.findByLogin(login);
     }
-
 
     @Override
     public User findByEmail(final String email) {
@@ -112,6 +109,12 @@ public class UserService extends AbstractService<User> implements IUserService {
         user.setLastName(lastName);
         user.setMiddleName(middleName);
         return user;
+    }
+
+    @Override
+    public User findOneById(String userId, String id) {
+        if (id == null || id.isEmpty()) throw new EmptyIdException();
+        return userRepository.findOneById(userId, id);
     }
 
 }

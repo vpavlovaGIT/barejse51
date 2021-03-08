@@ -28,7 +28,7 @@ public class TaskByIdStartCommand extends AbstractTaskCommand {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Task task = serviceLocator.getTaskService().startProjectById(userId, id);
+        final Task task = serviceLocator.getTaskService().startOneById(userId, id);
         if (task == null) throw new TaskNotFoundException();
     }
 

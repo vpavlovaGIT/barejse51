@@ -28,7 +28,7 @@ public class ProjectByNameFinishCommand extends AbstractProjectCommand {
         System.out.println("ENTER NAME:");
         final String userId = serviceLocator.getAuthService().getUserId();
         final String name = TerminalUtil.nextLine();
-        final Project project = serviceLocator.getProjectService().finishProjectByName(userId, name);
+        final Project project = serviceLocator.getProjectService().finishOneByName(userId, name);
         if (project == null) throw new ProjectNotFoundException();
     }
 

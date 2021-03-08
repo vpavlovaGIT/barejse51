@@ -35,7 +35,7 @@ public class ProjectByIdChangeCommand extends AbstractProjectCommand {
         final String userId = serviceLocator.getAuthService().getUserId();
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
-        final Project project = serviceLocator.getProjectService().changeProjectStatusById(userId, id, status);
+        final Project project = serviceLocator.getProjectService().changeOneStatusById(userId, id, status);
         if (project == null) throw new ProjectNotFoundException();
     }
 

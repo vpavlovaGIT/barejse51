@@ -4,8 +4,6 @@ import ru.vpavlova.tm.api.IService;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
 
-import java.util.List;
-
 public interface IUserService extends IService<User> {
 
     User findByLogin(String login);

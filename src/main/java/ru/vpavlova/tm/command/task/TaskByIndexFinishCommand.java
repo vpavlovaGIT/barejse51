@@ -28,7 +28,7 @@ public class TaskByIndexFinishCommand extends AbstractTaskCommand {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Task task = serviceLocator.getTaskService().finishProjectByIndex(userId, index);
+        final Task task = serviceLocator.getTaskService().finishOneByIndex(userId, index);
         if (task == null) throw new TaskNotFoundException();
     }
 

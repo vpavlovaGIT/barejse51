@@ -24,17 +24,17 @@ public class TaskByIndexUpdateCommand extends AbstractTaskCommand {
 
     @Override
     public void execute() {
+        final String userId = serviceLocator.getAuthService().getUserId();
         System.out.println("[UPDATE TASK]");
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
-        final Task task = serviceLocator.getTaskService().findOneByIndex(index);
+        final Task task = serviceLocator.getTaskService().findOneByIndex(userId, index);
         if (task == null) throw new TaskNotFoundException();
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final String userId = serviceLocator.getAuthService().getUserId();
-        final Task taskUpdatedIndex = serviceLocator.getTaskService().updateTaskByIndex(userId, index, name, description);
+        final Task taskUpdatedIndex = serviceLocator.getTaskService().updateOneByIndex(userId, index, name, description);
         if (taskUpdatedIndex == null) throw new TaskNotFoundException();
     }
 

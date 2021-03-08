@@ -1,13 +1,12 @@
 package ru.vpavlova.tm.api.repository;
 
-import ru.vpavlova.tm.api.IRepository;
-import ru.vpavlova.tm.entity.Project;
+import ru.vpavlova.tm.api.IBusinessRepository;
 import ru.vpavlova.tm.entity.Task;
 
 import java.util.Comparator;
 import java.util.List;
 
-public interface ITaskRepository extends IRepository<Task> {
+public interface ITaskRepository extends IBusinessRepository<Task> {
 
     List<Task> findAll(Comparator<Task> comparator);
 

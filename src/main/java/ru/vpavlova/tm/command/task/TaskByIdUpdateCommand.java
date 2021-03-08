@@ -34,7 +34,7 @@ public class TaskByIdUpdateCommand extends AbstractTaskCommand {
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final Task taskUpdatedId = serviceLocator.getTaskService().updateTaskById(userId, id, name, description);
+        final Task taskUpdatedId = serviceLocator.getTaskService().updateOneById(userId, id, name, description);
         if (taskUpdatedId == null) throw new TaskNotFoundException();
     }
 
