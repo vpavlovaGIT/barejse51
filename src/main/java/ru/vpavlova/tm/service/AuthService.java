@@ -8,6 +8,8 @@ import ru.vpavlova.tm.exception.empty.EmptyPasswordException;
 import ru.vpavlova.tm.exception.user.AccessDeniedException;
 import ru.vpavlova.tm.util.HashUtil;
 
+import java.util.Optional;
+
 public class AuthService implements IAuthService {
 
     private final IUserService userService;
@@ -19,7 +21,7 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public User getUser() {
+    public Optional<User> getUser() {
         final String userId = getUserId();
         return userService.findOneById(userId, userId);
     }
@@ -44,11 +46,11 @@ public class AuthService implements IAuthService {
     public void login(final String login, final String password) {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
-        final User user = userService.findByLogin(login);
-        if (user == null) throw new AccessDeniedException();
+        final Optional<User> user = userService.findByLogin(login);
+        if (!user.isPresent()) throw new AccessDeniedException();
         final String hash = HashUtil.salt(password);
-        if (!hash.equals(user.getPasswordHash())) throw new AccessDeniedException();
-        userId = user.getId();
+        if (!hash.equals(user.get().getPasswordHash())) throw new AccessDeniedException();
+        userId = user.get().getId();
     }
 
     @Override

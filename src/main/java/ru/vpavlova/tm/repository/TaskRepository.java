@@ -6,6 +6,7 @@ import ru.vpavlova.tm.entity.Task;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class TaskRepository extends AbstractBusinessRepository<Task> implements ITaskRepository {
 
@@ -31,25 +32,24 @@ public class TaskRepository extends AbstractBusinessRepository<Task> implements 
     @Override
     public List<Task> removeAllByProjectId(final String userId, final String projectId) {
         if (projectId == null || projectId.isEmpty()) return null;
-        for (Task task : tasks) {
-            if (task.getProjectId().equals(projectId) && userId.equals(task.getUserId())) task.setProjectId(null);
-        }
-        return tasks;
+        final Optional<List<Task>> tasks = Optional.ofNullable(findAllByProjectId(userId, projectId));
+        tasks.ifPresent(e -> tasks.get().forEach(this::remove));
+        return tasks.orElse(null);
     }
 
     @Override
-    public Task bindTaskByProject(final String userId, final String projectId, final String taskId) {
-        final Task task = findOneById(userId, taskId);
-        if (task == null) return null;
-        task.setProjectId(projectId);
+    public Optional<Task> bindTaskByProject(final String userId, final String projectId, final String taskId) {
+        final Optional<Task> task = findOneById(userId, taskId);
+        if (!task.isPresent()) return Optional.empty();
+        task.get().setProjectId(projectId);
         return task;
     }
 
     @Override
-    public Task unbindTaskFromProject(final String userId, final String taskId) {
-        final Task task = findOneById(userId, taskId);
-        if (task == null) return null;
-        task.setProjectId(null);
+    public Optional<Task> unbindTaskFromProject(final String userId, final String taskId) {
+        final Optional<Task> task = findOneById(userId, taskId);
+        if (!task.isPresent()) return Optional.empty();
+        task.get().setProjectId(null);
         return task;
     }
 

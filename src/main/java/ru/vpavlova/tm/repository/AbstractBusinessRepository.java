@@ -4,11 +4,25 @@ import ru.vpavlova.tm.api.IBusinessRepository;
 import ru.vpavlova.tm.entity.AbstractBusinessEntity;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public abstract class AbstractBusinessRepository<E extends AbstractBusinessEntity> extends AbstractRepository<E> implements IBusinessRepository<E> {
+
+    protected final List<E> entities = new ArrayList<>();
+
+    public Predicate<E> predicateById(final String id) {
+        return e -> id.equals(e.getId());
+    }
+
+    public Predicate<E> predicateByName(final String name) {
+        return e -> name.equals(e.getName());
+    }
+
+    public Predicate<E> predicateByUserId(final String userId) {
+        return e -> userId.equals(e.getUserId());
+    }
 
     @Override
     public List<E> findAll(final String userId) {
@@ -29,66 +43,66 @@ public abstract class AbstractBusinessRepository<E extends AbstractBusinessEntit
     @Override
     public void addAll(final String userId, final Collection<E> collection) {
         if (collection == null) return;
-        for (final E entity: collection) {
+        for (final E entity : collection) {
             entity.setUserId(userId);
         }
         entities.addAll(collection);
     }
 
     @Override
-    public E findOneById(final String userId, final String id) {
-        if (id == null || id.isEmpty()) throw new ObjectNotFoundException();
-        for (final E entity : entities) {
-            if (entity == null) continue;
-            if (!userId.equals(entity.getUserId())) continue;
-            if (id.equals(entity.getId())) return entity;
-        }
-        return null;
+    public Optional<E> findOneById(final String userId, final String id) {
+        return entities.stream()
+                .filter(predicateByUserId(userId))
+                .filter(predicateById(id))
+                .findFirst();
     }
 
     @Override
-    public E findOneByIndex(final String userId, final Integer index) {
-        final List<E> result = findAll(userId);
-        return result.get(index);
+    public Optional<E> findOneByIndex(final String userId, final Integer index) {
+        return entities.stream()
+                .filter(predicateByUserId(userId))
+                .skip(index)
+                .findFirst();
     }
 
     @Override
-    public E findOneByName(final String userId, final String name) {
-        for (final E entity : entities) {
-            if (!userId.equals(entity.getUserId())) continue;
-            if (name.equals(entity.getName())) return entity;
-        }
-        return null;
+    public Optional<E> findOneByName(final String userId, final String name) {
+        return entities.stream()
+                .filter(predicateByUserId(userId))
+                .filter(predicateByName(name))
+                .limit(1)
+                .findFirst();
     }
 
     @Override
     public void clear(final String userId) {
-        final List<E> result = findAll(userId);
-        this.entities.removeAll(result);
+        entities.stream().filter(predicateByUserId(userId))
+                .collect(Collectors.toList())
+                .forEach(entities::remove);
     }
 
     @Override
     public E removeOneById(final String userId, final String id) {
-        final E entity = findOneById(userId, id);
-        if (entity == null) throw new ObjectNotFoundException();
-        remove(userId, entity);
-        return entity;
+        final Optional<E> entity = findOneById(userId, id);
+        entity.ifPresent(this::remove);
+        entity.orElseThrow(ObjectNotFoundException::new);
+        return entity.orElse(null);
     }
 
     @Override
     public E removeOneByIndex(final String userId, final Integer index) {
-        final E entity = findOneByIndex(userId, index);
-        if (entity == null) throw new ObjectNotFoundException();
-        remove(userId, entity);
-        return entity;
+        final Optional<E> entity = findOneByIndex(userId, index);
+        entity.ifPresent(this::remove);
+        entity.orElseThrow(ObjectNotFoundException::new);
+        return entity.orElse(null);
     }
 
     @Override
     public E removeOneByName(final String userId, final String name) {
-        final E entity = findOneByName(userId, name);
-        if (entity == null) throw new ObjectNotFoundException();
-        entities.remove(entity);
-        return entity;
+        final Optional<E> entity = findOneByName(userId, name);
+        entity.ifPresent(this::remove);
+        entity.orElseThrow(ObjectNotFoundException::new);
+        return entity.orElse(null);
     }
 
     @Override

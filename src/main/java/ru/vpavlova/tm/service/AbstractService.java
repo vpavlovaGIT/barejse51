@@ -4,9 +4,11 @@ import ru.vpavlova.tm.api.IRepository;
 import ru.vpavlova.tm.api.IService;
 import ru.vpavlova.tm.entity.AbstractEntity;
 import ru.vpavlova.tm.exception.empty.EmptyIdException;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractService<E extends AbstractEntity> implements IService<E> {
 
@@ -40,7 +42,7 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
 
     @Override
     public void remove(final E entity) {
-        if (entity == null) return;
+        if (!Optional.ofNullable(entity).isPresent()) throw new ObjectNotFoundException();
         repository.remove(entity);
     }
 

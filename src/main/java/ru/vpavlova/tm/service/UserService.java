@@ -5,10 +5,13 @@ import ru.vpavlova.tm.api.service.IUserService;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.exception.empty.*;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.user.AccessDeniedException;
 import ru.vpavlova.tm.exception.user.EmailExistsException;
 import ru.vpavlova.tm.exception.user.LoginExistsException;
 import ru.vpavlova.tm.util.HashUtil;
+
+import java.util.Optional;
 
 public class UserService extends AbstractService<User> implements IUserService {
 
@@ -20,13 +23,13 @@ public class UserService extends AbstractService<User> implements IUserService {
     }
 
     @Override
-    public User findByLogin(final String login) {
+    public Optional<User> findByLogin(final String login) {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         return userRepository.findByLogin(login);
     }
 
     @Override
-    public User findByEmail(final String email) {
+    public Optional<User> findByEmail(final String email) {
         if (email == null || email.isEmpty()) throw new EmptyEmailException();
         return userRepository.findByEmail(email);
     }
@@ -91,28 +94,29 @@ public class UserService extends AbstractService<User> implements IUserService {
     }
 
     @Override
-    public User setPassword(final String userId, final String password) {
+    public Optional<User> setPassword(final String userId, final String password) {
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
-        final User user = findOneById(userId, userId);
-        if (user == null) return null;
+        final Optional<User> user = findOneById(userId, userId);
         final String hash = HashUtil.salt(password);
-        user.setPasswordHash(hash);
+        user.ifPresent(u -> u.setPasswordHash(hash));
         return user;
     }
 
     @Override
-    public User updateUser(final String userId, final String firstName, final String lastName, final String middleName) {
+    public Optional<User> updateUser(final String userId, final String firstName, final String lastName, final String middleName) {
         if (userId == null || userId.isEmpty()) throw new AccessDeniedException();
-        final User user = findOneById(userId, userId);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setMiddleName(middleName);
+        final Optional<User> user = findOneById(userId, userId);
+        user.ifPresent(u -> {
+            u.setFirstName(firstName);
+            u.setLastName(lastName);
+            u.setMiddleName(middleName);
+        });
         return user;
     }
 
     @Override
-    public User findOneById(String userId, String id) {
+    public Optional<User> findOneById(String userId, String id) {
         if (id == null || id.isEmpty()) throw new EmptyIdException();
         return userRepository.findOneById(userId, id);
     }

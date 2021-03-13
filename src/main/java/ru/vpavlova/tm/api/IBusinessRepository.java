@@ -5,6 +5,7 @@ import ru.vpavlova.tm.entity.AbstractBusinessEntity;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public interface IBusinessRepository<E extends AbstractBusinessEntity> extends IRepository<E> {
 
@@ -16,11 +17,11 @@ public interface IBusinessRepository<E extends AbstractBusinessEntity> extends I
 
     void addAll(String userId, Collection<E> collection);
 
-    E findOneById(String userId, String id);
+    Optional<E> findOneById(String userId, String id);
 
-    E findOneByIndex(String userId, Integer index);
+    Optional<E> findOneByIndex(String userId, Integer index);
 
-    E findOneByName(String userId, String name);
+    Optional<E> findOneByName(String userId, String name);
 
     void clear(String userId);
 

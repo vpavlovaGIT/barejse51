@@ -31,7 +31,7 @@ public final class ProjectCreateCommand extends AbstractProjectCommand {
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
         final Project project = serviceLocator.getProjectService().add(userId, name, description);
-        if (project == null) throw new ProjectNotFoundException();
+        Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
     }
 
 }

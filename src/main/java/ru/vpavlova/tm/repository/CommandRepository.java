@@ -26,7 +26,7 @@ public class CommandRepository implements ICommandRepository {
         final List<String> result = new ArrayList<>();
         for (final AbstractCommand command : commands.values()) {
             final String name = command.name();
-            if (name == null || name.isEmpty()) continue;
+            if (!Optional.ofNullable(name).isPresent() || name.isEmpty()) continue;
             result.add(name);
         }
         return result;
@@ -57,7 +57,7 @@ public class CommandRepository implements ICommandRepository {
     public void add(AbstractCommand command) {
         final String arg = command.arg();
         final String name = command.name();
-        if (arg != null) arguments.put(arg, command);
-        if (name != null) commands.put(name, command);
+        if (Optional.ofNullable(arg).isPresent()) arguments.put(arg, command);
+        if (Optional.ofNullable(name).isPresent()) commands.put(name, command);
     }
 }

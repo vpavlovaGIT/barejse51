@@ -19,6 +19,8 @@ import ru.vpavlova.tm.repository.UserRepository;
 import ru.vpavlova.tm.service.*;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class Bootstrap implements ServiceLocator {
 
     private final ICommandRepository commandRepository = new CommandRepository();
@@ -82,9 +84,9 @@ public class Bootstrap implements ServiceLocator {
     }
 
     public void parseArg(final String arg) {
-        if (arg == null || arg.isEmpty()) return;
+        if (!Optional.ofNullable(arg).isPresent()) return;
         final AbstractCommand command = commandService.getCommandByArg(arg);
-        if (command == null) return;
+        if (!Optional.ofNullable(command).isPresent()) return;
         command.execute();
     }
 
@@ -154,21 +156,21 @@ public class Bootstrap implements ServiceLocator {
     }
 
     public void parseCommand(final String cmd) {
-        if (cmd == null || cmd.isEmpty()) return;
+        if (!Optional.ofNullable(cmd).isPresent()) return;
         final AbstractCommand command = commandService.getCommandByName(cmd);
-        if (command == null) return;
+        if (!Optional.ofNullable(command).isPresent()) return;
         command.execute();
     }
 
     public boolean parseArgs(final String[] args) {
-        if (args == null || args.length == 0) return false;
+        if (!Optional.ofNullable(args).isPresent() || args.length == 0) return false;
         final String arg = args[0];
         parseArg(arg);
         return true;
     }
 
     private void registry(final AbstractCommand command) {
-        if (command == null) return;
+        if (!Optional.ofNullable(command).isPresent()) return;
         command.setServiceLocator(this);
         commandService.add(command);
     }

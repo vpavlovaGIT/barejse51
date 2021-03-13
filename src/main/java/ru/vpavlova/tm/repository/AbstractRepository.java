@@ -6,10 +6,16 @@ import ru.vpavlova.tm.entity.AbstractEntity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public abstract class AbstractRepository<E extends AbstractEntity> implements IRepository<E> {
 
     protected final List<E> entities = new ArrayList<>();
+
+    public Predicate<E> predicateById(final String id) {
+        return e -> id.equals(e.getId());
+    }
 
     @Override
     public List<E> findAll(final String userId) {
@@ -32,13 +38,10 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
     }
 
     @Override
-    public E findOneById(final String userId, final String id) {
-        if (id == null || id.isEmpty()) return null;
-        for (final E entity : entities) {
-            if (entity == null) continue;
-            if (id.equals(entity.getId()) && userId.equals(entity.getUserId())) return entity;
-        }
-        return null;
+    public Optional<E> findOneById(final String userId, final String id) {
+        return entities.stream()
+                .filter(entity -> id.equals(entity.getId()))
+                .findFirst();
     }
 
     @Override
@@ -53,11 +56,9 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
 
     @Override
     public E removeOneById(final String userId, final String id) {
-        final E entity = findOneById(userId, id);
-        if (entity == null) return null;
-        entities.remove(entity);
-        return entity;
+        final Optional<E> entity = findOneById(userId, id);
+        entity.ifPresent(entities::remove);
+        return entity.orElse(null);
     }
-
 
 }

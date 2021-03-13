@@ -5,6 +5,7 @@ import ru.vpavlova.tm.entity.Task;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public interface ITaskRepository extends IBusinessRepository<Task> {
 
@@ -14,12 +15,8 @@ public interface ITaskRepository extends IBusinessRepository<Task> {
 
     List<Task> removeAllByProjectId(String userId, String projectId);
 
-    Task bindTaskByProject(String userId, String projectId, String taskId);
+    Optional<Task> bindTaskByProject(String userId, String projectId, String taskId);
 
-    Task unbindTaskFromProject(String userId, String taskId);
-
-    Task findOneByName(String userId, String name);
-
-    Task removeOneByName(String userId, String name);
+    Optional<Task> unbindTaskFromProject(String userId, String taskId);
 
 }

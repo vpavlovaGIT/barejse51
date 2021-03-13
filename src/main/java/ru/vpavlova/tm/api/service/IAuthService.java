@@ -2,9 +2,11 @@ package ru.vpavlova.tm.api.service;
 
 import ru.vpavlova.tm.entity.User;
 
+import java.util.Optional;
+
 public interface IAuthService {
 
-    User getUser();
+    Optional<User> getUser();
 
     String getUserId();
 

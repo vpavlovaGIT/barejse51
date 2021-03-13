@@ -4,11 +4,13 @@ import ru.vpavlova.tm.api.IService;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
 
+import java.util.Optional;
+
 public interface IUserService extends IService<User> {
 
-    User findByLogin(String login);
+    Optional<User> findByLogin(String login);
 
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
     boolean isLoginExists(String login);
 
@@ -24,8 +26,8 @@ public interface IUserService extends IService<User> {
 
     User create(String login, String password, Role role);
 
-    User setPassword(String userId, String password);
+    Optional<User> setPassword(String userId, String password);
 
-    User updateUser(String userId, String firstName, String secondName, String middleName);
+    Optional<User> updateUser(String userId, String firstName, String secondName, String middleName);
 
 }
