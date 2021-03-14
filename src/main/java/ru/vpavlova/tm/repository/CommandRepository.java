@@ -37,7 +37,7 @@ public class CommandRepository implements ICommandRepository {
         final List<String> result = new ArrayList<>();
         for (final AbstractCommand command : commands.values()) {
             final String arg = command.arg();
-            if (arg == null || arg.isEmpty()) continue;
+            if (!Optional.ofNullable(arg).isPresent() || arg.isEmpty()) continue;
             result.add(arg);
         }
         return result;

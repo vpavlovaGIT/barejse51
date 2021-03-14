@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class TaskByIndexFinishCommand extends AbstractTaskCommand {
 
     @Override
@@ -28,8 +30,8 @@ public class TaskByIndexFinishCommand extends AbstractTaskCommand {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Task task = serviceLocator.getTaskService().finishOneByIndex(userId, index);
-        if (task == null) throw new TaskNotFoundException();
+        final Optional<Task> task = serviceLocator.getTaskService().finishOneByIndex(userId, index);
+        if (!task.isPresent()) throw new TaskNotFoundException();
     }
 
 }

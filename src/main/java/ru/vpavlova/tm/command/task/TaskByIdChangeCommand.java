@@ -1,12 +1,14 @@
 package ru.vpavlova.tm.command.task;
 
 import ru.vpavlova.tm.command.AbstractTaskCommand;
+import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public class TaskByIdChangeCommand extends AbstractTaskCommand {
 
@@ -35,8 +37,8 @@ public class TaskByIdChangeCommand extends AbstractTaskCommand {
         final String userId = serviceLocator.getAuthService().getUserId();
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
-        final Task task = serviceLocator.getTaskService().changeOneStatusById(userId, id, status);
-        if (task == null) throw new TaskNotFoundException();
+        final Optional<Task> task = serviceLocator.getTaskService().changeOneStatusById(userId, id, status);
+        if (!task.isPresent()) throw new TaskNotFoundException();
     }
 
 }

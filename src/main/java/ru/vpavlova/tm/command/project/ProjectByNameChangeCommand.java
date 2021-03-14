@@ -7,6 +7,7 @@ import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public class ProjectByNameChangeCommand extends AbstractProjectCommand {
 
@@ -35,8 +36,8 @@ public class ProjectByNameChangeCommand extends AbstractProjectCommand {
         final String userId = serviceLocator.getAuthService().getUserId();
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
-        final Project project = serviceLocator.getProjectService().changeOneStatusByName(userId, name, status);
-        if (project == null) throw new ProjectNotFoundException();
+        final Optional<Project> project = serviceLocator.getProjectService().changeOneStatusByName(userId, name, status);
+        if (!project.isPresent()) throw new ProjectNotFoundException();
     }
 
 }

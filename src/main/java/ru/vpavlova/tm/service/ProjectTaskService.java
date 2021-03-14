@@ -6,8 +6,10 @@ import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.exception.empty.EmptyIdException;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.entity.Task;
+import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProjectTaskService implements IProjectTaskService {
 
@@ -28,7 +30,7 @@ public class ProjectTaskService implements IProjectTaskService {
     }
 
     @Override
-    public Task bindTaskByProject(final String userId, final String projectId, final String taskId) {
+    public Optional<Task> bindTaskByProject(final String userId, final String projectId, final String taskId) {
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
         if (taskId == null || taskId .isEmpty()) throw new EmptyIdException();
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
@@ -36,7 +38,7 @@ public class ProjectTaskService implements IProjectTaskService {
     }
 
     @Override
-    public Task unbindTaskFromProject(final String userId, final String taskId) {
+    public Optional<Task> unbindTaskFromProject(final String userId, final String taskId) {
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (taskId == null || taskId.isEmpty()) throw new EmptyIdException();
         return taskRepository.unbindTaskFromProject(userId, taskId);

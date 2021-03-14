@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class ProjectByIdStartCommand extends AbstractProjectCommand {
 
     @Override
@@ -28,8 +30,8 @@ public class ProjectByIdStartCommand extends AbstractProjectCommand {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Project project = serviceLocator.getProjectService().startOneById(userId, id);
-        if (project == null) throw new ProjectNotFoundException();
+        final Optional<Project> project = serviceLocator.getProjectService().startOneById(userId, id);
+        if (!project.isPresent()) throw new ProjectNotFoundException();
     }
 
 }

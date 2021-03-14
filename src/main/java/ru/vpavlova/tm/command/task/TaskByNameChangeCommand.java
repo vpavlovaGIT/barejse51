@@ -7,6 +7,7 @@ import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public class TaskByNameChangeCommand extends AbstractTaskCommand {
 
@@ -35,8 +36,8 @@ public class TaskByNameChangeCommand extends AbstractTaskCommand {
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Task task = serviceLocator.getTaskService().changeOneStatusByName(userId, name, status);
-        if (task == null) throw new TaskNotFoundException();
+        final Optional<Task> task = serviceLocator.getTaskService().changeOneStatusByName(userId, name, status);
+        if (!task.isPresent()) throw new TaskNotFoundException();
     }
 
 }

@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class TaskByIdUpdateCommand extends AbstractTaskCommand {
 
     @Override
@@ -28,14 +30,14 @@ public class TaskByIdUpdateCommand extends AbstractTaskCommand {
         System.out.println("[UPDATE TASK]");
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
-        final Task task = serviceLocator.getTaskService().findOneById(userId, id);
-        if (task == null) throw new TaskNotFoundException();
+        final Optional<Task> task = serviceLocator.getTaskService().findOneById(userId, id);
+        if (!task.isPresent()) throw new TaskNotFoundException();
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final Task taskUpdatedId = serviceLocator.getTaskService().updateOneById(userId, id, name, description);
-        if (taskUpdatedId == null) throw new TaskNotFoundException();
+        final Optional<Task> taskUpdatedId = serviceLocator.getTaskService().updateOneById(userId, id, name, description);
+        if (!taskUpdatedId.isPresent()) throw new TaskNotFoundException();
     }
 
 }

@@ -5,7 +5,6 @@ import ru.vpavlova.tm.api.service.IUserService;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.exception.empty.*;
-import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.user.AccessDeniedException;
 import ru.vpavlova.tm.exception.user.EmailExistsException;
 import ru.vpavlova.tm.exception.user.LoginExistsException;
@@ -37,13 +36,13 @@ public class UserService extends AbstractService<User> implements IUserService {
     @Override
     public boolean isLoginExists(final String login) {
         if (login == null || login.isEmpty()) return false;
-        return findByLogin(login) != null;
+        return findByLogin(login).isPresent();
     }
 
     @Override
     public boolean isEmailExists(final String email) {
         if (email == null || email.isEmpty()) return false;
-        return findByEmail(email) != null;
+        return findByEmail(email).isPresent();
     }
 
     @Override

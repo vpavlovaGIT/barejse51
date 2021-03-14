@@ -7,6 +7,7 @@ import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class ProjectListCommand extends AbstractProjectCommand {
 
@@ -33,11 +34,11 @@ public class ProjectListCommand extends AbstractProjectCommand {
         final String userId = serviceLocator.getAuthService().getUserId();
         final String sort = TerminalUtil.nextLine();
         List<Project> list;
-        if (sort == null || sort.isEmpty()) list = serviceLocator.getProjectService().findAll(userId);
+        if (!Optional.ofNullable(sort).isPresent()) list = serviceLocator.getProjectService().findAll(userId);
         else {
             final Sort sortType = Sort.valueOf(sort);
             System.out.println(sortType.getDisplayName());
-            list = serviceLocator.getProjectService().findAll(sortType.getComparator());
+            list = serviceLocator.getProjectService().findAll(userId, sortType.getComparator());
         }
         int index = 1;
         for (final Project project : list) {

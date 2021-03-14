@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class ProjectByIndexStartCommand extends AbstractProjectCommand {
 
     @Override
@@ -28,8 +30,8 @@ public class ProjectByIndexStartCommand extends AbstractProjectCommand {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Project project = serviceLocator.getProjectService().startOneByIndex(userId, index);
-        if (project == null) throw new ProjectNotFoundException();
+        final Optional<Project> project = serviceLocator.getProjectService().startOneByIndex(userId, index);
+        if (!project.isPresent()) throw new ProjectNotFoundException();
     }
 
 }

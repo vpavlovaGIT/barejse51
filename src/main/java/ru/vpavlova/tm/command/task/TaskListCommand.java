@@ -7,6 +7,7 @@ import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class TaskListCommand extends AbstractTaskCommand {
 
@@ -33,7 +34,7 @@ public class TaskListCommand extends AbstractTaskCommand {
         final String sort = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
         List<Task> tasks;
-        if (sort == null || sort.isEmpty()) tasks = serviceLocator.getTaskService().findAll(userId);
+        if (!Optional.ofNullable(sort).isPresent()) tasks = serviceLocator.getTaskService().findAll(userId);
         else {
             final Sort sortType = Sort.valueOf(sort);
             System.out.println(sortType.getDisplayName());

@@ -1,16 +1,15 @@
 package ru.vpavlova.tm.enumerated;
 
-import ru.vpavlova.tm.comparator.*;
+import ru.vpavlova.tm.api.entity.*;
 
 import java.util.Comparator;
 
 public enum Sort {
 
-    NAME("Sort by name", ComparatorByName.getInstance()),
-    CREATED( "Sort by created", ComparatorByCreated.getInstance()),
-    DATE_START("Sort by date start", ComparatorByDateStart.getInstance()),
-    DATE_FINISH("Sort by date finish", ComparatorByDateFinish.getInstance()),
-    STATUS("Sort by status", ComparatorByStatus.getInstance());
+    NAME("Sort by name", Comparator.comparing(IHasName::getName)),
+    CREATED("Sort by created", Comparator.comparing(IHasCreated::getCreated)),
+    START_DATE("Sort by date start", Comparator.comparing(IHasDateStart::getDateStart)),
+    STATUS("Sort by status", Comparator.comparing(IHasStatus::getStatus));
 
     private final String displayName;
 

@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class TaskByIdStartCommand extends AbstractTaskCommand {
 
     @Override
@@ -28,8 +30,8 @@ public class TaskByIdStartCommand extends AbstractTaskCommand {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Task task = serviceLocator.getTaskService().startOneById(userId, id);
-        if (task == null) throw new TaskNotFoundException();
+        final Optional<Task> task = serviceLocator.getTaskService().startOneById(userId, id);
+        if (!task.isPresent()) throw new TaskNotFoundException();
     }
 
 }

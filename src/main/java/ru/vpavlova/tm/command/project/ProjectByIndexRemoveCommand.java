@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class ProjectByIndexRemoveCommand extends AbstractProjectCommand {
 
     @Override
@@ -28,8 +30,8 @@ public class ProjectByIndexRemoveCommand extends AbstractProjectCommand {
         System.out.println("[REMOVE PROJECT]");
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
-        final Project project = serviceLocator.getProjectService().removeOneByIndex(userId, index);
-        if (project == null) throw new ProjectNotFoundException();
+        final Optional<Project> project = serviceLocator.getProjectService().findOneByIndex(userId, index);
+        Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
         showProject(project);
     }
 

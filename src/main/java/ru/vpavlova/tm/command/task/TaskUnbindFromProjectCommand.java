@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class TaskUnbindFromProjectCommand extends AbstractTaskCommand {
 
     @Override
@@ -28,8 +30,8 @@ public class TaskUnbindFromProjectCommand extends AbstractTaskCommand {
         System.out.println("[ENTER PROJECT ID:]");
         final String taskId = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Task task = serviceLocator.getProjectTaskService().unbindTaskFromProject(userId, taskId);
-        if (task == null) throw new TaskNotFoundException();
+        final Optional<Task> task = serviceLocator.getProjectTaskService().unbindTaskFromProject(userId, taskId);
+        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
         System.out.println("TASK REMOVE FROM PROJECT");
     }
 
