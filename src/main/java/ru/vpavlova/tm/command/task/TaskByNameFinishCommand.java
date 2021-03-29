@@ -30,8 +30,8 @@ public class TaskByNameFinishCommand extends AbstractTaskCommand {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Optional<Task> task = serviceLocator.getTaskService().finishOneByName(userId, name);
-        if (!task.isPresent()) throw new TaskNotFoundException();
+        final Optional<Task> task = serviceLocator.getTaskService().finishByName(userId, name);
+        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
     }
 
 }

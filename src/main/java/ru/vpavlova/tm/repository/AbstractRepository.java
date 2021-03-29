@@ -18,10 +18,7 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
     }
 
     @Override
-    public List<E> findAll(final String userId) {
-        for (E entity : entities) {
-            if (userId.equals(entity.getUserId())) entities.add(entity);
-        }
+    public List<E> findAll() {
         return entities;
     }
 
@@ -32,13 +29,7 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
     }
 
     @Override
-    public void addAll(final Collection<E> collection) {
-        if (collection == null) return;
-        entities.addAll(collection);
-    }
-
-    @Override
-    public Optional<E> findOneById(final String userId, final String id) {
+    public Optional<E> findById(final String id) {
         return entities.stream()
                 .filter(entity -> id.equals(entity.getId()))
                 .findFirst();
@@ -55,8 +46,8 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
     }
 
     @Override
-    public E removeOneById(final String userId, final String id) {
-        final Optional<E> entity = findOneById(userId, id);
+    public E removeById(final String id) {
+        final Optional<E> entity = findById(id);
         entity.ifPresent(entities::remove);
         return entity.orElse(null);
     }

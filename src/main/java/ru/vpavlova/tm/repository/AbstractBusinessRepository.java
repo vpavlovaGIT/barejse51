@@ -34,6 +34,14 @@ public abstract class AbstractBusinessRepository<E extends AbstractBusinessEntit
     }
 
     @Override
+    public List<E> findAll(final String userId, final Comparator<E> comparator) {
+        return entities.stream()
+                .filter(predicateByUserId(userId))
+                .sorted(comparator)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public E add(final String userId, final E entity) {
         entity.setUserId(userId);
         entities.add(entity);
@@ -41,16 +49,7 @@ public abstract class AbstractBusinessRepository<E extends AbstractBusinessEntit
     }
 
     @Override
-    public void addAll(final String userId, final Collection<E> collection) {
-        if (collection == null) return;
-        for (final E entity : collection) {
-            entity.setUserId(userId);
-        }
-        entities.addAll(collection);
-    }
-
-    @Override
-    public Optional<E> findOneById(final String userId, final String id) {
+    public Optional<E> findById(final String userId, final String id) {
         return entities.stream()
                 .filter(predicateByUserId(userId))
                 .filter(predicateById(id))
@@ -58,7 +57,7 @@ public abstract class AbstractBusinessRepository<E extends AbstractBusinessEntit
     }
 
     @Override
-    public Optional<E> findOneByIndex(final String userId, final Integer index) {
+    public Optional<E> findByIndex(final String userId, final Integer index) {
         return entities.stream()
                 .filter(predicateByUserId(userId))
                 .skip(index)
@@ -66,7 +65,7 @@ public abstract class AbstractBusinessRepository<E extends AbstractBusinessEntit
     }
 
     @Override
-    public Optional<E> findOneByName(final String userId, final String name) {
+    public Optional<E> findByName(final String userId, final String name) {
         return entities.stream()
                 .filter(predicateByUserId(userId))
                 .filter(predicateByName(name))
@@ -82,24 +81,24 @@ public abstract class AbstractBusinessRepository<E extends AbstractBusinessEntit
     }
 
     @Override
-    public E removeOneById(final String userId, final String id) {
-        final Optional<E> entity = findOneById(userId, id);
+    public E removeById(final String userId, final String id) {
+        final Optional<E> entity = findById(userId, id);
         entity.ifPresent(this::remove);
         entity.orElseThrow(ObjectNotFoundException::new);
         return entity.orElse(null);
     }
 
     @Override
-    public E removeOneByIndex(final String userId, final Integer index) {
-        final Optional<E> entity = findOneByIndex(userId, index);
+    public E removeByIndex(final String userId, final Integer index) {
+        final Optional<E> entity = findByIndex(userId, index);
         entity.ifPresent(this::remove);
         entity.orElseThrow(ObjectNotFoundException::new);
         return entity.orElse(null);
     }
 
     @Override
-    public E removeOneByName(final String userId, final String name) {
-        final Optional<E> entity = findOneByName(userId, name);
+    public E removeByName(final String userId, final String name) {
+        final Optional<E> entity = findByName(userId, name);
         entity.ifPresent(this::remove);
         entity.orElseThrow(ObjectNotFoundException::new);
         return entity.orElse(null);

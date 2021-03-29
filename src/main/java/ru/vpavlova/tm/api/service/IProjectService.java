@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface IProjectService extends IBusinessService<Project> {
 
-    List<Project> findAll(Comparator<Project> comparator);
-
     Project add(String userId, String name, String description);
 
 }

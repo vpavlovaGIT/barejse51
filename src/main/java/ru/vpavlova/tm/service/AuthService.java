@@ -23,7 +23,7 @@ public class AuthService implements IAuthService {
     @Override
     public Optional<User> getUser() {
         final String userId = getUserId();
-        return userService.findOneById(userId, userId);
+        return userService.findById(userId);
     }
 
     @Override

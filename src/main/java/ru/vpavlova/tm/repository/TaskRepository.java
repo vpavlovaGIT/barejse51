@@ -39,7 +39,7 @@ public class TaskRepository extends AbstractBusinessRepository<Task> implements 
 
     @Override
     public Optional<Task> bindTaskByProject(final String userId, final String projectId, final String taskId) {
-        final Optional<Task> task = findOneById(userId, taskId);
+        final Optional<Task> task = findById(userId, taskId);
         if (!task.isPresent()) return Optional.empty();
         task.get().setProjectId(projectId);
         return task;
@@ -47,7 +47,7 @@ public class TaskRepository extends AbstractBusinessRepository<Task> implements 
 
     @Override
     public Optional<Task> unbindTaskFromProject(final String userId, final String taskId) {
-        final Optional<Task> task = findOneById(userId, taskId);
+        final Optional<Task> task = findById(userId, taskId);
         if (!task.isPresent()) return Optional.empty();
         task.get().setProjectId(null);
         return task;

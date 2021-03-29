@@ -1,7 +1,11 @@
 package ru.vpavlova.tm.command.user;
 
 import ru.vpavlova.tm.command.AbstractCommand;
+import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
+
+import java.util.Optional;
 
 public class UserUpdateCommand extends AbstractCommand {
 
@@ -30,7 +34,8 @@ public class UserUpdateCommand extends AbstractCommand {
         final String lastName = TerminalUtil.nextLine();
         System.out.println("ENTER MIDDLE NAME:");
         final String middleName = TerminalUtil.nextLine();
-        serviceLocator.getUserService().updateUser(userId, firstName, lastName, middleName);
+        final Optional<User> user = serviceLocator.getUserService().updateUser(userId, firstName, lastName, middleName);
+        Optional.ofNullable(user).orElseThrow(ObjectNotFoundException::new);
     }
 
 }

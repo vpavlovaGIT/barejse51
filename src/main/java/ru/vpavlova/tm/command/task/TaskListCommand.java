@@ -38,7 +38,7 @@ public class TaskListCommand extends AbstractTaskCommand {
         else {
             final Sort sortType = Sort.valueOf(sort);
             System.out.println(sortType.getDisplayName());
-            tasks = serviceLocator.getTaskService().findAll(sortType.getComparator());
+            tasks = serviceLocator.getTaskService().findAll(userId, sortType.getComparator());
         }
         int index = 1;
         for (final Task task : tasks) {

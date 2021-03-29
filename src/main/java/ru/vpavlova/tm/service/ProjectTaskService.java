@@ -49,7 +49,7 @@ public class ProjectTaskService implements IProjectTaskService {
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
         taskRepository.removeAllByProjectId(userId, projectId);
-        return projectRepository.removeOneById(userId, projectId);
+        return projectRepository.removeById(userId, projectId);
     }
 
 }

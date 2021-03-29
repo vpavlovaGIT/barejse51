@@ -18,12 +18,6 @@ public class ProjectService extends AbstractBusinessService<Project> implements 
     }
 
     @Override
-    public List<Project> findAll(Comparator<Project> comparator) {
-        if (comparator == null) return null;
-        return projectRepository.findAll(comparator);
-    }
-
-    @Override
     public Project add(final String userId, final String name, final String description) {
         if (name == null || name.isEmpty()) throw new EmptyNameException();
         if (description == null || description.isEmpty()) return null;

@@ -3,6 +3,7 @@ package ru.vpavlova.tm.command.system;
 import ru.vpavlova.tm.command.AbstractCommand;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class ArgumentsListCommand extends AbstractCommand {
 
@@ -25,7 +26,8 @@ public class ArgumentsListCommand extends AbstractCommand {
     public void execute() {
         final Collection<String> arguments = serviceLocator.getCommandService().getListArgumentName();
         for (final String argument: arguments) {
-            if (argument != null) System.out.println(argument);
+            if (!Optional.ofNullable(argument).isPresent()) continue;
+            System.out.println(argument);
         }
     }
 

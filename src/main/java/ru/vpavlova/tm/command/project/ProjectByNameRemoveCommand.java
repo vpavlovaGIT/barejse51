@@ -30,7 +30,7 @@ public class ProjectByNameRemoveCommand extends AbstractProjectCommand {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Project project = serviceLocator.getProjectService().removeOneByName(userId, name);
+        final Project project = serviceLocator.getProjectService().removeByName(userId, name);
         Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
     }
 

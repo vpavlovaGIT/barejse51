@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class ProjectAndTaskByIdRemoveCommand extends AbstractProjectCommand {
 
     @Override
@@ -29,7 +31,7 @@ public class ProjectAndTaskByIdRemoveCommand extends AbstractProjectCommand {
         final String projectId = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
         final Project project = serviceLocator.getProjectTaskService().removeProjectById(userId, projectId);
-        if (project == null) throw new ProjectNotFoundException();
+        Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
     }
 
 }

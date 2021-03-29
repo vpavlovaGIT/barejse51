@@ -30,7 +30,7 @@ public class ProjectByIdViewCommand extends AbstractProjectCommand {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Optional<Project> project = serviceLocator.getProjectService().findOneById(userId, id);
+        final Optional<Project> project = serviceLocator.getProjectService().findById(userId, id);
         Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
         showProject(project);
     }

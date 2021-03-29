@@ -30,8 +30,8 @@ public class ProjectByIdFinishCommand extends AbstractProjectCommand {
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Optional<Project> project = serviceLocator.getProjectService().finishOneById(userId, id);
-        if (!project.isPresent()) throw new ProjectNotFoundException();
+        final Optional<Project> project = serviceLocator.getProjectService().finishById(userId, id);
+        Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
     }
     
 }

@@ -12,6 +12,7 @@ import ru.vpavlova.tm.command.task.*;
 import ru.vpavlova.tm.command.user.*;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.enumerated.Status;
+import ru.vpavlova.tm.exception.system.UnknownCommandException;
 import ru.vpavlova.tm.repository.CommandRepository;
 import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.repository.TaskRepository;
@@ -45,49 +46,28 @@ public class Bootstrap implements ServiceLocator {
 
     private final IAuthService authService = new AuthService(userService);
 
-    private void initData() {
-        projectService.add("1","DEMO 1", "description1").setStatus(Status.COMPLETE);
-        projectService.add("2","BETA 2", "description2").setStatus(Status.IN_PROGRESS);
-        projectService.add("3","LAMBDA 3", "description3").setStatus(Status.IN_PROGRESS);
-        projectService.add("4","OMEGA 4", "description4").setStatus(Status.NOT_STARTED);
-        projectService.add("5","GAMMA 5", "description5").setStatus(Status.COMPLETE);
-
-        taskService.add("1","A_TASK 1", "aaa").setStatus(Status.COMPLETE);
-        taskService.add("2","D_TASK 2", "ddd").setStatus(Status.IN_PROGRESS);
-        taskService.add("3","E_TASK 3", "eee").setStatus(Status.IN_PROGRESS);
-        taskService.add("4","B_TASK 4", "bbb").setStatus(Status.NOT_STARTED);
-        taskService.add("5","C_TASK 5", "ccc").setStatus(Status.COMPLETE);
-    }
-
-    private void initUsers() {
-        userService.create("test", "test", "user@mail.ru");
-        userService.create("admin", "admin", Role.ADMIN);
-    }
-
-    public void run(final String... args) {
-        loggerService.debug("TEST!!");
-        loggerService.info("*** WELCOME TO TASK MANAGER ***");
-        if (parseArgs(args)) System.exit(0);
-        initData();
-        initUsers();
-        while (true) {
-            try {
-                final String command = TerminalUtil.nextLine();
-                loggerService.command(command);
-                parseCommand(command);
-                System.out.println("[OK]");
-            } catch (final Exception e) {
-                loggerService.error(e);
-                System.err.println("[FAIL]");
-            }
-        }
-    }
-
     public void parseArg(final String arg) {
-        if (!Optional.ofNullable(arg).isPresent()) return;
+        if (arg == null || arg.isEmpty()) return;
         final AbstractCommand command = commandService.getCommandByArg(arg);
-        if (!Optional.ofNullable(command).isPresent()) return;
+        if (command == null) return;
         command.execute();
+    }
+
+    public void initData() {
+        String userId = userService.create("test", "test", "test@test.ru").getId();
+        projectService.add(userId, "DEMO 1", "description1").setStatus(Status.COMPLETE);
+        projectService.add(userId, "BETA 2", "description2").setStatus(Status.IN_PROGRESS);
+        projectService.add(userId, "LAMBDA 3", "description3").setStatus(Status.IN_PROGRESS);
+        taskService.add(userId, "B_TASK 4", "bbb").setStatus(Status.NOT_STARTED);
+        taskService.add(userId, "C_TASK 5", "ccc").setStatus(Status.COMPLETE);
+        taskService.add(userId, "C_TASK 6", "ccc").setStatus(Status.COMPLETE);
+        String adminId = userService.create("admin", "admin", Role.ADMIN).getId();
+        projectService.add(adminId, "OMEGA 4", "description4").setStatus(Status.NOT_STARTED);
+        projectService.add(adminId, "GAMMA 5", "description5").setStatus(Status.COMPLETE);
+        projectService.add(adminId, "GAMMA 6", "description6").setStatus(Status.IN_PROGRESS);
+        taskService.add(adminId, "A_TASK 1", "aaa").setStatus(Status.COMPLETE);
+        taskService.add(adminId, "D_TASK 2", "ddd").setStatus(Status.IN_PROGRESS);
+        taskService.add(adminId, "E_TASK 3", "eee").setStatus(Status.IN_PROGRESS);
     }
 
     {
@@ -149,10 +129,27 @@ public class Bootstrap implements ServiceLocator {
         registry(new UserLoginCommand());
         registry(new UserLogoutCommand());
         registry(new UserRegistryCommand());
-        registry(new UserRemoveByIdCommand());
         registry(new UserRemoveByLoginCommand());
         registry(new UserUpdateCommand());
         registry(new UserViewCommand());
+    }
+
+    public void run(final String... args) {
+        loggerService.debug("TEST!!");
+        loggerService.info("*** WELCOME TO TASK MANAGER ***");
+        if (parseArgs(args)) System.exit(0);
+        initData();
+        while (true) {
+            try {
+                final String command = TerminalUtil.nextLine();
+                loggerService.command(command);
+                parseCommand(command);
+                System.out.println("[OK]");
+            } catch (final Exception e) {
+                loggerService.error(e);
+                System.err.println("[FAIL]");
+            }
+        }
     }
 
     public void parseCommand(final String cmd) {

@@ -22,12 +22,6 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
     }
 
     @Override
-    public User removeUser(final User user) {
-        entities.remove(user);
-        return user;
-    }
-
-    @Override
     public User removeByLogin(final String login) {
         final Optional<User> entity = findByLogin(login);
         entity.ifPresent(this::remove);

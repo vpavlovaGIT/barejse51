@@ -30,8 +30,8 @@ public class TaskByIndexFinishCommand extends AbstractTaskCommand {
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Optional<Task> task = serviceLocator.getTaskService().finishOneByIndex(userId, index);
-        if (!task.isPresent()) throw new TaskNotFoundException();
+        final Optional<Task> task = serviceLocator.getTaskService().finishByIndex(userId, index);
+        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
     }
 
 }

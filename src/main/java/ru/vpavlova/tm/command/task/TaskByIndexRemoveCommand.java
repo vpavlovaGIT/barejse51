@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public class TaskByIndexRemoveCommand extends AbstractTaskCommand {
 
     @Override
@@ -28,8 +30,8 @@ public class TaskByIndexRemoveCommand extends AbstractTaskCommand {
         System.out.println("[REMOVE TASK]");
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
-        final Task task = serviceLocator.getTaskService().removeOneByIndex(userId, index);
-        if (task == null) throw new TaskNotFoundException();
+        final Task task = serviceLocator.getTaskService().removeByIndex(userId, index);
+        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
         showTask(task);
     }
 

@@ -8,18 +8,6 @@ import java.util.Optional;
 
 public interface IUserService extends IService<User> {
 
-    Optional<User> findByLogin(String login);
-
-    Optional<User> findByEmail(String email);
-
-    boolean isLoginExists(String login);
-
-    boolean isEmailExists(String email);
-
-    User removeUser(User user);
-
-    User removeByLogin(String login);
-
     User create(String login, String password);
 
     User create(String login, String password, String email);
@@ -28,6 +16,17 @@ public interface IUserService extends IService<User> {
 
     Optional<User> setPassword(String userId, String password);
 
-    Optional<User> updateUser(String userId, String firstName, String secondName, String middleName);
+    Optional<User> findByLogin(String login);
+
+    Optional<User> findByEmail(String email);
+
+    boolean isLoginExist(String login);
+
+    boolean isEmailExist(String email);
+
+    Optional<User> updateUser(String userId, String firstName, String lastName, String middleName);
+
+    User removeByLogin(String login);
+
 
 }

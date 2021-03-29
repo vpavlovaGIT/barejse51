@@ -11,8 +11,6 @@ public interface IUserRepository extends IRepository<User> {
 
     Optional<User> findByEmail(String email);
 
-    User removeUser(User user);
-
     User removeByLogin(String login);
 
 }

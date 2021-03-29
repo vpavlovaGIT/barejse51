@@ -30,14 +30,14 @@ public class TaskByIdUpdateCommand extends AbstractTaskCommand {
         System.out.println("[UPDATE TASK]");
         System.out.println("ENTER ID:");
         final String id = TerminalUtil.nextLine();
-        final Optional<Task> task = serviceLocator.getTaskService().findOneById(userId, id);
-        if (!task.isPresent()) throw new TaskNotFoundException();
+        final Optional<Task> task = serviceLocator.getTaskService().findById(userId, id);
+        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         final String description = TerminalUtil.nextLine();
-        final Optional<Task> taskUpdatedId = serviceLocator.getTaskService().updateOneById(userId, id, name, description);
-        if (!taskUpdatedId.isPresent()) throw new TaskNotFoundException();
+        final Optional<Task> taskUpdatedId = serviceLocator.getTaskService().updateById(userId, id, name, description);
+        Optional.ofNullable(taskUpdatedId).orElseThrow(TaskNotFoundException::new);
     }
 
 }

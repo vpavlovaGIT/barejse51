@@ -13,6 +13,9 @@ public abstract class AbstractProjectCommand extends AbstractCommand {
         System.out.println("NAME: " + project.get().getName());
         System.out.println("DESCRIPTION: " + project.get().getDescription());
         System.out.println("STATUS: " + project.get().getStatus().getDisplayName());
+        System.out.println("Start Date: " + project.get().getDateStart());
+        System.out.println("Finish Date: " + project.get().getDateFinish());
+        System.out.println("Created: " + project.get().getCreated());
     }
 
 }

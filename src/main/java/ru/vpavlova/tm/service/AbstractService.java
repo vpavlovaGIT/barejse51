@@ -19,20 +19,20 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
     }
 
     @Override
-    public List<E> findAll(final String userId) {
-        return repository.findAll(userId);
+    public List<E> findAll() {
+        return repository.findAll();
     }
 
     @Override
     public E add(final E entity) {
-        if (entity == null) return null;
+        if (!Optional.ofNullable(entity).isPresent()) throw new ObjectNotFoundException();
         return repository.add(entity);
     }
 
     @Override
-    public void addAll(final Collection<E> collection) {
-        if (collection == null || collection.isEmpty()) return;
-        repository.addAll(collection);
+    public Optional<E> findById(final String id) {
+        if (id == null || id.isEmpty()) throw new EmptyIdException();
+        return repository.findById(id);
     }
 
     @Override
@@ -41,15 +41,15 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
     }
 
     @Override
-    public void remove(final E entity) {
-        if (!Optional.ofNullable(entity).isPresent()) throw new ObjectNotFoundException();
-        repository.remove(entity);
+    public E removeById(final String id) {
+        if (id == null || id.isEmpty()) throw new EmptyIdException();
+        return repository.removeById(id);
     }
 
     @Override
-    public E removeOneById(final String userId, final String id) {
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return repository.removeOneById(userId, id);
+    public void remove(final E entity) {
+        if (!Optional.ofNullable(entity).isPresent()) throw new ObjectNotFoundException();
+        repository.remove(entity);
     }
 
 }

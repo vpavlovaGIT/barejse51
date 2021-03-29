@@ -30,8 +30,8 @@ public class ProjectByIndexViewCommand extends AbstractProjectCommand {
         System.out.println("[SHOW PROJECT]");
         System.out.println("ENTER INDEX:");
         final Integer index = TerminalUtil.nextNumber() - 1;
-        final Optional<Project> project = serviceLocator.getProjectService().findOneByIndex(userId, index);
-        if (!project.isPresent()) throw new ProjectNotFoundException();
+        final Optional<Project> project = serviceLocator.getProjectService().findByIndex(userId, index);
+        Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
         showProject(project);
     }
 

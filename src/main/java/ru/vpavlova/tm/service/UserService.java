@@ -33,22 +33,17 @@ public class UserService extends AbstractService<User> implements IUserService {
         return userRepository.findByEmail(email);
     }
 
+
     @Override
-    public boolean isLoginExists(final String login) {
+    public boolean isLoginExist(final String login) {
         if (login == null || login.isEmpty()) return false;
         return findByLogin(login).isPresent();
     }
 
     @Override
-    public boolean isEmailExists(final String email) {
+    public boolean isEmailExist(final String email) {
         if (email == null || email.isEmpty()) return false;
         return findByEmail(email).isPresent();
-    }
-
-    @Override
-    public User removeUser(final User user) {
-        if (user == null) return null;
-        return userRepository.removeUser(user);
     }
 
     @Override
@@ -73,8 +68,8 @@ public class UserService extends AbstractService<User> implements IUserService {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
         if (email == null || email.isEmpty()) throw new EmptyEmailException();
-        if (isLoginExists(login)) throw new LoginExistsException();
-        if (isEmailExists(email)) throw new EmailExistsException();
+        if (isLoginExist(login)) throw new LoginExistsException();
+        if (isEmailExist(email)) throw new EmailExistsException();
         final User user = create(login, password);
         if (user == null) return null;
         user.setEmail(email);
@@ -96,7 +91,7 @@ public class UserService extends AbstractService<User> implements IUserService {
     public Optional<User> setPassword(final String userId, final String password) {
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
-        final Optional<User> user = findOneById(userId, userId);
+        final Optional<User> user = findById(userId);
         final String hash = HashUtil.salt(password);
         user.ifPresent(u -> u.setPasswordHash(hash));
         return user;
@@ -105,19 +100,13 @@ public class UserService extends AbstractService<User> implements IUserService {
     @Override
     public Optional<User> updateUser(final String userId, final String firstName, final String lastName, final String middleName) {
         if (userId == null || userId.isEmpty()) throw new AccessDeniedException();
-        final Optional<User> user = findOneById(userId, userId);
+        final Optional<User> user = findById(userId);
         user.ifPresent(u -> {
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setMiddleName(middleName);
         });
         return user;
-    }
-
-    @Override
-    public Optional<User> findOneById(String userId, String id) {
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return userRepository.findOneById(userId, id);
     }
 
 }

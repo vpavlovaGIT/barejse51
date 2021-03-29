@@ -30,7 +30,7 @@ public class ProjectByNameViewCommand extends AbstractProjectCommand {
         System.out.println("ENTER NAME:");
         final String name = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Optional<Project> project = serviceLocator.getProjectService().findOneByName(userId, name);
+        final Optional<Project> project = serviceLocator.getProjectService().findByName(userId, name);
         Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
         showProject(project);
     }

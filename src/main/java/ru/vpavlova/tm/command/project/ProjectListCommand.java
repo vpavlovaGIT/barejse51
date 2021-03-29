@@ -38,7 +38,7 @@ public class ProjectListCommand extends AbstractProjectCommand {
         else {
             final Sort sortType = Sort.valueOf(sort);
             System.out.println(sortType.getDisplayName());
-            list = serviceLocator.getProjectService().findAll(sortType.getComparator());
+            list = serviceLocator.getProjectService().findAll(userId, sortType.getComparator());
         }
         int index = 1;
         for (final Project project : list) {

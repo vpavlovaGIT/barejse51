@@ -5,6 +5,8 @@ import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.util.Optional;
+
 public final class TaskByIdRemoveCommand extends AbstractTaskCommand {
     @Override
     public String arg() {
@@ -27,8 +29,8 @@ public final class TaskByIdRemoveCommand extends AbstractTaskCommand {
         System.out.println("ENTER ID:");
         final String taskId = TerminalUtil.nextLine();
         final String userId = serviceLocator.getAuthService().getUserId();
-        final Task task = serviceLocator.getTaskService().removeOneById(userId, taskId);
-        if (task == null) throw new TaskNotFoundException();
+        final Task task = serviceLocator.getTaskService().removeById(userId, taskId);
+        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
     }
 
 }

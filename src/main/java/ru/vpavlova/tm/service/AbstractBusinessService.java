@@ -10,6 +10,7 @@ import ru.vpavlova.tm.exception.empty.EmptyUserIdException;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.system.IndexIncorrectException;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,12 @@ public abstract class AbstractBusinessService<E extends AbstractBusinessEntity> 
     }
 
     @Override
+    public List<E> findAll(final String userId, final Comparator<E> comparator) {
+        if (!Optional.ofNullable(comparator).isPresent()) return null;
+        return repository.findAll(userId, comparator);
+    }
+
+    @Override
     public E add(final String userId, final E entity) {
         if (!Optional.ofNullable(userId).isPresent()) return null;
         if (!Optional.ofNullable(entity).isPresent()) throw new ObjectNotFoundException();
@@ -37,24 +44,24 @@ public abstract class AbstractBusinessService<E extends AbstractBusinessEntity> 
     }
 
     @Override
-    public Optional<E> findOneById(final String userId, final String id) {
+    public Optional<E> findById(final String userId, final String id) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return repository.findOneById(userId, id);
+        return repository.findById(userId, id);
     }
 
     @Override
-    public Optional<E> findOneByIndex(final String userId, Integer index) {
+    public Optional<E> findByIndex(final String userId, Integer index) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (index == null || index < 0) throw new IndexIncorrectException();
-        return repository.findOneByIndex(userId, index);
+        return repository.findByIndex(userId, index);
     }
 
     @Override
-    public Optional<E> findOneByName(final String userId, final String name) {
+    public Optional<E> findByName(final String userId, final String name) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (name == null || name.isEmpty()) throw new EmptyNameException();
-        return repository.findOneByName(userId, name);
+        return repository.findByName(userId, name);
     }
 
     @Override
@@ -71,32 +78,32 @@ public abstract class AbstractBusinessService<E extends AbstractBusinessEntity> 
     }
 
     @Override
-    public E removeOneById(final String userId, final String id) {
+    public E removeById(final String userId, final String id) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (id == null || id.isEmpty()) throw new EmptyIdException();
-        return repository.removeOneById(userId, id);
+        return repository.removeById(userId, id);
     }
 
     @Override
-    public E removeOneByIndex(final String userId, final Integer index) {
+    public E removeByIndex(final String userId, final Integer index) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (index == null || index < 0) throw new IndexIncorrectException();
-        return repository.removeOneByIndex(userId, index);
+        return repository.removeByIndex(userId, index);
     }
 
     @Override
-    public E removeOneByName(final String userId, final String name) {
+    public E removeByName(final String userId, final String name) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (name == null || name.isEmpty()) throw new EmptyNameException();
-        return repository.removeOneByName(userId, name);
+        return repository.removeByName(userId, name);
     }
 
     @Override
-    public Optional<E> updateOneById(final String userId, final String id, final String name, final String description) {
+    public Optional<E> updateById(final String userId, final String id, final String name, final String description) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (id == null || id.isEmpty()) throw new EmptyIdException();
         if (name == null || name.isEmpty()) throw new EmptyNameException();
-        final Optional<E> entity = findOneById(userId, id);
+        final Optional<E> entity = findById(userId, id);
         entity.ifPresent(e -> {
             e.setId(id);
             e.setName(name);
@@ -107,11 +114,11 @@ public abstract class AbstractBusinessService<E extends AbstractBusinessEntity> 
     }
 
     @Override
-    public Optional<E> updateOneByIndex(final String userId, final Integer index, final String name, final String description) {
+    public Optional<E> updateByIndex(final String userId, final Integer index, final String name, final String description) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (index == null || index < 0) throw new IndexIncorrectException();
         if (name == null || name.isEmpty()) throw new EmptyNameException();
-        final Optional<E> entity = findOneByIndex(userId, index);
+        final Optional<E> entity = findByIndex(userId, index);
         entity.ifPresent(e -> {
             e.setName(name);
             e.setDescription(description);
@@ -121,87 +128,91 @@ public abstract class AbstractBusinessService<E extends AbstractBusinessEntity> 
     }
 
     @Override
-    public Optional<E> startOneById(final String userId, String id) {
+    public Optional<E> startById(final String userId, String id) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (id == null || id.isEmpty()) throw new EmptyIdException();
-        final Optional<E> entity = findOneById(userId, id);
+        final Optional<E> entity = findById(userId, id);
         entity.ifPresent(e -> e.setStatus(Status.IN_PROGRESS));
         entity.orElseThrow(ObjectNotFoundException::new);
         return entity;
     }
 
     @Override
-    public Optional<E> startOneByIndex(final String userId, Integer index) {
-        if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
-        if (index == null || index < 0) throw new IndexIncorrectException();final Optional<E> entity = findOneByIndex(userId, index);
-        entity.ifPresent(e -> e.setStatus(Status.IN_PROGRESS));
-        entity.orElseThrow(ObjectNotFoundException::new);
-        return entity;
-    }
-
-    public Optional<E> startOneByName(final String userId, final String name) {
-        if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
-        if (name == null || name.isEmpty()) throw new EmptyNameException();
-        final Optional<E> entity = findOneByName(userId, name);
-        entity.ifPresent(e -> e.setStatus(Status.IN_PROGRESS));
-        entity.orElseThrow(ObjectNotFoundException::new);
-        return entity;
-    }
-
-    public Optional<E> finishOneById(final String userId, final String id) {
-        if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
-        if (id == null || id.isEmpty()) throw new EmptyIdException();
-        final Optional<E> entity = findOneById(userId, id);
-        entity.ifPresent(e -> e.setStatus(Status.COMPLETE));
-        entity.orElseThrow(ObjectNotFoundException::new);
-        return entity;
-
-    }
-
-    @Override
-    public Optional<E> finishOneByIndex(final String userId, final Integer index) {
+    public Optional<E> startByIndex(final String userId, Integer index) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (index == null || index < 0) throw new IndexIncorrectException();
-        final Optional<E> entity = findOneByIndex(userId, index);
-        entity.ifPresent(e -> e.setStatus(Status.COMPLETE));
+        final Optional<E> entity = findByIndex(userId, index);
+        entity.ifPresent(e -> e.setStatus(Status.IN_PROGRESS));
         entity.orElseThrow(ObjectNotFoundException::new);
         return entity;
     }
 
-    public Optional<E> finishOneByName(final String userId, final String name) {
+    @Override
+    public Optional<E> startByName(final String userId, final String name) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (name == null || name.isEmpty()) throw new EmptyNameException();
-        final Optional<E> entity = findOneByName(userId, name);
+        final Optional<E> entity = findByName(userId, name);
+        entity.ifPresent(e -> e.setStatus(Status.IN_PROGRESS));
+        entity.orElseThrow(ObjectNotFoundException::new);
+        return entity;
+    }
+
+    @Override
+    public Optional<E> finishById(final String userId, final String id) {
+        if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
+        if (id == null || id.isEmpty()) throw new EmptyIdException();
+        final Optional<E> entity = findById(userId, id);
+        entity.ifPresent(e -> e.setStatus(Status.COMPLETE));
+        entity.orElseThrow(ObjectNotFoundException::new);
+        return entity;
+
+    }
+
+    @Override
+    public Optional<E> finishByIndex(final String userId, final Integer index) {
+        if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
+        if (index == null || index < 0) throw new IndexIncorrectException();
+        final Optional<E> entity = findByIndex(userId, index);
         entity.ifPresent(e -> e.setStatus(Status.COMPLETE));
         entity.orElseThrow(ObjectNotFoundException::new);
         return entity;
     }
 
     @Override
-    public Optional<E> changeOneStatusById(final String userId, String id, Status status) {
+    public Optional<E> finishByName(final String userId, final String name) {
+        if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
+        if (name == null || name.isEmpty()) throw new EmptyNameException();
+        final Optional<E> entity = findByName(userId, name);
+        entity.ifPresent(e -> e.setStatus(Status.COMPLETE));
+        entity.orElseThrow(ObjectNotFoundException::new);
+        return entity;
+    }
+
+    @Override
+    public Optional<E> changeStatusById(final String userId, String id, Status status) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (id == null || id.isEmpty()) throw new EmptyIdException();
-        final Optional<E> entity = findOneById(userId, id);
+        final Optional<E> entity = findById(userId, id);
         entity.ifPresent(e -> e.setStatus(status));
         entity.orElseThrow(ObjectNotFoundException::new);
         return entity;
     }
 
     @Override
-    public Optional<E> changeOneStatusByIndex(final String userId, Integer index, Status status) {
+    public Optional<E> changeStatusByIndex(final String userId, Integer index, Status status) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (index == null || index < 0) throw new IndexIncorrectException();
-        final Optional<E> entity = findOneByIndex(userId, index);
+        final Optional<E> entity = findByIndex(userId, index);
         entity.ifPresent(e -> e.setStatus(status));
         entity.orElseThrow(ObjectNotFoundException::new);
         return entity;
     }
 
     @Override
-    public Optional<E> changeOneStatusByName(final String userId, String name, Status status) {
+    public Optional<E> changeStatusByName(final String userId, String name, Status status) {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (name == null || name.isEmpty()) throw new EmptyNameException();
-        final Optional<E> entity = findOneByName(userId, name);
+        final Optional<E> entity = findByName(userId, name);
         entity.ifPresent(e -> e.setStatus(status));
         entity.orElseThrow(ObjectNotFoundException::new);
         return entity;

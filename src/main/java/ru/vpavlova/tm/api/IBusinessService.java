@@ -3,6 +3,7 @@ package ru.vpavlova.tm.api;
 import ru.vpavlova.tm.entity.AbstractBusinessEntity;
 import ru.vpavlova.tm.enumerated.Status;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,44 +11,46 @@ public interface IBusinessService<E extends AbstractBusinessEntity> extends ISer
 
     List<E> findAll(String userId);
 
+    List<E> findAll(String userId, Comparator<E> comparator);
+
     E add(String userId, E entity);
 
-    Optional<E> findOneById(String userId, String id);
+    Optional<E> findById(String userId, String id);
 
-    Optional<E> findOneByIndex(String userId, Integer index);
+    Optional<E> findByIndex(String userId, Integer index);
 
-    Optional<E> findOneByName(String userId, String name);
+    Optional<E> findByName(String userId, String name);
 
     void clear(String userId);
 
-    E removeOneById(String userId, String id);
+    Optional<E> updateByIndex(String userId, Integer index, String name, String description);
 
-    E removeOneByIndex(String userId, Integer index);
+    Optional<E> updateById(String userId, String id, String name, String description);
 
-    E removeOneByName(String userId, String name);
+    Optional<E> startByIndex(String userId, Integer index);
+
+    Optional<E> startById(String userId, String id);
+
+    Optional<E> startByName(String userId, String name);
+
+    Optional<E> finishByIndex(String userId, Integer index);
+
+    Optional<E> finishById(String userId, String id);
+
+    Optional<E> finishByName(String userId, String name);
+
+    Optional<E> changeStatusByIndex(String userId, Integer index, Status status);
+
+    Optional<E> changeStatusById(String userId, String id, Status status);
+
+    Optional<E> changeStatusByName(String userId, String name, Status status);
 
     void remove(String userId, E entity);
 
-    Optional<E> updateOneById(String userId, String id, String name, String description);
+    E removeById(String userId, String id);
 
-    Optional<E> updateOneByIndex(String userId, Integer index, String name, String description);
+    E removeByIndex(String userId, Integer index);
 
-    Optional<E> startOneById(String userId, String id);
-
-    Optional<E> startOneByIndex(String userId, Integer index);
-
-    Optional<E> startOneByName(String userId, String name);
-
-    Optional<E> finishOneById(String userId, String id);
-
-    Optional<E> finishOneByIndex(String userId, Integer index);
-
-    Optional<E> finishOneByName(String userId, String name);
-
-    Optional<E> changeOneStatusById(String userId, String id, Status status);
-
-    Optional<E> changeOneStatusByIndex(String userId, Integer index, Status status);
-
-    Optional<E> changeOneStatusByName(String userId, String name, Status status);
+    E removeByName(String userId, String name);
 
 }

@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface ITaskService extends IBusinessService<Task> {
 
-    List<Task> findAll(Comparator<Task> comparator);
-
     Task add(String userId, String name, String description);
 
 }

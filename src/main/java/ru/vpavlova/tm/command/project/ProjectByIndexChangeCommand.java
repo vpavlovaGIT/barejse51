@@ -36,8 +36,10 @@ public class ProjectByIndexChangeCommand extends AbstractProjectCommand {
         final String userId = serviceLocator.getAuthService().getUserId();
         final String statusId = TerminalUtil.nextLine();
         final Status status = Status.valueOf(statusId);
-        final Optional<Project> project = serviceLocator.getProjectService().changeOneStatusByIndex(userId, index, status);
-        if (!project.isPresent()) throw new ProjectNotFoundException();
+        final Optional<Project> project = serviceLocator.getProjectService().findByIndex(userId, index);
+        Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
+        final Optional<Project> projectUpdate = serviceLocator.getProjectService().changeStatusByIndex(userId, index, status);
+        Optional.ofNullable(projectUpdate).orElseThrow(ProjectNotFoundException::new);
     }
 
 }

@@ -1,7 +1,10 @@
 package ru.vpavlova.tm.command.user;
 
 import ru.vpavlova.tm.command.AbstractCommand;
+import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.util.TerminalUtil;
+
+import java.util.Optional;
 
 public class UserChangePasswordCommand extends AbstractCommand {
 
@@ -26,7 +29,7 @@ public class UserChangePasswordCommand extends AbstractCommand {
         final String userId = serviceLocator.getAuthService().getUserId();
         System.out.println("ENTER NEW PASSWORD:");
         final String password = TerminalUtil.nextLine();
-        serviceLocator.getUserService().setPassword(userId, password);
+        final Optional<User> user = serviceLocator.getUserService().setPassword(userId, password);
     }
 
 }

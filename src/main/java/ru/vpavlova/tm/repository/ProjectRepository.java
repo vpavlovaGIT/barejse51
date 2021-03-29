@@ -9,11 +9,4 @@ import java.util.List;
 
 public class ProjectRepository extends AbstractBusinessRepository<Project> implements IProjectRepository {
 
-    @Override
-    public List<Project> findAll(final Comparator<Project> comparator) {
-        final List<Project> projects = new ArrayList<>(entities);
-        projects.sort(comparator);
-        return projects;
-    }
-
 }
