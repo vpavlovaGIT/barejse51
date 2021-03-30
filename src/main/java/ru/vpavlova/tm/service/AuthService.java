@@ -3,8 +3,10 @@ package ru.vpavlova.tm.service;
 import ru.vpavlova.tm.api.service.IAuthService;
 import ru.vpavlova.tm.api.service.IUserService;
 import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.exception.empty.EmptyLoginException;
 import ru.vpavlova.tm.exception.empty.EmptyPasswordException;
+import ru.vpavlova.tm.exception.entity.UserNotFoundException;
 import ru.vpavlova.tm.exception.user.AccessDeniedException;
 import ru.vpavlova.tm.util.HashUtil;
 
@@ -38,6 +40,19 @@ public class AuthService implements IAuthService {
     }
 
     @Override
+    public void checkRole(Role... roles) {
+        if (roles == null || roles.length == 0) return;
+        final Optional<User> user = getUser();
+        if (!user.isPresent()) throw new AccessDeniedException();
+        final Role role = user.get().getRole();
+        if (role == null) throw new AccessDeniedException();
+        for (final Role item : roles) {
+            if (item.equals(role)) return;
+        }
+        throw new AccessDeniedException();
+    }
+
+    @Override
     public void logout() {
         userId = null;
     }
@@ -47,7 +62,8 @@ public class AuthService implements IAuthService {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
         final Optional<User> user = userService.findByLogin(login);
-        if (!user.isPresent()) throw new AccessDeniedException();
+        user.orElseThrow(UserNotFoundException::new);
+        if (user.get().isLocked()) throw new AccessDeniedException();
         final String hash = HashUtil.salt(password);
         if (!hash.equals(user.get().getPasswordHash())) throw new AccessDeniedException();
         userId = user.get().getId();

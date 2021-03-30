@@ -28,5 +28,8 @@ public interface IUserService extends IService<User> {
 
     User removeByLogin(String login);
 
+    Optional<User> lockUserByLogin(String login);
+
+    Optional<User> unlockUserByLogin(String login);
 
 }

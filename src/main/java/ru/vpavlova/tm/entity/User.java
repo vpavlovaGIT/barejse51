@@ -18,12 +18,22 @@ public final class User extends AbstractEntity {
 
     private Role role = Role.USER;
 
+    private boolean locked = false;
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
     public String getLogin() {

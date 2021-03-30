@@ -132,6 +132,9 @@ public class Bootstrap implements ServiceLocator {
         registry(new UserRemoveByLoginCommand());
         registry(new UserUpdateCommand());
         registry(new UserViewCommand());
+        registry(new UserLockByLoginCommand());
+        registry(new UserUnlockByLoginCommand());
+
     }
 
     public void run(final String... args) {
@@ -156,6 +159,8 @@ public class Bootstrap implements ServiceLocator {
         if (!Optional.ofNullable(cmd).isPresent()) return;
         final AbstractCommand command = commandService.getCommandByName(cmd);
         if (!Optional.ofNullable(command).isPresent()) return;
+        final Role[] roles = command.roles();
+        authService.checkRole(roles);
         command.execute();
     }
 

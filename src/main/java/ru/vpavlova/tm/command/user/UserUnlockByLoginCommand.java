@@ -4,7 +4,7 @@ import ru.vpavlova.tm.command.AbstractCommand;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.util.TerminalUtil;
 
-public class UserRemoveByLoginCommand extends AbstractCommand {
+public class UserUnlockByLoginCommand extends AbstractCommand {
 
     @Override
     public String arg() {
@@ -13,20 +13,20 @@ public class UserRemoveByLoginCommand extends AbstractCommand {
 
     @Override
     public String name() {
-        return "user-remove-by-login";
+        return "user-unlock";
     }
 
     @Override
     public String description() {
-        return "Remove by login user.";
+        return "Unlock user by login.";
     }
 
     @Override
     public void execute() {
-        System.out.println("[REMOVE USER]");
-        System.out.println("ENTER LOGIN:");
+        System.out.println("Unlock User:");
+        System.out.println("Enter Login:");
         final String login = TerminalUtil.nextLine();
-        serviceLocator.getUserService().removeByLogin(login);
+        serviceLocator.getUserService().unlockUserByLogin(login);
     }
 
     @Override

@@ -5,6 +5,7 @@ import ru.vpavlova.tm.api.service.IUserService;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.exception.empty.*;
+import ru.vpavlova.tm.exception.entity.UserNotFoundException;
 import ru.vpavlova.tm.exception.user.AccessDeniedException;
 import ru.vpavlova.tm.exception.user.EmailExistsException;
 import ru.vpavlova.tm.exception.user.LoginExistsException;
@@ -106,6 +107,24 @@ public class UserService extends AbstractService<User> implements IUserService {
             u.setLastName(lastName);
             u.setMiddleName(middleName);
         });
+        return user;
+    }
+
+    @Override
+    public Optional<User> lockUserByLogin(String login) {
+        if (login == null || login.isEmpty()) throw new EmptyLoginException();
+        final Optional<User> user = userRepository.findByLogin(login);
+        user.ifPresent(u -> u.setLocked(true));
+        user.orElseThrow(UserNotFoundException::new);
+        return user;
+    }
+
+    @Override
+    public Optional<User> unlockUserByLogin(String login) {
+        if (login == null || login.isEmpty()) throw new EmptyLoginException();
+        final Optional<User> user = userRepository.findByLogin(login);
+        user.ifPresent(u -> u.setLocked(false));
+        user.orElseThrow(UserNotFoundException::new);
         return user;
     }
 

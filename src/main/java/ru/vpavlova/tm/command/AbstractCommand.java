@@ -1,6 +1,7 @@
 package ru.vpavlova.tm.command;
 
 import ru.vpavlova.tm.api.service.ServiceLocator;
+import ru.vpavlova.tm.enumerated.Role;
 
 public abstract class AbstractCommand {
 
@@ -20,5 +21,9 @@ public abstract class AbstractCommand {
     public abstract String description();
 
     public abstract void execute();
+
+    public Role[] roles() {
+        return null;
+    }
 
 }
