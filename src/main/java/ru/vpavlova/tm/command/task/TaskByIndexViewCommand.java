@@ -32,7 +32,6 @@ public class TaskByIndexViewCommand extends AbstractTaskCommand {
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Optional<Task> task = serviceLocator.getTaskService().findByIndex(userId, index);
         Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
-        showTask(task.get());
     }
 
 }

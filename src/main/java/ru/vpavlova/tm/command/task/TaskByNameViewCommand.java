@@ -32,7 +32,6 @@ public class TaskByNameViewCommand extends AbstractTaskCommand {
         final String userId = serviceLocator.getAuthService().getUserId();
         final Optional<Task> task = serviceLocator.getTaskService().findByName(userId, name);
         Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
-        showTask(task.get());
     }
 
 }

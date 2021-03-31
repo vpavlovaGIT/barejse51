@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.api;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.entity.AbstractBusinessEntity;
 import ru.vpavlova.tm.enumerated.Status;
 
@@ -9,48 +11,90 @@ import java.util.Optional;
 
 public interface IBusinessService<E extends AbstractBusinessEntity> extends IService<E> {
 
-    List<E> findAll(String userId);
+    @NotNull
+    List<E> findAll(@NotNull String userId);
 
-    List<E> findAll(String userId, Comparator<E> comparator);
+    @NotNull
+    List<E> findAll(@NotNull String userId, @Nullable Comparator<E> comparator);
 
-    E add(String userId, E entity);
+    @Nullable
+    E add(@NotNull String userId, @Nullable E entity);
 
-    Optional<E> findById(String userId, String id);
+    @NotNull
+    Optional<E> findById(@Nullable String userId, @Nullable String id);
 
-    Optional<E> findByIndex(String userId, Integer index);
+    @NotNull
+    Optional<E> findByIndex(@Nullable String userId, @Nullable Integer index);
 
-    Optional<E> findByName(String userId, String name);
+    @NotNull
+    Optional<E> findByName(@Nullable String userId, @Nullable String name);
 
-    void clear(String userId);
+    void clear(@Nullable String userId);
 
-    Optional<E> updateByIndex(String userId, Integer index, String name, String description);
+    @NotNull
+    Optional<E> updateByIndex(
+            @Nullable String userId,
+            @Nullable Integer index,
+            @Nullable String name,
+            @Nullable String description
+    );
 
-    Optional<E> updateById(String userId, String id, String name, String description);
+    @NotNull
+    Optional<E> updateById(
+            @Nullable String userId,
+            @Nullable String id,
+            @Nullable String name,
+            @Nullable String description
+    );
 
-    Optional<E> startByIndex(String userId, Integer index);
+    @NotNull
+    Optional<E> startByIndex(@Nullable String userId, @Nullable Integer index);
 
-    Optional<E> startById(String userId, String id);
+    @NotNull
+    Optional<E> startById(@Nullable String userId, @Nullable String id);
 
-    Optional<E> startByName(String userId, String name);
+    @NotNull
+    Optional<E> startByName(@Nullable String userId, @Nullable String name);
 
-    Optional<E> finishByIndex(String userId, Integer index);
+    @NotNull
+    Optional<E> finishByIndex(@Nullable String userId, @Nullable Integer index);
 
-    Optional<E> finishById(String userId, String id);
+    @NotNull
+    Optional<E> finishById(@Nullable String userId, @Nullable String id);
 
-    Optional<E> finishByName(String userId, String name);
+    @NotNull
+    Optional<E> finishByName(@Nullable String userId, @Nullable String name);
 
-    Optional<E> changeStatusByIndex(String userId, Integer index, Status status);
+    @NotNull
+    Optional<E> changeStatusByIndex(
+            @Nullable String userId,
+            @Nullable Integer index,
+            @NotNull Status status
+    );
 
-    Optional<E> changeStatusById(String userId, String id, Status status);
+    @NotNull
+    Optional<E> changeStatusById(
+            @Nullable String userId,
+            @Nullable String id,
+            @NotNull Status status
+    );
 
-    Optional<E> changeStatusByName(String userId, String name, Status status);
+    @NotNull
+    Optional<E> changeStatusByName(
+            @Nullable String userId,
+            @Nullable String name,
+            @NotNull Status status
+    );
 
-    void remove(String userId, E entity);
+    void remove(@Nullable String userId, @Nullable E entity);
 
-    E removeById(String userId, String id);
+    @Nullable
+    E removeById(@Nullable String userId, @Nullable String id);
 
-    E removeByIndex(String userId, Integer index);
+    @Nullable
+    E removeByIndex(@Nullable String userId, @Nullable Integer index);
 
-    E removeByName(String userId, String name);
+    @Nullable
+    E removeByName(@Nullable String userId, @Nullable String name);
 
 }

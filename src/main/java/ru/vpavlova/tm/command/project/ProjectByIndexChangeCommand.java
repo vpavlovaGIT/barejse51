@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.command.project;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
@@ -11,16 +13,19 @@ import java.util.Optional;
 
 public class ProjectByIndexChangeCommand extends AbstractProjectCommand {
 
+    @Nullable
     @Override
     public String arg() {
         return null;
     }
 
+    @NotNull
     @Override
     public String name() {
         return "change-project-status-by-index";
     }
 
+    @NotNull
     @Override
     public String description() {
         return "Change project status by index.";
@@ -30,15 +35,15 @@ public class ProjectByIndexChangeCommand extends AbstractProjectCommand {
     public void execute() {
         System.out.println("[CHANGE PROJECT]");
         System.out.println("ENTER INDEX:");
-        final Integer index = TerminalUtil.nextNumber() - 1;
+        @NotNull final Integer index = TerminalUtil.nextNumber() - 1;
         System.out.println("ENTER STATUS:");
         System.out.println(Arrays.toString(Status.values()));
-        final String userId = serviceLocator.getAuthService().getUserId();
-        final String statusId = TerminalUtil.nextLine();
-        final Status status = Status.valueOf(statusId);
-        final Optional<Project> project = serviceLocator.getProjectService().findByIndex(userId, index);
+        @NotNull final String userId = serviceLocator.getAuthService().getUserId();
+        @NotNull final String statusId = TerminalUtil.nextLine();
+        @NotNull final Status status = Status.valueOf(statusId);
+        @NotNull final Optional<Project> project = serviceLocator.getProjectService().findByIndex(userId, index);
         Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
-        final Optional<Project> projectUpdate = serviceLocator.getProjectService().changeStatusByIndex(userId, index, status);
+        @NotNull final Optional<Project> projectUpdate = serviceLocator.getProjectService().changeStatusByIndex(userId, index, status);
         Optional.ofNullable(projectUpdate).orElseThrow(ProjectNotFoundException::new);
     }
 

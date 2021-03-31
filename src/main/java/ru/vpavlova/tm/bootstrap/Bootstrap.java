@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.bootstrap;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.repository.ICommandRepository;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
@@ -12,7 +14,6 @@ import ru.vpavlova.tm.command.task.*;
 import ru.vpavlova.tm.command.user.*;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.enumerated.Status;
-import ru.vpavlova.tm.exception.system.UnknownCommandException;
 import ru.vpavlova.tm.repository.CommandRepository;
 import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.repository.TaskRepository;
@@ -24,44 +25,55 @@ import java.util.Optional;
 
 public class Bootstrap implements ServiceLocator {
 
+    @NotNull
     private final ICommandRepository commandRepository = new CommandRepository();
 
+    @NotNull
     private final ICommandService commandService = new CommandService(commandRepository);
 
+    @NotNull
     private final ITaskRepository taskRepository = new TaskRepository();
 
+    @NotNull
     private final ITaskService taskService = new TaskService(taskRepository);
 
+    @NotNull
     private final IProjectRepository projectRepository = new ProjectRepository();
 
+    @NotNull
     private final IProjectTaskService projectTaskService = new ProjectTaskService(projectRepository, taskRepository);
 
+    @NotNull
     private final IProjectService projectService = new ProjectService(projectRepository);
 
+    @NotNull
     private final ILoggerService loggerService = new LoggerService();
 
+    @NotNull
     private final IUserRepository userRepository = new UserRepository();
 
+    @NotNull
     private final IUserService userService = new UserService(userRepository);
 
+    @NotNull
     private final IAuthService authService = new AuthService(userService);
 
-    public void parseArg(final String arg) {
+    public void parseArg(@Nullable final String arg) {
         if (arg == null || arg.isEmpty()) return;
-        final AbstractCommand command = commandService.getCommandByArg(arg);
+        @Nullable final AbstractCommand command = commandService.getCommandByArg(arg);
         if (command == null) return;
         command.execute();
     }
 
     public void initData() {
-        String userId = userService.create("test", "test", "test@test.ru").getId();
+        @NotNull String userId = userService.create("test", "test", "test@test.ru").getId();
         projectService.add(userId, "DEMO 1", "description1").setStatus(Status.COMPLETE);
         projectService.add(userId, "BETA 2", "description2").setStatus(Status.IN_PROGRESS);
         projectService.add(userId, "LAMBDA 3", "description3").setStatus(Status.IN_PROGRESS);
         taskService.add(userId, "B_TASK 4", "bbb").setStatus(Status.NOT_STARTED);
         taskService.add(userId, "C_TASK 5", "ccc").setStatus(Status.COMPLETE);
         taskService.add(userId, "C_TASK 6", "ccc").setStatus(Status.COMPLETE);
-        String adminId = userService.create("admin", "admin", Role.ADMIN).getId();
+        @NotNull String adminId = userService.create("admin", "admin", Role.ADMIN).getId();
         projectService.add(adminId, "OMEGA 4", "description4").setStatus(Status.NOT_STARTED);
         projectService.add(adminId, "GAMMA 5", "description5").setStatus(Status.COMPLETE);
         projectService.add(adminId, "GAMMA 6", "description6").setStatus(Status.IN_PROGRESS);
@@ -137,36 +149,36 @@ public class Bootstrap implements ServiceLocator {
 
     }
 
-    public void run(final String... args) {
+    public void run(@Nullable final String... args) {
         loggerService.debug("TEST!!");
         loggerService.info("*** WELCOME TO TASK MANAGER ***");
         if (parseArgs(args)) System.exit(0);
         initData();
         while (true) {
             try {
-                final String command = TerminalUtil.nextLine();
+                @NotNull final String command = TerminalUtil.nextLine();
                 loggerService.command(command);
                 parseCommand(command);
                 System.out.println("[OK]");
-            } catch (final Exception e) {
+            } catch (@NotNull final Exception e) {
                 loggerService.error(e);
                 System.err.println("[FAIL]");
             }
         }
     }
 
-    public void parseCommand(final String cmd) {
+    public void parseCommand(@Nullable final String cmd) {
         if (!Optional.ofNullable(cmd).isPresent()) return;
-        final AbstractCommand command = commandService.getCommandByName(cmd);
+        @Nullable final AbstractCommand command = commandService.getCommandByName(cmd);
         if (!Optional.ofNullable(command).isPresent()) return;
-        final Role[] roles = command.roles();
+        @Nullable final Role[] roles = command.roles();
         authService.checkRole(roles);
         command.execute();
     }
 
-    public boolean parseArgs(final String[] args) {
+    public boolean parseArgs(@Nullable final String[] args) {
         if (!Optional.ofNullable(args).isPresent() || args.length == 0) return false;
-        final String arg = args[0];
+        @Nullable final String arg = args[0];
         parseArg(arg);
         return true;
     }

@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.api.service;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.entity.User;
@@ -9,12 +11,16 @@ import java.util.Optional;
 
 public interface IProjectTaskService {
 
-    List<Task> findAllTaskByProjectId(String userId, String projectId);
+    @NotNull
+    List<Task> findAllTaskByProjectId(@Nullable String userId, @Nullable String projectId);
 
-    Optional<Task> bindTaskByProject(String userId, String projectId, String taskId);
+    @Nullable
+    Optional<Task> bindTaskByProject(@Nullable String userId, @Nullable String projectId, @Nullable String taskId);
 
-    Optional<Task> unbindTaskFromProject(String userId, String taskId);
+    @Nullable
+    Optional<Task> unbindTaskFromProject(@Nullable String userId, @Nullable String taskId);
 
-    Project removeProjectById(String userId, String projectId);
+    @Nullable
+    Project removeProjectById(@Nullable String userId, @Nullable String projectId);
 
 }

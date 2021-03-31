@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.api;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.entity.AbstractBusinessEntity;
 import ru.vpavlova.tm.enumerated.Status;
 
@@ -9,26 +11,35 @@ import java.util.Optional;
 
 public interface IBusinessRepository<E extends AbstractBusinessEntity> extends IRepository<E> {
 
-    List<E> findAll(String userId);
+    @NotNull
+    List<E> findAll(@NotNull String userId);
 
-    List<E> findAll(String userId, Comparator<E> comparator);
+    @NotNull
+    List<E> findAll(@NotNull String userId, @NotNull Comparator<E> comparator);
 
-    E add(String userId, E entity);
+    @Nullable
+    E add(@NotNull String userId, @NotNull E entity);
 
-    Optional<E> findById(String userId, String id);
+    @NotNull
+    Optional<E> findById(@NotNull String userId, @NotNull String id);
 
-    Optional<E> findByIndex(String userId, Integer index);
+    @NotNull
+    Optional<E> findByIndex(@NotNull String userId, @NotNull Integer index);
 
-    Optional<E> findByName(String userId, String name);
+    @NotNull
+    Optional<E> findByName(@NotNull String userId, @NotNull String name);
 
-    void clear(String userId);
+    void clear(@NotNull String userId);
 
-    E removeById(String userId, String id);
+    @Nullable
+    E removeById(@NotNull String userId, @NotNull String id);
 
-    E removeByIndex(String userId, Integer index);
+    @Nullable
+    E removeByIndex(@NotNull String userId, @NotNull Integer index);
 
-    E removeByName(String userId, String name);
+    @Nullable
+    E removeByName(@NotNull String userId, @NotNull String name);
 
-    void remove(String userId, E entity);
+    void remove(@NotNull String userId, @NotNull E entity);
 
 }

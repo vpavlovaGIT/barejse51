@@ -32,7 +32,6 @@ public class TaskByIndexRemoveCommand extends AbstractTaskCommand {
         final Integer index = TerminalUtil.nextNumber() - 1;
         final Task task = serviceLocator.getTaskService().removeByIndex(userId, index);
         Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
-        showTask(task);
     }
 
 }

@@ -13,13 +13,6 @@ public class TaskRepository extends AbstractBusinessRepository<Task> implements 
     private final List<Task> tasks = new ArrayList<>();
 
     @Override
-    public List<Task> findAll(Comparator<Task> comparator) {
-        final List<Task> taskList = new ArrayList<>(tasks);
-        taskList.sort(comparator);
-        return taskList;
-    }
-
-    @Override
     public List<Task> findAllByProjectId(final String userId, final String projectId) {
         final List<Task> listTasks = new ArrayList<>();
         for (Task task : tasks) {

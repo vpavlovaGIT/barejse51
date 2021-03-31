@@ -32,7 +32,6 @@ public class TaskByNameRemoveCommand extends AbstractTaskCommand {
         final String userId = serviceLocator.getAuthService().getUserId();
         final Task task = serviceLocator.getTaskService().removeByName(userId, name);
         Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
-        showTask(task);
     }
 
 }
