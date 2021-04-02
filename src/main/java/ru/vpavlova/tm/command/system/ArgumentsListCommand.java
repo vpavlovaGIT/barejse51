@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.command.system;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractCommand;
 
 import java.util.Collection;
@@ -7,16 +9,19 @@ import java.util.Optional;
 
 public class ArgumentsListCommand extends AbstractCommand {
 
+    @Nullable
     @Override
     public String arg() {
         return null;
     }
 
+    @NotNull
     @Override
     public String name() {
         return "arguments";
     }
 
+    @NotNull
     @Override
     public String description() {
         return "Show program arguments.";
@@ -24,8 +29,8 @@ public class ArgumentsListCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        final Collection<String> arguments = serviceLocator.getCommandService().getListArgumentName();
-        for (final String argument: arguments) {
+        @NotNull final Collection<String> arguments = serviceLocator.getCommandService().getListArgumentName();
+        for (@NotNull final String argument: arguments) {
             if (!Optional.ofNullable(argument).isPresent()) continue;
             System.out.println(argument);
         }
