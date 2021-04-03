@@ -1,83 +1,39 @@
 package ru.vpavlova.tm.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.enumerated.Status;
 
 import java.util.Date;
 
+@Getter
+@Setter
 public abstract class AbstractBusinessEntity extends AbstractEntity {
 
+    @NotNull
     protected String userId;
 
+    @NotNull
     protected String name = "";
 
+    @NotNull
     protected String description = "";
 
+    @NotNull
     protected Status status = Status.NOT_STARTED;
 
+    @Nullable
     protected Date dateStart;
 
+    @Nullable
     protected Date dateFinish;
 
+    @NotNull
     protected Date created = new Date();
 
-    @Override
-    public String getUserId() {
-        return userId;
-    }
-
-    @Override
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Date getDateStart() {
-        return dateStart;
-    }
-
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public Date getDateFinish() {
-        return dateFinish;
-    }
-
-    public void setDateFinish(Date dateFinish) {
-        this.dateFinish = dateFinish;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
+    @NotNull
     public String toString() {
         return getId() + ": " + name + "; " + description + ";" + status;
     }

@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.service;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IRepository;
 import ru.vpavlova.tm.api.IService;
 import ru.vpavlova.tm.entity.AbstractEntity;
@@ -12,25 +14,28 @@ import java.util.Optional;
 
 public abstract class AbstractService<E extends AbstractEntity> implements IService<E> {
 
+    @NotNull
     protected final IRepository<E> repository;
 
-    protected AbstractService(IRepository<E> repository) {
+    protected AbstractService(@NotNull IRepository<E> repository) {
         this.repository = repository;
     }
 
+    @NotNull
     @Override
     public List<E> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public E add(final E entity) {
+    public E add(@Nullable final E entity) {
         if (!Optional.ofNullable(entity).isPresent()) throw new ObjectNotFoundException();
         return repository.add(entity);
     }
 
+    @NotNull
     @Override
-    public Optional<E> findById(final String id) {
+    public Optional<E> findById(@Nullable final String id) {
         if (id == null || id.isEmpty()) throw new EmptyIdException();
         return repository.findById(id);
     }
@@ -40,14 +45,15 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
         repository.clear();
     }
 
+    @Nullable
     @Override
-    public E removeById(final String id) {
+    public E removeById(@Nullable final String id) {
         if (id == null || id.isEmpty()) throw new EmptyIdException();
         return repository.removeById(id);
     }
 
     @Override
-    public void remove(final E entity) {
+    public void remove(@Nullable final E entity) {
         if (!Optional.ofNullable(entity).isPresent()) throw new ObjectNotFoundException();
         repository.remove(entity);
     }

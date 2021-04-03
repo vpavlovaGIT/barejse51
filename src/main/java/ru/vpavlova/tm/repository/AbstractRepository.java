@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.repository;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IRepository;
 import ru.vpavlova.tm.entity.AbstractEntity;
 
@@ -11,25 +13,30 @@ import java.util.function.Predicate;
 
 public abstract class AbstractRepository<E extends AbstractEntity> implements IRepository<E> {
 
+    @NotNull
     protected final List<E> entities = new ArrayList<>();
 
-    public Predicate<E> predicateById(final String id) {
+    @NotNull
+    public Predicate<E> predicateById(@NotNull final String id) {
         return e -> id.equals(e.getId());
     }
 
+    @NotNull
     @Override
     public List<E> findAll() {
         return entities;
     }
 
+    @Nullable
     @Override
-    public E add(final E entity) {
+    public E add(@Nullable final E entity) {
         entities.add(entity);
         return entity;
     }
 
+    @NotNull
     @Override
-    public Optional<E> findById(final String id) {
+    public Optional<E> findById(@NotNull final String id) {
         return entities.stream()
                 .filter(entity -> id.equals(entity.getId()))
                 .findFirst();
@@ -41,12 +48,13 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
     }
 
     @Override
-    public void remove(final E entity) {
+    public void remove(@Nullable final E entity) {
         entities.remove(entity);
     }
 
+    @Nullable
     @Override
-    public E removeById(final String id) {
+    public E removeById(@NotNull final String id) {
         final Optional<E> entity = findById(id);
         entity.ifPresent(entities::remove);
         return entity.orElse(null);

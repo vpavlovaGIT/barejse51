@@ -1,7 +1,10 @@
 package ru.vpavlova.tm.util;
 
+import org.jetbrains.annotations.NotNull;
+
 public class NumberUtil {
 
+    @NotNull
     public static String formatBytes(long bytes) {
         long kilobyte = 1024;
         long megabyte = kilobyte * 1024;

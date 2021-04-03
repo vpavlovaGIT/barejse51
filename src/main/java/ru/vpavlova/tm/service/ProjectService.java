@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.service;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.service.IProjectService;
 import ru.vpavlova.tm.exception.empty.EmptyNameException;
@@ -10,18 +12,24 @@ import java.util.List;
 
 public class ProjectService extends AbstractBusinessService<Project> implements IProjectService {
 
+    @NotNull
     private final IProjectRepository projectRepository;
 
-    public ProjectService(final IProjectRepository projectRepository) {
+    public ProjectService(@NotNull final IProjectRepository projectRepository) {
         super(projectRepository);
         this.projectRepository = projectRepository;
     }
 
+    @NotNull
     @Override
-    public Project add(final String userId, final String name, final String description) {
+    public Project add(
+            @Nullable final String userId,
+            @Nullable final String name,
+            @Nullable final String description
+    ) {
         if (name == null || name.isEmpty()) throw new EmptyNameException();
         if (description == null || description.isEmpty()) return null;
-        final Project project = new Project();
+        @NotNull final Project project = new Project();
         project.setUserId(userId);
         project.setName(name);
         project.setDescription(description);

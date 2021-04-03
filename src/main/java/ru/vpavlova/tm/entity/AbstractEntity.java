@@ -1,28 +1,19 @@
 package ru.vpavlova.tm.entity;
 
-import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.UUID;
 
-public abstract class AbstractEntity implements Serializable {
+@Getter
+@Setter
+public abstract class AbstractEntity {
 
+    @NotNull
     private String id = UUID.randomUUID().toString();
 
+    @NotNull
     private String userId;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
 }

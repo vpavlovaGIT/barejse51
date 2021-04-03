@@ -1,49 +1,34 @@
 package ru.vpavlova.tm.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class Command {
 
+    @NotNull
     private String arg = "";
 
+    @NotNull
     private  String name = "";
 
+    @NotNull
     private String description = "";
 
-    public Command() {
-    }
-
-    public Command(String name,String arg, String description) {
+    public Command(@NotNull String name, @NotNull String arg,@NotNull String description) {
         this.name = name;
         this.arg = arg;
         this.description = description;
     }
 
-    public String getArg() {
-        return arg;
-    }
-
-    public void setArg(String arg) {
-        this.arg = arg;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    @NotNull
     @Override
     public String toString() {
-        String result = "";
+        @NotNull String result = "";
         if (name != null && !name.isEmpty()) result += name;
         if (arg != null && !arg.isEmpty()) result += " [" + arg + "] ";
         if (description != null && !description.isEmpty()) result += " - " + description;

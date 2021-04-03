@@ -1,23 +1,21 @@
 package ru.vpavlova.tm.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.entity.IWBS;
 
-public final class Task extends AbstractBusinessEntity implements IWBS {
+@Getter
+@Setter
+@NoArgsConstructor
+public class Task extends AbstractBusinessEntity implements IWBS {
 
+    @Nullable
     private String projectId;
 
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
-
-    public Task() {
-    }
-
-    public Task(String name) {
+    public Task(@NotNull String name) {
         this.name = name;
     }
 
