@@ -1,17 +1,15 @@
 package ru.vpavlova.tm.bootstrap;
 
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.reflections.Reflections;
 import ru.vpavlova.tm.api.repository.ICommandRepository;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.api.repository.IUserRepository;
 import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.command.AbstractCommand;
-import ru.vpavlova.tm.command.project.*;
-import ru.vpavlova.tm.command.system.*;
-import ru.vpavlova.tm.command.task.*;
-import ru.vpavlova.tm.command.user.*;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.repository.CommandRepository;
@@ -21,7 +19,9 @@ import ru.vpavlova.tm.repository.UserRepository;
 import ru.vpavlova.tm.service.*;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.lang.reflect.Modifier;
 import java.util.Optional;
+import java.util.Set;
 
 public class Bootstrap implements ServiceLocator {
 
@@ -82,77 +82,23 @@ public class Bootstrap implements ServiceLocator {
         taskService.add(adminId, "E_TASK 3", "eee").setStatus(Status.IN_PROGRESS);
     }
 
-    {
-        registry(new AboutCommand());
-        registry(new ArgumentsListCommand());
-        registry(new CommandsListCommand());
-        registry(new ExitCommand());
-        registry(new HelpCommand());
-        registry(new SystemInfoCommand());
-        registry(new VersionCommand());
-
-        registry(new ProjectAndTaskByIdRemoveCommand());
-        registry(new ProjectByIdChangeCommand());
-        registry(new ProjectByIdFinishCommand());
-        registry(new ProjectByIdRemoveCommand());
-        registry(new ProjectByIdStartCommand());
-        registry(new ProjectByIdUpdateCommand());
-        registry(new ProjectByIdViewCommand());
-        registry(new ProjectByIndexChangeCommand());
-        registry(new ProjectByIndexFinishCommand());
-        registry(new ProjectByIndexRemoveCommand());
-        registry(new ProjectByIndexStartCommand());
-        registry(new ProjectByIndexUpdateCommand());
-        registry(new ProjectByIndexViewCommand());
-        registry(new ProjectByNameChangeCommand());
-        registry(new ProjectByNameFinishCommand());
-        registry(new ProjectByNameRemoveCommand());
-        registry(new ProjectByNameStartCommand());
-        registry(new ProjectByNameViewCommand());
-        registry(new ProjectClearCommand());
-        registry(new ProjectCreateCommand());
-        registry(new ProjectListCommand());
-
-        registry(new TaskBindByProjectIdCommand());
-        registry(new TaskByIdChangeCommand());
-        registry(new TaskByIdFinishCommand());
-        registry(new TaskByIdRemoveCommand());
-        registry(new TaskByIdStartCommand());
-        registry(new TaskByIdUpdateCommand());
-        registry(new TaskByIdViewCommand());
-        registry(new TaskByIndexChangeCommand());
-        registry(new TaskByIndexFinishCommand());
-        registry(new TaskByIndexRemoveCommand());
-        registry(new TaskByIndexStartCommand());
-        registry(new TaskByIndexUpdateCommand());
-        registry(new TaskByIndexViewCommand());
-        registry(new TaskByNameChangeCommand());
-        registry(new TaskByNameFinishCommand());
-        registry(new TaskByNameRemoveCommand());
-        registry(new TaskByNameStartCommand());
-        registry(new TaskByNameViewCommand());
-        registry(new TaskClearCommand());
-        registry(new TaskCreateCommand());
-        registry(new TaskFindAllByProjectIdCommand());
-        registry(new TaskListCommand());
-        registry(new TaskUnbindFromProjectCommand());
-
-        registry(new UserChangePasswordCommand());
-        registry(new UserLoginCommand());
-        registry(new UserLogoutCommand());
-        registry(new UserRegistryCommand());
-        registry(new UserRemoveByLoginCommand());
-        registry(new UserUpdateCommand());
-        registry(new UserViewCommand());
-        registry(new UserLockByLoginCommand());
-        registry(new UserUnlockByLoginCommand());
-
+    @SneakyThrows
+    private void initCommands() {
+        @NotNull final Reflections reflections = new Reflections("ru.vpavlova.tm.command");
+        @NotNull final Set<Class<? extends AbstractCommand>> classes =
+                reflections.getSubTypesOf(ru.vpavlova.tm.command.AbstractCommand.class);
+        for (@NotNull final Class<? extends AbstractCommand> clazz : classes) {
+            final boolean isAbstract = Modifier.isAbstract(clazz.getModifiers());
+            if (isAbstract) continue;
+            registry(clazz.newInstance());
+        }
     }
 
     public void run(@Nullable final String... args) {
         loggerService.debug("TEST!!");
         loggerService.info("*** WELCOME TO TASK MANAGER ***");
         if (parseArgs(args)) System.exit(0);
+        initCommands();
         initData();
         while (true) {
             try {
