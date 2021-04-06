@@ -10,7 +10,7 @@ public interface HashUtil {
     @NotNull Integer ITERATION = 78435;
 
     @Nullable
-    static String salt(final String value) {
+    static String salt(@Nullable final String value) {
         if (value == null) return null;
         @Nullable String result = value;
         for (int i = 0; i < ITERATION; i++) {
@@ -20,7 +20,7 @@ public interface HashUtil {
     }
 
     @Nullable
-    static String md5(final String value) {
+    static String md5(@Nullable final String value) {
         if (value == null) return null;
         try {
             @NotNull java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");

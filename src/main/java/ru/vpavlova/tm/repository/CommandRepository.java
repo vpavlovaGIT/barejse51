@@ -1,6 +1,7 @@
 package ru.vpavlova.tm.repository;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.repository.ICommandRepository;
 import ru.vpavlova.tm.command.AbstractCommand;
 
@@ -30,8 +31,8 @@ public class CommandRepository implements ICommandRepository {
     @Override
     public Collection<String> getCommandNames() {
         @NotNull final List<String> result = new ArrayList<>();
-        for (final AbstractCommand command : commands.values()) {
-            final String name = command.name();
+        for (@Nullable final AbstractCommand command : commands.values()) {
+            @Nullable final String name = command.name();
             if (!Optional.ofNullable(name).isPresent() || name.isEmpty()) continue;
             result.add(name);
         }
@@ -42,8 +43,8 @@ public class CommandRepository implements ICommandRepository {
     @Override
     public Collection<String> getCommandArgs() {
         @NotNull final List<String> result = new ArrayList<>();
-        for (final AbstractCommand command : commands.values()) {
-            final String arg = command.arg();
+        for (@Nullable final AbstractCommand command : commands.values()) {
+            @Nullable final String arg = command.arg();
             if (!Optional.ofNullable(arg).isPresent() || arg.isEmpty()) continue;
             result.add(arg);
         }
@@ -52,20 +53,20 @@ public class CommandRepository implements ICommandRepository {
 
     @NotNull
     @Override
-    public AbstractCommand getCommandByName(String name) {
+    public AbstractCommand getCommandByName(@Nullable final String name) {
         return commands.get(name);
     }
 
     @NotNull
     @Override
-    public AbstractCommand getCommandByArg(String name) {
-        return arguments.get(name);
+    public AbstractCommand getCommandByArg(@Nullable final String arg) {
+        return arguments.get(arg);
     }
 
     @Override
     public void add(AbstractCommand command) {
-        @NotNull final String arg = command.arg();
-        @NotNull final String name = command.name();
+        @Nullable final String arg = command.arg();
+        @Nullable final String name = command.name();
         if (Optional.ofNullable(arg).isPresent()) arguments.put(arg, command);
         if (Optional.ofNullable(name).isPresent()) commands.put(name, command);
     }

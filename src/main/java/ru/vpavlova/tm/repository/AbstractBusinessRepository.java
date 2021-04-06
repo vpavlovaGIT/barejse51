@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractBusinessRepository<E extends AbstractBusinessEntity> extends AbstractRepository<E> implements IBusinessRepository<E> {
 
-    protected final List<E> entities = new ArrayList<>();
-
     @NotNull
     public Predicate<E> predicateById(@NotNull final String id) {
         return e -> id.equals(e.getId());
