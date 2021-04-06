@@ -1,6 +1,7 @@
 package ru.vpavlova.tm.api.service;
 
 import org.jetbrains.annotations.NotNull;
+import ru.vpavlova.tm.api.IPropertyService;
 
 public interface ServiceLocator {
 
@@ -21,5 +22,8 @@ public interface ServiceLocator {
 
     @NotNull
     IAuthService getAuthService();
+
+    @NotNull
+    IPropertyService getPropertyService();
 
 }

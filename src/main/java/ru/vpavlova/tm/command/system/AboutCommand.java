@@ -26,8 +26,8 @@ public class AboutCommand extends AbstractCommand {
     @Override
     public void execute() {
         System.out.println("[ABOUT]");
-        System.out.println("NAME: Victoria Pavlova");
-        System.out.println("E-MAIL: vpavlova@tsconsulting.com");
+        System.out.println("NAME: " + serviceLocator.getPropertyService().getDeveloperName());
+        System.out.println("E-MAIL: " + serviceLocator.getPropertyService().getDeveloperEmail());
     }
 
 }

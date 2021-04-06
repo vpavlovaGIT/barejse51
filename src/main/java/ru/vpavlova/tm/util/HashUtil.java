@@ -2,19 +2,30 @@ package ru.vpavlova.tm.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.vpavlova.tm.api.ISaltSetting;
 
 public interface HashUtil {
 
-    @NotNull String SECRET = "2564198031";
-
-    @NotNull Integer ITERATION = 78435;
+    static String salt(
+            @Nullable final ISaltSetting setting,
+            @Nullable final String value
+    ) {
+        if (setting == null) return null;
+        @Nullable String secret = setting.getPasswordSecret();
+        @Nullable Integer iteration = setting.getPasswordIteration();
+        return salt(secret, iteration, value);
+    }
 
     @Nullable
-    static String salt(@Nullable final String value) {
+    static String salt(
+            @Nullable final String secret,
+            @Nullable final Integer iteration,
+            @Nullable final String value
+    ) {
         if (value == null) return null;
         @Nullable String result = value;
-        for (int i = 0; i < ITERATION; i++) {
-            result = md5(SECRET + result + SECRET);
+        for (int i = 0; i < iteration; i++) {
+            result = md5(secret + result + secret);
         }
         return result;
     }
@@ -26,7 +37,7 @@ public interface HashUtil {
             @NotNull java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             @NotNull final byte[] array = md.digest(value.getBytes());
             @NotNull final StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
+            for (int i = 1; i < array.length; i++) {
                 sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
             }
             return sb.toString();

@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reflections.Reflections;
+import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.repository.ICommandRepository;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
@@ -53,10 +54,13 @@ public class Bootstrap implements ServiceLocator {
     private final IUserRepository userRepository = new UserRepository();
 
     @NotNull
-    private final IUserService userService = new UserService(userRepository);
+    public final IPropertyService propertyService = new PropertyService();
 
     @NotNull
-    private final IAuthService authService = new AuthService(userService);
+    private final IUserService userService = new UserService(userRepository, propertyService);
+
+    @NotNull
+    private final IAuthService authService = new AuthService(userService, propertyService);
 
     public void parseArg(@Nullable final String arg) {
         if (arg == null || arg.isEmpty()) return;
@@ -163,6 +167,12 @@ public class Bootstrap implements ServiceLocator {
     @Override
     public IAuthService getAuthService() {
         return authService;
+    }
+
+    @NotNull
+    @Override
+    public IPropertyService getPropertyService() {
+        return propertyService;
     }
 
 }

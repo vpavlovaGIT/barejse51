@@ -2,6 +2,7 @@ package ru.vpavlova.tm.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.repository.IUserRepository;
 import ru.vpavlova.tm.api.service.IUserService;
 import ru.vpavlova.tm.entity.User;
@@ -20,9 +21,16 @@ public class UserService extends AbstractService<User> implements IUserService {
     @NotNull
     private final IUserRepository userRepository;
 
-    public UserService(@NotNull final IUserRepository userRepository) {
+    @NotNull
+    private final IPropertyService propertyService;
+
+    public UserService(
+            @NotNull final IUserRepository userRepository,
+            @NotNull final IPropertyService propertyService
+    ) {
         super(userRepository);
         this.userRepository = userRepository;
+        this.propertyService = propertyService;
     }
 
     @NotNull
@@ -67,7 +75,7 @@ public class UserService extends AbstractService<User> implements IUserService {
         @NotNull final User user = new User();
         user.setRole(Role.USER);
         user.setLogin(login);
-        user.setPasswordHash(HashUtil.salt(password));
+        user.setPasswordHash(HashUtil.salt(propertyService, password));
         return userRepository.add(user);
     }
 
@@ -113,7 +121,7 @@ public class UserService extends AbstractService<User> implements IUserService {
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
         @NotNull final Optional<User> user = findById(userId);
-        @Nullable final String hash = HashUtil.salt(password);
+        @Nullable final String hash = HashUtil.salt(propertyService, password);
         user.ifPresent(u -> u.setPasswordHash(hash));
         return user;
     }

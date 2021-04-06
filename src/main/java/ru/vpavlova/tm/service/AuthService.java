@@ -2,6 +2,7 @@ package ru.vpavlova.tm.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IAuthService;
 import ru.vpavlova.tm.api.service.IUserService;
 import ru.vpavlova.tm.entity.User;
@@ -19,11 +20,18 @@ public class AuthService implements IAuthService {
     @NotNull
     private final IUserService userService;
 
+    @NotNull
+    private final IPropertyService propertyService;
+
     @Nullable
     private String userId;
 
-    public AuthService(@NotNull final IUserService userService) {
+    public AuthService(
+            @NotNull final IUserService userService,
+            @NotNull final IPropertyService propertyService
+    ) {
         this.userService = userService;
+        this.propertyService = propertyService;
     }
 
     @NotNull
@@ -70,7 +78,7 @@ public class AuthService implements IAuthService {
         @NotNull final Optional<User> user = userService.findByLogin(login);
         user.orElseThrow(UserNotFoundException::new);
         if (user.get().isLocked()) throw new AccessDeniedException();
-        @Nullable final String hash = HashUtil.salt(password);
+        @Nullable final String hash = HashUtil.salt(propertyService, password);
         if (!hash.equals(user.get().getPasswordHash())) throw new AccessDeniedException();
         userId = user.get().getId();
     }

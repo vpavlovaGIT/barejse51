@@ -26,7 +26,7 @@ public class VersionCommand extends AbstractCommand {
     @Override
     public void execute() {
         System.out.println("[VERSION]");
-        System.out.println("1.0.0");
+        System.out.println(serviceLocator.getPropertyService().getApplicationVersion());
     }
 
 }
