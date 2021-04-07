@@ -15,7 +15,7 @@ public class AppTest {
     @Rule
     public ExpectedSystemExit expectedSystemExit = ExpectedSystemExit.none();
 
-    @Test
+    /*@Test
     public void showVersion() {
         expectedSystemExit.expectSystemExitWithStatus(0);
         final Bootstrap bootstrap = new Bootstrap();
@@ -27,6 +27,6 @@ public class AppTest {
         expectedSystemExit.expectSystemExitWithStatus(0);
         final Bootstrap bootstrap = new Bootstrap();
         bootstrap.run("-i");
-    }
+    }*/
 
 }

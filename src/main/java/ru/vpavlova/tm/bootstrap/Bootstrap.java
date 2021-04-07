@@ -18,9 +18,13 @@ import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.repository.TaskRepository;
 import ru.vpavlova.tm.repository.UserRepository;
 import ru.vpavlova.tm.service.*;
+import ru.vpavlova.tm.util.SystemUtil;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import java.io.File;
 import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Set;
 
@@ -98,10 +102,20 @@ public class Bootstrap implements ServiceLocator {
         }
     }
 
+    @SneakyThrows
+    private void initPID() {
+        @NotNull final String fileName = "task-manager.pid";
+        @NotNull final String pid = Long.toString(SystemUtil.getPID());
+        Files.write(Paths.get(fileName), pid.getBytes());
+        @NotNull final File file = new File(fileName);
+        file.deleteOnExit();
+    }
+
     public void run(@Nullable final String... args) {
         loggerService.debug("TEST!!");
         loggerService.info("*** WELCOME TO TASK MANAGER ***");
         if (parseArgs(args)) System.exit(0);
+        initPID();
         initCommands();
         initData();
         while (true) {

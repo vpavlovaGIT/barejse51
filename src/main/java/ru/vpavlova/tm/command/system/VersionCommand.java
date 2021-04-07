@@ -1,5 +1,6 @@
 package ru.vpavlova.tm.command.system;
 
+import com.jcabi.manifests.Manifests;
 import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.command.AbstractCommand;
 
@@ -26,7 +27,7 @@ public class VersionCommand extends AbstractCommand {
     @Override
     public void execute() {
         System.out.println("[VERSION]");
-        System.out.println(serviceLocator.getPropertyService().getApplicationVersion());
+        System.out.println(Manifests.read("version"));
     }
 
 }

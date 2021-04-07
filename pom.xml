@@ -11,6 +11,12 @@
     <name>Task Manager</name>
     <url>https://gitlab.com/vpavlova/task-manager-tsk-06</url>
 
+    <scm>
+        <connection>scm:svn:http://none</connection>
+        <developerConnection>scm:svn:https://none</developerConnection>
+        <url>scm:svn:https://none</url>
+    </scm>
+
     <developers>
         <developer>
             <id>vpavlova</id>
@@ -25,6 +31,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <slf4jVersion>1.7.5</slf4jVersion>
     </properties>
 
     <dependencies>
@@ -56,6 +63,22 @@
             <artifactId>reflections</artifactId>
             <version>0.9.11</version>
         </dependency>
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-manifests</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4jVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4jVersion}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -71,6 +94,16 @@
                             <addClasspath>true</addClasspath>
                             <mainClass>ru.vpavlova.tm.Application</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <buildNumber>${buildNumber}</buildNumber>
+                            <version>${project.version}</version>
+                            <build>${project.version}.${buildNumber}</build>
+                            <timestamp>${timestamp}</timestamp>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <groupId>${project.groupId}</groupId>
+                            <developer>Victoria Pavlova</developer>
+                            <email>vpavlova@tsconsulting.com</email>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
@@ -86,6 +119,46 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doCheck>true</doCheck>
+                    <doUpdate>false</doUpdate>
+                    <revisionOnScmFailure>no.scm.config.in.pom</revisionOnScmFailure>
+                    <format>{0,number}</format>
+                    <items>
+                        <item>buildNumber</item>
+                        <item>timestamp</item>
+                    </items>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <includeProjectDependencies>true</includeProjectDependencies>
+                    <mainClass>ru.vpavlova.tm.Application</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,5 +1,6 @@
 package ru.vpavlova.tm.command.system;
 
+import com.jcabi.manifests.Manifests;
 import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.command.AbstractCommand;
 
@@ -26,8 +27,8 @@ public class AboutCommand extends AbstractCommand {
     @Override
     public void execute() {
         System.out.println("[ABOUT]");
-        System.out.println("NAME: " + serviceLocator.getPropertyService().getDeveloperName());
-        System.out.println("E-MAIL: " + serviceLocator.getPropertyService().getDeveloperEmail());
+        System.out.println(Manifests.read("developer"));
+        System.out.println(Manifests.read("email"));
     }
 
 }
