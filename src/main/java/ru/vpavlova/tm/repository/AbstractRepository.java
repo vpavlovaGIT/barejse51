@@ -34,6 +34,11 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
         return entity;
     }
 
+    @Override
+    public void addAll(@NotNull final List<E> entities) {
+        entities.addAll(entities);
+    }
+
     @NotNull
     @Override
     public Optional<E> findById(@NotNull final String id) {

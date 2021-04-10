@@ -15,6 +15,8 @@ public interface IRepository<E extends AbstractEntity> {
     @Nullable
     E add(@Nullable E entity);
 
+    void addAll(@NotNull List<E> entity);
+
     @NotNull
     Optional<E> findById(@NotNull String id);
 

@@ -1,5 +1,6 @@
 package ru.vpavlova.tm.service;
 
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IRepository;
@@ -38,6 +39,13 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
     public Optional<E> findById(@Nullable final String id) {
         if (id == null || id.isEmpty()) throw new EmptyIdException();
         return repository.findById(id);
+    }
+
+    @SneakyThrows
+    @Override
+    public void addAll(@Nullable List<E> entities) {
+        if (entities == null) throw new ObjectNotFoundException();
+        repository.addAll(entities);
     }
 
     @Override
