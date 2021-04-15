@@ -43,6 +43,9 @@ public abstract class AbstractDataCommand extends AbstractCommand {
     protected static final String APPLICATION_JSON = "application/json";
 
     @NotNull
+    protected static final String BACKUP_XML = "./backup.xml";
+
+    @NotNull
     @SneakyThrows
     public Domain getDomain() {
         @NotNull final Domain domain = new Domain();

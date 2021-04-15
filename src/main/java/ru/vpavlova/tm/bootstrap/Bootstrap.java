@@ -11,6 +11,7 @@ import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.api.repository.IUserRepository;
 import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.command.AbstractCommand;
+import ru.vpavlova.tm.component.Backup;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.repository.CommandRepository;
@@ -66,6 +67,9 @@ public class Bootstrap implements ServiceLocator {
     @NotNull
     private final IAuthService authService = new AuthService(userService, propertyService);
 
+    @NotNull
+    private final Backup backup = new Backup(this);
+
     public void parseArg(@Nullable final String arg) {
         if (arg == null || arg.isEmpty()) return;
         @Nullable final AbstractCommand command = commandService.getCommandByArg(arg);
@@ -118,6 +122,7 @@ public class Bootstrap implements ServiceLocator {
         initPID();
         initCommands();
         initData();
+        backup.init();
         while (true) {
             try {
                 @NotNull final String command = TerminalUtil.nextLine();
