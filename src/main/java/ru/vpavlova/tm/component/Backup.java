@@ -3,17 +3,13 @@ package ru.vpavlova.tm.component;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.bootstrap.Bootstrap;
+import ru.vpavlova.tm.command.data.BackupLoadCommand;
+import ru.vpavlova.tm.command.data.BackupSaveCommand;
 
 public class Backup extends Thread {
 
     @NotNull
     private static final int INTERVAL = 30000;
-
-    @NotNull
-    private static final String SAVE_COMMAND = "backup-save";
-
-    @NotNull
-    private static final String LOAD_COMMAND = "backup-load";
 
     @NotNull
     private Bootstrap bootstrap;
@@ -38,11 +34,11 @@ public class Backup extends Thread {
     }
 
     public void save() {
-        bootstrap.parseCommand(SAVE_COMMAND);
+        bootstrap.parseCommand(BackupSaveCommand.BACKUP_SAVE);
     }
 
     public void load() {
-        bootstrap.parseCommand(LOAD_COMMAND);
+        bootstrap.parseCommand(BackupLoadCommand.BACKUP_LOAD);
     }
 
 }

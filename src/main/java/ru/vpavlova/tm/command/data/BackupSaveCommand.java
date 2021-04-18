@@ -11,6 +11,9 @@ import java.io.FileOutputStream;
 
 public class BackupSaveCommand extends AbstractDataCommand {
 
+    @NotNull
+    public final static String BACKUP_SAVE = "backup-save";
+
     @Nullable
     @Override
     public String arg() {
@@ -20,7 +23,7 @@ public class BackupSaveCommand extends AbstractDataCommand {
     @NotNull
     @Override
     public String name() {
-        return "backup-save";
+        return BACKUP_SAVE;
     }
 
     @NotNull

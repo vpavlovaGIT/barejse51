@@ -1,5 +1,6 @@
 package ru.vpavlova.tm.bootstrap;
 
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Set;
 
+@Getter
 public class Bootstrap implements ServiceLocator {
 
     @NotNull
@@ -94,6 +96,22 @@ public class Bootstrap implements ServiceLocator {
         taskService.add(adminId, "E_TASK 3", "eee").setStatus(Status.IN_PROGRESS);
     }
 
+    private void textWelcome() {
+        loggerService.debug("TEST!!");
+        loggerService.info("*** WELCOME TO TASK MANAGER ***");
+    }
+
+    private void init() {
+        initPID();
+        initCommands();
+        initData();
+        initBackup();
+    }
+
+    private void initBackup() {
+        backup.init();
+    }
+
     @SneakyThrows
     private void initCommands() {
         @NotNull final Reflections reflections = new Reflections("ru.vpavlova.tm.command");
@@ -115,14 +133,7 @@ public class Bootstrap implements ServiceLocator {
         file.deleteOnExit();
     }
 
-    public void run(@Nullable final String... args) {
-        loggerService.debug("TEST!!");
-        loggerService.info("*** WELCOME TO TASK MANAGER ***");
-        if (parseArgs(args)) System.exit(0);
-        initPID();
-        initCommands();
-        initData();
-        backup.init();
+    private void process() {
         while (true) {
             try {
                 @NotNull final String command = TerminalUtil.nextLine();
@@ -134,6 +145,13 @@ public class Bootstrap implements ServiceLocator {
                 System.err.println("[FAIL]");
             }
         }
+    }
+
+    public void run(@Nullable final String... args) {
+        textWelcome();
+        if (parseArgs(args)) System.exit(0);
+        init();
+        process();
     }
 
     public void parseCommand(@Nullable final String cmd) {
@@ -156,42 +174,6 @@ public class Bootstrap implements ServiceLocator {
         if (!Optional.ofNullable(command).isPresent()) return;
         command.setServiceLocator(this);
         commandService.add(command);
-    }
-
-    @Override
-    public ITaskService getTaskService() {
-        return taskService;
-    }
-
-    @Override
-    public IProjectService getProjectService() {
-        return projectService;
-    }
-
-    @Override
-    public ICommandService getCommandService() {
-        return commandService;
-    }
-
-    @Override
-    public IProjectTaskService getProjectTaskService() {
-        return projectTaskService;
-    }
-
-    @Override
-    public IUserService getUserService() {
-        return userService;
-    }
-
-    @Override
-    public IAuthService getAuthService() {
-        return authService;
-    }
-
-    @NotNull
-    @Override
-    public IPropertyService getPropertyService() {
-        return propertyService;
     }
 
 }

@@ -13,6 +13,9 @@ import java.nio.file.Paths;
 
 public class BackupLoadCommand extends AbstractDataCommand {
 
+    @NotNull
+    public final static String BACKUP_LOAD = "backup-load";
+
     @Nullable
     @Override
     public String arg() {
@@ -22,7 +25,7 @@ public class BackupLoadCommand extends AbstractDataCommand {
     @NotNull
     @Override
     public String name() {
-        return "backup-load";
+        return BACKUP_LOAD;
     }
 
     @NotNull
