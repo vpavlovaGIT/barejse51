@@ -31,6 +31,12 @@ public class CommandService implements ICommandService {
         return commandRepository.getCommandByArg(arg);
     }
 
+    @Override
+    @NotNull
+    public Collection<AbstractCommand> getArgsCommands() {
+        return commandRepository.getArgsCommands();
+    }
+
     @NotNull
     @Override
     public Collection<AbstractCommand> getCommands() {

@@ -20,6 +20,9 @@ public interface ICommandService {
     @NotNull
     Collection<AbstractCommand> getArguments();
 
+    @NotNull
+    Collection<AbstractCommand> getArgsCommands();
+
     @Nullable
     Collection<String> getListArgumentName();
 

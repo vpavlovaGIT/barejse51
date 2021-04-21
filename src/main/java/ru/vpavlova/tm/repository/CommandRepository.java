@@ -53,6 +53,18 @@ public class CommandRepository implements ICommandRepository {
 
     @NotNull
     @Override
+    public Collection<AbstractCommand> getArgsCommands() {
+        @NotNull final List<AbstractCommand> result = new ArrayList<>();
+        for (@NotNull final AbstractCommand command : commands.values()) {
+            @Nullable final String arg = command.arg();
+            if (!Optional.ofNullable(arg).isPresent() || arg.isEmpty()) continue;
+            result.add(command);
+        }
+        return result;
+    }
+
+    @NotNull
+    @Override
     public AbstractCommand getCommandByName(@Nullable final String name) {
         return commands.get(name);
     }
@@ -70,4 +82,5 @@ public class CommandRepository implements ICommandRepository {
         if (Optional.ofNullable(arg).isPresent()) arguments.put(arg, command);
         if (Optional.ofNullable(name).isPresent()) commands.put(name, command);
     }
+
 }

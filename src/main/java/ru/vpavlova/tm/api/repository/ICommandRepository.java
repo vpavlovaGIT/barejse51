@@ -21,6 +21,9 @@ public interface ICommandRepository {
     Collection<String> getCommandArgs();
 
     @NotNull
+    Collection<AbstractCommand> getArgsCommands();
+
+    @NotNull
     AbstractCommand getCommandByName(@Nullable String name);
 
     @NotNull

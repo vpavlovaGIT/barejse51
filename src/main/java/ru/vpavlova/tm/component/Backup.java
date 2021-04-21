@@ -1,31 +1,36 @@
 package ru.vpavlova.tm.component;
 
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.command.data.BackupLoadCommand;
 import ru.vpavlova.tm.command.data.BackupSaveCommand;
 
-public class Backup extends Thread {
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+public class Backup implements Runnable {
 
     @NotNull
-    private static final int INTERVAL = 30000;
+    private final ScheduledExecutorService es = Executors.newSingleThreadScheduledExecutor();
+
+    @NotNull
+    private static final int INTERVAL = 30;
 
     @NotNull
     private Bootstrap bootstrap;
 
     public Backup(Bootstrap bootstrap) {
         this.bootstrap = bootstrap;
-        setDaemon(true);
     }
 
     @Override
-    @SneakyThrows
     public void run() {
-        while (true) {
-            save();
-            Thread.sleep(INTERVAL);
-        }
+        bootstrap.parseCommand(BackupSaveCommand.BACKUP_SAVE);
+    }
+
+    public void load() {
+        bootstrap.parseCommand(BackupLoadCommand.BACKUP_LOAD);
     }
 
     public void init() {
@@ -33,12 +38,12 @@ public class Backup extends Thread {
         start();
     }
 
-    public void save() {
-        bootstrap.parseCommand(BackupSaveCommand.BACKUP_SAVE);
+    public void start() {
+        es.scheduleWithFixedDelay(this, 0, INTERVAL, TimeUnit.SECONDS);
     }
 
-    public void load() {
-        bootstrap.parseCommand(BackupLoadCommand.BACKUP_LOAD);
+    public void stop() {
+        es.shutdown();
     }
 
 }
