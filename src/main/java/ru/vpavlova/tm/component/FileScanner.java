@@ -6,14 +6,19 @@ import ru.vpavlova.tm.command.AbstractCommand;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class FileScanner implements Runnable {
 
     private static final int INTERVAL = 3;
+
+    @NotNull
+    private static final String PATH = "./";
 
     @NotNull
     public final Bootstrap bootstrap;
@@ -35,18 +40,13 @@ public class FileScanner implements Runnable {
         es.scheduleWithFixedDelay(this,0,INTERVAL,TimeUnit.SECONDS);
     }
 
-    @Override
     public void run() {
-        @NotNull final File file = new File("./");
-        for (File item : file.listFiles()) {
-            if (!item.isFile()) continue;
-            @NotNull final String fileName = item.getName();
-            final boolean chek = commands.contains(fileName);
-            if (!chek) continue;
-            bootstrap.parseCommand(fileName);
-            System.out.println();
-            item.delete();
-        }
+        @NotNull final File file = new File(PATH);
+        Arrays.stream(file.listFiles())
+                .filter(File::isFile).collect(Collectors.toList())
+                .stream()
+                .filter(item -> commands.contains(item.getName()))
+                .forEach(item -> {bootstrap.parseCommand(item.getName()); item.delete();});
     }
 
 }
