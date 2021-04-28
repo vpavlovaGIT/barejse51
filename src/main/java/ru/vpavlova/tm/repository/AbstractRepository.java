@@ -65,4 +65,9 @@ public abstract class AbstractRepository<E extends AbstractEntity> implements IR
         return entity.orElse(null);
     }
 
+    public boolean contains(@NotNull final String id) {
+        final Object object =  findById(id);
+        return object != null;
+    }
+
 }

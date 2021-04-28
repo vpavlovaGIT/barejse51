@@ -66,4 +66,9 @@ public abstract class AbstractService<E extends AbstractEntity> implements IServ
         repository.remove(entity);
     }
 
+    @Override
+    public boolean contains(@NotNull String id) {
+        return repository.contains(id);
+    }
+
 }

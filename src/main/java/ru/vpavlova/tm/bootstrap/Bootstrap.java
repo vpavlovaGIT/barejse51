@@ -6,24 +6,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reflections.Reflections;
 import ru.vpavlova.tm.api.IPropertyService;
-import ru.vpavlova.tm.api.repository.ICommandRepository;
-import ru.vpavlova.tm.api.repository.IProjectRepository;
-import ru.vpavlova.tm.api.repository.ITaskRepository;
-import ru.vpavlova.tm.api.repository.IUserRepository;
+import ru.vpavlova.tm.api.endpoint.*;
+import ru.vpavlova.tm.api.repository.*;
 import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.command.AbstractCommand;
 import ru.vpavlova.tm.component.Backup;
 import ru.vpavlova.tm.component.FileScanner;
+import ru.vpavlova.tm.endpoint.*;
+import ru.vpavlova.tm.entity.Session;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.enumerated.Status;
-import ru.vpavlova.tm.repository.CommandRepository;
-import ru.vpavlova.tm.repository.ProjectRepository;
-import ru.vpavlova.tm.repository.TaskRepository;
-import ru.vpavlova.tm.repository.UserRepository;
+import ru.vpavlova.tm.repository.*;
 import ru.vpavlova.tm.service.*;
 import ru.vpavlova.tm.util.SystemUtil;
 import ru.vpavlova.tm.util.TerminalUtil;
 
+import javax.xml.ws.Endpoint;
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
@@ -39,6 +37,27 @@ public class Bootstrap implements ServiceLocator {
 
     @NotNull
     private final ICommandService commandService = new CommandService(commandRepository);
+
+    @NotNull
+    public final ISessionRepository sessionRepository = new SessionRepository();
+
+    @NotNull
+    public final ISessionService sessionService = new SessionService(this, sessionRepository);
+
+    @NotNull
+    public final ISessionEndpoint sessionEndpoint = new SessionEndpoint(this);
+
+    @NotNull
+    public final ITaskEndpoint taskEndpoint = new TaskEndpoint(this);
+
+    @NotNull
+    public final IProjectEndpoint projectEndpoint = new ProjectEndpoint(this);
+
+    @NotNull
+    public final IUserEndpoint userEndpoint = new UserEndpoint(this);
+
+    @NotNull
+    public final IAdminEndpoint adminEndpoint = new AdminEndpoint(this);
 
     @NotNull
     private final ITaskRepository taskRepository = new TaskRepository();
@@ -76,6 +95,12 @@ public class Bootstrap implements ServiceLocator {
     @NotNull
     private final FileScanner fileScanner = new FileScanner(this);
 
+    @Nullable
+    private Session session = null;
+
+    public Bootstrap() {
+    }
+
     public void parseArg(@Nullable final String arg) {
         if (arg == null || arg.isEmpty()) return;
         @Nullable final AbstractCommand command = commandService.getCommandByArg(arg);
@@ -111,7 +136,26 @@ public class Bootstrap implements ServiceLocator {
         initData();
         initBackup();
         initFileScanner();
+        initEndpoint();
     }
+
+    private void initEndpoint() {
+        registry(sessionEndpoint);
+        registry(taskEndpoint);
+        registry(projectEndpoint);
+        registry(userEndpoint);
+        registry(adminEndpoint);
+    }
+
+    private void registry(@NotNull final Object endpoint) {
+        @NotNull final String host = propertyService.getServerHost();
+        @NotNull final String port = propertyService.getServerPort();
+        @NotNull final String name = endpoint.getClass().getSimpleName();
+        @NotNull final String wsdl = "http://" + host + ":" + port + "/" + name + "?wsdl";
+        System.out.println(wsdl);
+        Endpoint.publish(wsdl, endpoint);
+    }
+
 
     private void initBackup() {
         backup.init();

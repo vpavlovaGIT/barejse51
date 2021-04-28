@@ -27,4 +27,6 @@ public interface IRepository<E extends AbstractEntity> {
 
     void remove(@Nullable E entity);
 
+    boolean contains(@NotNull String id);
+
 }

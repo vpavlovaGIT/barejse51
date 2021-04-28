@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.ISaltSetting;
@@ -44,6 +46,20 @@ public interface HashUtil {
         } catch (@NotNull java.security.NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Nullable
+    @SneakyThrows
+    static String salt(
+            @Nullable final ISaltSetting setting,
+            @Nullable final Object value
+    ) {
+        if (setting == null) return null;
+        @NotNull final ObjectMapper objectMapper = new ObjectMapper();
+        @NotNull final String json = objectMapper.writeValueAsString(value);
+        @Nullable final String secret = setting.getSignSecret();
+        @Nullable final Integer iteration = setting.getSignIteration();
+        return salt(secret, iteration, json);
     }
 
 }

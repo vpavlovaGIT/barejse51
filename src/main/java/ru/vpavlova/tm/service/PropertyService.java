@@ -50,6 +50,30 @@ public class PropertyService implements IPropertyService {
     private static final String DEVELOPER_COMPANY_DEFAULT = "TSC";
 
     @NotNull
+    public static final String SIGN_ITERATION = "sign.iteration";
+
+    @NotNull
+    public static final String SIGN_ITERATION_DEFAULT = "1";
+
+    @NotNull
+    public static final String SIGN_SECRET = "sign.secret";
+
+    @NotNull
+    public static final String SIGN_SECRET_DEFAULT = "";
+
+    @NotNull
+    public static final String SERVER_HOST = "server.host";
+
+    @NotNull
+    public static final String SERVER_HOST_DEFAULT = "localhost";
+
+    @NotNull
+    public static final String SERVER_PORT = "server.port";
+
+    @NotNull
+    public static final String SERVER_PORT_DEFAULT = "8080";
+
+    @NotNull
     private final Properties properties = new Properties();
 
     @SneakyThrows
@@ -121,6 +145,43 @@ public class PropertyService implements IPropertyService {
         if (System.getenv().containsKey(DEVELOPER_COMPANY_KEY))
             return System.getenv(DEVELOPER_COMPANY_KEY);
         return properties.getProperty(DEVELOPER_COMPANY_KEY, DEVELOPER_COMPANY_DEFAULT);
+    }
+
+    @Override
+    public @NotNull String getServerHost() {
+        if (System.getProperties().containsKey(SERVER_HOST)) return System.getProperty(SERVER_HOST);
+        if (System.getenv().containsKey(SERVER_HOST)) return System.getenv(SERVER_HOST);
+        return properties.getProperty(SERVER_HOST, SERVER_HOST_DEFAULT);
+    }
+
+    @Override
+    public @NotNull String getServerPort() {
+        if (System.getProperties().containsKey(SERVER_PORT)) return System.getProperty(SERVER_PORT);
+        if (System.getenv().containsKey(SERVER_PORT)) return System.getenv(SERVER_PORT);
+        return properties.getProperty(SERVER_PORT, SERVER_PORT_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public Integer getSignIteration() {
+        if (System.getProperties().containsKey(SIGN_ITERATION)) {
+            @NotNull final String value = System.getProperty(SIGN_ITERATION);
+            return Integer.valueOf(value);
+        }
+        if (System.getenv().containsKey(SIGN_ITERATION)) {
+            @NotNull final String value = System.getenv(SIGN_ITERATION);
+            return Integer.valueOf(value);
+        }
+        @NotNull final String value = properties.getProperty(SIGN_ITERATION, SIGN_ITERATION_DEFAULT);
+        return Integer.valueOf(value);
+    }
+
+    @NotNull
+    @Override
+    public String getSignSecret() {
+        if (System.getProperties().containsKey(SIGN_SECRET)) return System.getProperty(SIGN_SECRET);
+        if (System.getenv().containsKey(SIGN_SECRET)) return System.getenv(SIGN_SECRET);
+        return properties.getProperty(SIGN_SECRET, SIGN_SECRET_DEFAULT);
     }
 
 }

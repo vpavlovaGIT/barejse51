@@ -22,4 +22,16 @@ public interface ISaltSetting {
     @NotNull
     String getDeveloperCompany();
 
+    @NotNull
+    Integer getSignIteration();
+
+    @NotNull
+    String getSignSecret();
+
+    @NotNull
+    String getServerHost();
+
+    @NotNull
+    String getServerPort();
+
 }
