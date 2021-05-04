@@ -1,7 +1,7 @@
 package ru.vpavlova.tm.service;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import ru.vpavlova.tm.api.service.ILoggerService;
 
 import java.io.IOException;

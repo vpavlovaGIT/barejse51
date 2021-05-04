@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.vpavlova.tm</groupId>
-    <artifactId>task-manager</artifactId>
+    <artifactId>task-manager-server</artifactId>
     <version>2.0.0</version>
 
-    <name>Task Manager</name>
+    <name>Task Manager Server</name>
     <url>https://gitlab.com/vpavlova/task-manager-tsk-06</url>
 
     <scm>

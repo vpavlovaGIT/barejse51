@@ -9,7 +9,7 @@ public class Application {
     public static void main(final String[] args) {
         System.out.println("PID: " + SystemUtil.getPID());
         @NotNull final Bootstrap bootstrap = new Bootstrap();
-        bootstrap.run(args);
+        bootstrap.init(args);
     }
 
 }

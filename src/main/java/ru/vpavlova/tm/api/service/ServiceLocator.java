@@ -12,9 +12,6 @@ public interface ServiceLocator {
     IProjectService getProjectService();
 
     @NotNull
-    ICommandService getCommandService();
-
-    @NotNull
     IProjectTaskService getProjectTaskService();
 
     @NotNull
