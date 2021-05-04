@@ -1,5 +1,6 @@
 package ru.vpavlova.tm.bootstrap;
 
+import com.jcraft.jsch.Session;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +10,6 @@ import ru.vpavlova.tm.api.endpoint.*;
 import ru.vpavlova.tm.api.repository.*;
 import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.endpoint.*;
-import ru.vpavlova.tm.entity.Session;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.repository.*;
