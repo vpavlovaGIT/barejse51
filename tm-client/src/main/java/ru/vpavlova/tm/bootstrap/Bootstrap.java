@@ -39,55 +39,10 @@ public class Bootstrap implements ServiceLocator {
     private final ICommandService commandService = new CommandService(commandRepository);
 
     @NotNull
-    public final ISessionRepository sessionRepository = new SessionRepository();
-
-    @NotNull
-    public final ISessionService sessionService = new SessionService(this, sessionRepository);
-
-    @NotNull
-    public final ISessionEndpoint sessionEndpoint = new SessionEndpoint(this);
-
-    @NotNull
-    public final ITaskEndpoint taskEndpoint = new TaskEndpoint(this);
-
-    @NotNull
-    public final IProjectEndpoint projectEndpoint = new ProjectEndpoint(this);
-
-    @NotNull
-    public final IUserEndpoint userEndpoint = new UserEndpoint(this);
-
-    @NotNull
-    public final IAdminEndpoint adminEndpoint = new AdminEndpoint(this);
-
-    @NotNull
-    private final ITaskRepository taskRepository = new TaskRepository();
-
-    @NotNull
-    private final ITaskService taskService = new TaskService(taskRepository);
-
-    @NotNull
-    private final IProjectRepository projectRepository = new ProjectRepository();
-
-    @NotNull
-    private final IProjectTaskService projectTaskService = new ProjectTaskService(projectRepository, taskRepository);
-
-    @NotNull
-    private final IProjectService projectService = new ProjectService(projectRepository);
-
-    @NotNull
     private final ILoggerService loggerService = new LoggerService();
 
     @NotNull
-    private final IUserRepository userRepository = new UserRepository();
-
-    @NotNull
     public final IPropertyService propertyService = new PropertyService();
-
-    @NotNull
-    private final IUserService userService = new UserService(userRepository, propertyService);
-
-    @NotNull
-    private final IAuthService authService = new AuthService(userService, propertyService);
 
     @NotNull
     private final Backup backup = new Backup(this);

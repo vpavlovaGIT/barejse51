@@ -10,8 +10,10 @@ import ru.vpavlova.tm.entity.Task;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebService;
 import java.util.List;
 
+@WebService
 public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
 
     public TaskEndpoint(@NotNull ServiceLocator serviceLocator) {
