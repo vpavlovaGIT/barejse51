@@ -178,7 +178,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>ru.ekfedorov.tm.Application</mainClass>
+                            <mainClass>ru.vpavlova.tm.Application</mainClass>
                         </manifest>
                         <manifestEntries>
                             <buildNumber>${buildNumber}</buildNumber>
@@ -187,8 +187,8 @@
                             <timestamp>${timestamp}</timestamp>
                             <artifactId>${project.artifactId}</artifactId>
                             <groupId>${project.groupId}</groupId>
-                            <developer>Evgeniy Fedorov</developer>
-                            <email>ekfedorov@tsconsulting.com</email>
+                            <developer>Victoria Pavlova</developer>
+                            <email>vpavlova@tsconsulting.com</email>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -230,7 +230,7 @@
                 <configuration>
                     <executable>java</executable>
                     <includeProjectDependencies>true</includeProjectDependencies>
-                    <mainClass>ru.ekfedorov.tm.Application</mainClass>
+                    <mainClass>ru.vpavlova.tm.Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>

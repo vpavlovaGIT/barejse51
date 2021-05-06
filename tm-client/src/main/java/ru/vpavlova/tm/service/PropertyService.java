@@ -3,7 +3,7 @@ package ru.vpavlova.tm.service;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.api.IPropertyService;
+import ru.vpavlova.tm.api.service.IPropertyService;
 
 import java.io.InputStream;
 import java.util.Properties;

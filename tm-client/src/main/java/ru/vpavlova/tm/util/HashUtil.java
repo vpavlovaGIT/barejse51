@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.api.ISaltSetting;
+import ru.vpavlova.tm.api.other.ISaltSetting;
 
 public interface HashUtil {
 

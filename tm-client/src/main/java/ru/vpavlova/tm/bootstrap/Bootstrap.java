@@ -1,21 +1,20 @@
 package ru.vpavlova.tm.bootstrap;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reflections.Reflections;
-import ru.vpavlova.tm.api.IPropertyService;
-import ru.vpavlova.tm.api.endpoint.*;
+import ru.vpavlova.tm.api.endpoint.EndpointLocator;
+import ru.vpavlova.tm.api.service.IPropertyService;
 import ru.vpavlova.tm.api.repository.*;
 import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.command.AbstractCommand;
 import ru.vpavlova.tm.component.Backup;
 import ru.vpavlova.tm.component.FileScanner;
 import ru.vpavlova.tm.endpoint.*;
-import ru.vpavlova.tm.entity.Session;
-import ru.vpavlova.tm.enumerated.Role;
-import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.repository.*;
 import ru.vpavlova.tm.service.*;
 import ru.vpavlova.tm.util.SystemUtil;
@@ -30,7 +29,9 @@ import java.util.Optional;
 import java.util.Set;
 
 @Getter
-public class Bootstrap implements ServiceLocator {
+@Setter
+@NoArgsConstructor
+public class Bootstrap implements ServiceLocator, EndpointLocator {
 
     @NotNull
     private final ICommandRepository commandRepository = new CommandRepository();
@@ -45,6 +46,36 @@ public class Bootstrap implements ServiceLocator {
     public final IPropertyService propertyService = new PropertyService();
 
     @NotNull
+    public final AdminEndpointService adminEndpointService = new AdminEndpointService();
+
+    @NotNull
+    public final AdminEndpoint adminEndpoint = adminEndpointService.getAdminEndpointPort();
+
+    @NotNull
+    public final ProjectEndpointService projectEndpointService = new ProjectEndpointService();
+
+    @NotNull
+    public final ProjectEndpoint projectEndpoint = projectEndpointService.getProjectEndpointPort();
+
+    @NotNull
+    public final SessionEndpointService sessionEndpointService = new SessionEndpointService();
+
+    @NotNull
+    public final SessionEndpoint sessionEndpoint = sessionEndpointService.getSessionEndpointPort();
+
+    @NotNull
+    public final TaskEndpointService taskEndpointService = new TaskEndpointService();
+
+    @NotNull
+    public final TaskEndpoint taskEndpoint = taskEndpointService.getTaskEndpointPort();
+
+    @NotNull
+    public final UserEndpointService userEndpointService = new UserEndpointService();
+
+    @NotNull
+    public final UserEndpoint userEndpoint = userEndpointService.getUserEndpointPort();
+
+    @NotNull
     private final Backup backup = new Backup(this);
 
     @NotNull
@@ -53,31 +84,11 @@ public class Bootstrap implements ServiceLocator {
     @Nullable
     private Session session = null;
 
-    public Bootstrap() {
-    }
-
     public void parseArg(@Nullable final String arg) {
         if (arg == null || arg.isEmpty()) return;
         @Nullable final AbstractCommand command = commandService.getCommandByArg(arg);
         if (command == null) return;
         command.execute();
-    }
-
-    public void initData() {
-        @NotNull String userId = userService.create("test", "test", "test@test.ru").getId();
-        projectService.add(userId, "DEMO 1", "description1").setStatus(Status.COMPLETE);
-        projectService.add(userId, "BETA 2", "description2").setStatus(Status.IN_PROGRESS);
-        projectService.add(userId, "LAMBDA 3", "description3").setStatus(Status.IN_PROGRESS);
-        taskService.add(userId, "B_TASK 4", "bbb").setStatus(Status.NOT_STARTED);
-        taskService.add(userId, "C_TASK 5", "ccc").setStatus(Status.COMPLETE);
-        taskService.add(userId, "C_TASK 6", "ccc").setStatus(Status.COMPLETE);
-        @NotNull String adminId = userService.create("admin", "admin", Role.ADMIN).getId();
-        projectService.add(adminId, "OMEGA 4", "description4").setStatus(Status.NOT_STARTED);
-        projectService.add(adminId, "GAMMA 5", "description5").setStatus(Status.COMPLETE);
-        projectService.add(adminId, "GAMMA 6", "description6").setStatus(Status.IN_PROGRESS);
-        taskService.add(adminId, "A_TASK 1", "aaa").setStatus(Status.COMPLETE);
-        taskService.add(adminId, "D_TASK 2", "ddd").setStatus(Status.IN_PROGRESS);
-        taskService.add(adminId, "E_TASK 3", "eee").setStatus(Status.IN_PROGRESS);
     }
 
     private void textWelcome() {
@@ -88,7 +99,6 @@ public class Bootstrap implements ServiceLocator {
     private void init() {
         initPID();
         initCommands();
-        initData();
         initBackup();
         initFileScanner();
         initEndpoint();
@@ -166,8 +176,6 @@ public class Bootstrap implements ServiceLocator {
         if (!Optional.ofNullable(cmd).isPresent()) return;
         @Nullable final AbstractCommand command = commandService.getCommandByName(cmd);
         if (!Optional.ofNullable(command).isPresent()) return;
-        @Nullable final Role[] roles = command.roles();
-        authService.checkRole(roles);
         command.execute();
     }
 
