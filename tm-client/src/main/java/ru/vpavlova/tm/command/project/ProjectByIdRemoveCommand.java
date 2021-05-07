@@ -3,8 +3,8 @@ package ru.vpavlova.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
-import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
-import ru.vpavlova.tm.entity.Project;
+import ru.vpavlova.tm.endpoint.Session;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 public class ProjectByIdRemoveCommand extends AbstractProjectCommand {
@@ -31,10 +31,10 @@ public class ProjectByIdRemoveCommand extends AbstractProjectCommand {
     public void execute() {
         System.out.println("[REMOVE PROJECT]");
         System.out.println("ENTER ID:");
+        @Nullable final Session session = bootstrap.getSession();
+        if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String id = TerminalUtil.nextLine();
-        @NotNull final String userId = serviceLocator.getAuthService().getUserId();
-        @NotNull final Project project = serviceLocator.getProjectService().removeById(userId, id);
-        if (project == null) throw new ProjectNotFoundException();
+        endpointLocator.getProjectEndpoint().removeProjectById(id, session);
     }
 
 }

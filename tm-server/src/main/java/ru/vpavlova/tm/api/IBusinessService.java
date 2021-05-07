@@ -92,9 +92,9 @@ public interface IBusinessService<E extends AbstractBusinessEntity> extends ISer
     E removeById(@Nullable String userId, @Nullable String id);
 
     @Nullable
-    E removeByIndex(@Nullable String userId, @Nullable Integer index);
+    E removeByIndex(@NotNull String userId, @Nullable Integer index);
 
     @Nullable
-    E removeByName(@Nullable String userId, @Nullable String name);
+    E removeByName(@NotNull String userId, @Nullable String name);
 
 }

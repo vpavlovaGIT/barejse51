@@ -189,6 +189,8 @@ public class Bootstrap implements ServiceLocator, EndpointLocator {
     private void registry(final AbstractCommand command) {
         if (!Optional.ofNullable(command).isPresent()) return;
         command.setServiceLocator(this);
+        command.setEndpointLocator(this);
+        command.setBootstrap(this);
         commandService.add(command);
     }
 

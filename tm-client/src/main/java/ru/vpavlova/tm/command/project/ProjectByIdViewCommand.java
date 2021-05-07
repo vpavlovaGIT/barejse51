@@ -3,11 +3,11 @@ package ru.vpavlova.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
+import ru.vpavlova.tm.endpoint.Project;
+import ru.vpavlova.tm.endpoint.Session;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
-import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
-
-import java.util.Optional;
 
 public class ProjectByIdViewCommand extends AbstractProjectCommand {
 
@@ -33,10 +33,12 @@ public class ProjectByIdViewCommand extends AbstractProjectCommand {
     public void execute() {
         System.out.println("[SHOW PROJECT]");
         System.out.println("ENTER ID:");
+        if (bootstrap == null) throw new ObjectNotFoundException();
+        @Nullable final Session session = bootstrap.getSession();
+        if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String id = TerminalUtil.nextLine();
-        @NotNull final String userId = serviceLocator.getAuthService().getUserId();
-        @NotNull final Optional<Project> project = serviceLocator.getProjectService().findById(userId, id);
-        Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
+        @Nullable final Project project = endpointLocator.getProjectEndpoint().findProjectById(id, session);
+        if (project == null) throw new ProjectNotFoundException();
         showProject(project);
     }
 

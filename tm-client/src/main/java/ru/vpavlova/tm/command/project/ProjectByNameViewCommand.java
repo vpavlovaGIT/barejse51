@@ -3,6 +3,7 @@ package ru.vpavlova.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
+import ru.vpavlova.tm.endpoint.Project;
 import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.util.TerminalUtil;
@@ -34,8 +35,7 @@ public class ProjectByNameViewCommand extends AbstractProjectCommand {
         System.out.println("[SHOW PROJECT]");
         System.out.println("ENTER NAME:");
         @NotNull final String name = TerminalUtil.nextLine();
-        @NotNull final String userId = serviceLocator.getAuthService().getUserId();
-        @NotNull final Optional<Project> project = serviceLocator.getProjectService().findByName(userId, name);
+        @NotNull final Project project = serviceLocator.getProjectService().findByName(userId, name);
         Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
         showProject(project);
     }
