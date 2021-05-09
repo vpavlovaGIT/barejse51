@@ -3,8 +3,10 @@ package ru.vpavlova.tm.command.task;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractTaskCommand;
+import ru.vpavlova.tm.endpoint.Session;
+import ru.vpavlova.tm.endpoint.Task;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
-import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Optional;
@@ -31,17 +33,19 @@ public class TaskByIndexUpdateCommand extends AbstractTaskCommand {
 
     @Override
     public void execute() {
-        @NotNull final String userId = serviceLocator.getAuthService().getUserId();
         System.out.println("[UPDATE TASK]");
         System.out.println("ENTER INDEX:");
+        if (bootstrap == null) throw new ObjectNotFoundException();
+        @Nullable final Session session = bootstrap.getSession();
+        if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final Integer index = TerminalUtil.nextNumber() - 1;
-        @NotNull final Optional<Task> task = serviceLocator.getTaskService().findByIndex(userId, index);
+        @NotNull final Task task = endpointLocator.getTaskEndpoint().findTaskOneByIndex(session, index);
         Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
         System.out.println("ENTER NAME:");
         @NotNull final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         @NotNull final String description = TerminalUtil.nextLine();
-        @NotNull final Optional<Task> taskUpdatedIndex = serviceLocator.getTaskService().updateByIndex(userId, index, name, description);
+        @NotNull final Task taskUpdatedIndex = endpointLocator.getTaskEndpoint().updateTaskByIndex(session, index, name, description);
         Optional.ofNullable(taskUpdatedIndex).orElseThrow(TaskNotFoundException::new);
     }
 

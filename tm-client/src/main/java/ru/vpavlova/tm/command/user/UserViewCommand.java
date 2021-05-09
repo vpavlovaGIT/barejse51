@@ -3,7 +3,9 @@ package ru.vpavlova.tm.command.user;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractCommand;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.endpoint.Session;
+import ru.vpavlova.tm.endpoint.User;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 
 import java.util.Optional;
 
@@ -29,14 +31,17 @@ public class UserViewCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        @NotNull final Optional<User> user = serviceLocator.getAuthService().getUser();
+        if (bootstrap == null) throw new ObjectNotFoundException();
+        @Nullable final Session session = bootstrap.getSession();
+        if (endpointLocator == null) throw new ObjectNotFoundException();
+        @NotNull final User user = endpointLocator.getUserEndpoint().findUserOneBySession(session);
         System.out.println("[VIEW PROFILE]");
-        System.out.println("LOGIN: " + user.get().getLogin());
-        System.out.println("EMAIL: " + user.get().getEmail());
-        System.out.println("FIRST NAME: " + user.get().getFirstName());
-        System.out.println("LAST NAME: " + user.get().getLastName());
-        System.out.println("MIDDLE NAME: " + user.get().getMiddleName());
-        System.out.println("USER ID: " + user.get().getId());
+        System.out.println("LOGIN: " + user.getLogin());
+        System.out.println("EMAIL: " + user.getEmail());
+        System.out.println("FIRST NAME: " + user.getFirstName());
+        System.out.println("LAST NAME: " + user.getLastName());
+        System.out.println("MIDDLE NAME: " + user.getMiddleName());
+        System.out.println("USER ID: " + user.getId());
     }
 
 }

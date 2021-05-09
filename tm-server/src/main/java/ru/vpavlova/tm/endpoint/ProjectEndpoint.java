@@ -21,6 +21,19 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
         super(serviceLocator);
     }
 
+    @Override
+    @NotNull
+    @WebMethod
+    @SneakyThrows
+    public Project addProject(
+            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "name", partName = "name") @NotNull final String name,
+            @WebParam(name = "description", partName = "description") @NotNull final String description
+    ) {
+        serviceLocator.getSessionService().validate(session);
+        return serviceLocator.getProjectService().add(session.getUserId(), name, description);
+    }
+
     @Nullable
     @Override
     @WebMethod

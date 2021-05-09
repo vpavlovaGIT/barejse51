@@ -3,6 +3,8 @@ package ru.vpavlova.tm.command.user;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractCommand;
+import ru.vpavlova.tm.endpoint.Session;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 
 public class UserLogoutCommand extends AbstractCommand {
 
@@ -27,7 +29,11 @@ public class UserLogoutCommand extends AbstractCommand {
     @Override
     public void execute() {
         System.out.println("[LOGOUT]");
-        serviceLocator.getAuthService().logout();
+        if (bootstrap == null) throw new ObjectNotFoundException();
+        @Nullable final Session session = bootstrap.getSession();
+        if (endpointLocator == null) throw new ObjectNotFoundException();
+        endpointLocator.getSessionEndpoint().closeSession(session);
+        bootstrap.setSession(null);
     }
 
 }

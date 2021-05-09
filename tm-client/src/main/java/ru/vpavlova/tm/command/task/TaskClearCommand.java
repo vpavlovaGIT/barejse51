@@ -3,6 +3,8 @@ package ru.vpavlova.tm.command.task;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractTaskCommand;
+import ru.vpavlova.tm.endpoint.Session;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 
 public class TaskClearCommand extends AbstractTaskCommand {
 
@@ -27,7 +29,10 @@ public class TaskClearCommand extends AbstractTaskCommand {
     @Override
     public void execute() {
         System.out.println("[TASK CLEAR]");
-        serviceLocator.getTaskService().clear();
+        if (bootstrap == null) throw new ObjectNotFoundException();
+        @Nullable final Session session = bootstrap.getSession();
+        if (endpointLocator == null) throw new ObjectNotFoundException();
+        endpointLocator.getTaskEndpoint().clearTasks(session);
         System.out.println("[OK]");
     }
 

@@ -36,4 +36,15 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
 
     }
 
+    @Override
+    @Nullable
+    @WebMethod
+    @SneakyThrows
+    public User findUserOneBySession(
+            @WebParam(name = "session", partName = "session") @Nullable final Session session
+    ) {
+        serviceLocator.getSessionService().validate(session);
+        return serviceLocator.getUserService().findById(session.getUserId()).orElse(null);
+    }
+
 }

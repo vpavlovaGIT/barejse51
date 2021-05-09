@@ -23,4 +23,10 @@ public interface IUserEndpoint {
             @WebParam (name = "session", partName = "session") @NotNull Session session
     );
 
+    @Nullable
+    @WebMethod
+    User findUserOneBySession(
+            @WebParam(name = "session", partName = "session") @NotNull Session session
+    );
+
 }

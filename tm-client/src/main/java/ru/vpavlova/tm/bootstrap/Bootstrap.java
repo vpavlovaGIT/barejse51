@@ -12,7 +12,6 @@ import ru.vpavlova.tm.api.service.IPropertyService;
 import ru.vpavlova.tm.api.repository.*;
 import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.command.AbstractCommand;
-import ru.vpavlova.tm.component.Backup;
 import ru.vpavlova.tm.component.FileScanner;
 import ru.vpavlova.tm.endpoint.*;
 import ru.vpavlova.tm.repository.*;
@@ -76,9 +75,6 @@ public class Bootstrap implements ServiceLocator, EndpointLocator {
     public final UserEndpoint userEndpoint = userEndpointService.getUserEndpointPort();
 
     @NotNull
-    private final Backup backup = new Backup(this);
-
-    @NotNull
     private final FileScanner fileScanner = new FileScanner(this);
 
     @Nullable
@@ -99,7 +95,6 @@ public class Bootstrap implements ServiceLocator, EndpointLocator {
     private void init() {
         initPID();
         initCommands();
-        initBackup();
         initFileScanner();
         initEndpoint();
     }
@@ -119,11 +114,6 @@ public class Bootstrap implements ServiceLocator, EndpointLocator {
         @NotNull final String wsdl = "http://" + host + ":" + port + "/" + name + "?wsdl";
         System.out.println(wsdl);
         Endpoint.publish(wsdl, endpoint);
-    }
-
-
-    private void initBackup() {
-        backup.init();
     }
 
     private void initFileScanner() {

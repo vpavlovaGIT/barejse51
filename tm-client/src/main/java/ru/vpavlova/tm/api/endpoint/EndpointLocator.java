@@ -1,6 +1,7 @@
 package ru.vpavlova.tm.api.endpoint;
 
-import com.sun.istack.internal.NotNull;
+
+import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.endpoint.*;
 
 public interface EndpointLocator {

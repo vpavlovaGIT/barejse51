@@ -3,6 +3,8 @@ package ru.vpavlova.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
+import ru.vpavlova.tm.endpoint.Session;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 
 public class ProjectClearCommand extends AbstractProjectCommand {
 
@@ -27,7 +29,10 @@ public class ProjectClearCommand extends AbstractProjectCommand {
     @Override
     public void execute() {
         System.out.println("[PROJECT CLEAR]");
-        serviceLocator.getProjectService().clear();
+        if (bootstrap == null) throw new ObjectNotFoundException();
+        @Nullable final Session session = bootstrap.getSession();
+        if (endpointLocator == null) throw new ObjectNotFoundException();
+        endpointLocator.getProjectEndpoint().clear(session);
         System.out.println("[OK]");
     }
 

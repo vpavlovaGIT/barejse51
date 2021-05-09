@@ -12,6 +12,14 @@ import java.util.List;
 
 public interface IProjectEndpoint {
 
+    @NotNull
+    @WebMethod
+    Project addProject(
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "name", partName = "name") @NotNull String name,
+            @WebParam(name = "description", partName = "description") @NotNull String description
+    );
+
     @Nullable
     @WebMethod
     Project findProjectById(

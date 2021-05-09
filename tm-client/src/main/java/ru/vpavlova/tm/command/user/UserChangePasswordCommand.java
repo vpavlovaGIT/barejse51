@@ -3,10 +3,9 @@ package ru.vpavlova.tm.command.user;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractCommand;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.endpoint.Session;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
-
-import java.util.Optional;
 
 public class UserChangePasswordCommand extends AbstractCommand {
 
@@ -31,10 +30,12 @@ public class UserChangePasswordCommand extends AbstractCommand {
     @Override
     public void execute() {
         System.out.println("[CHANGE PASSWORD:]");
-        @NotNull final String userId = serviceLocator.getAuthService().getUserId();
+        if (bootstrap == null) throw new ObjectNotFoundException();
+        @Nullable final Session session = bootstrap.getSession();
+        if (endpointLocator == null) throw new ObjectNotFoundException();
         System.out.println("ENTER NEW PASSWORD:");
         @NotNull final String password = TerminalUtil.nextLine();
-        @NotNull final Optional<User> user = serviceLocator.getUserService().setPassword(userId, password);
+        endpointLocator.getAdminEndpoint().setUserPassword(session.getUserId(), password, session);
     }
 
 }

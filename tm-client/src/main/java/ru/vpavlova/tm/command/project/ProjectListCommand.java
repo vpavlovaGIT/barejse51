@@ -3,13 +3,11 @@ package ru.vpavlova.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
-import ru.vpavlova.tm.enumerated.Sort;
-import ru.vpavlova.tm.entity.Project;
-import ru.vpavlova.tm.util.TerminalUtil;
+import ru.vpavlova.tm.endpoint.Project;
+import ru.vpavlova.tm.endpoint.Session;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class ProjectListCommand extends AbstractProjectCommand {
 
@@ -35,16 +33,10 @@ public class ProjectListCommand extends AbstractProjectCommand {
     public void execute() {
         System.out.println("[PROJECT LIST]");
         System.out.println("ENTER SORT:");
-        System.out.println(Arrays.toString(Sort.values()));
-        @NotNull final String userId = serviceLocator.getAuthService().getUserId();
-        @NotNull final String sort = TerminalUtil.nextLine();
-        @Nullable List<Project> list;
-        if (!Optional.ofNullable(sort).isPresent()) list = serviceLocator.getProjectService().findAll(userId);
-        else {
-            @NotNull final Sort sortType = Sort.valueOf(sort);
-            System.out.println(sortType.getDisplayName());
-            list = serviceLocator.getProjectService().findAll(userId, sortType.getComparator());
-        }
+        if (bootstrap == null) throw new ObjectNotFoundException();
+        @Nullable final Session session = bootstrap.getSession();
+        if (endpointLocator == null) throw new ObjectNotFoundException();
+        @Nullable List<Project> list = endpointLocator.getProjectEndpoint().findAllProjects(session);
         int index = 1;
         for (@NotNull final Project project : list) {
             System.out.println(index + ". " + project);
