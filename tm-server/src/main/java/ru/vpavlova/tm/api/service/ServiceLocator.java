@@ -18,9 +18,6 @@ public interface ServiceLocator {
     IUserService getUserService();
 
     @NotNull
-    IAuthService getAuthService();
-
-    @NotNull
     IPropertyService getPropertyService();
 
     @NotNull

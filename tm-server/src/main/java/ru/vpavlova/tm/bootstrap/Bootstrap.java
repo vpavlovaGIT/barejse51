@@ -74,7 +74,7 @@ public class Bootstrap implements ServiceLocator {
     private final IUserService userService = new UserService(userRepository, propertyService);
 
     @NotNull
-    private final IAuthService authService = new AuthService(userService, propertyService);
+    public final IBackupService backupService = new BackupService(this);
 
     @Nullable
     private Session session = null;
