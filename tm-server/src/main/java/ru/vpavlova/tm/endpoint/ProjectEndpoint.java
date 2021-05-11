@@ -39,8 +39,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public Project findProjectById(
-            @WebParam(name = "id", partName = "id") @NotNull String id,
-            @WebParam(name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
         return serviceLocator.getProjectService().findById(session.getUserId(), id).orElse(null);
@@ -113,8 +113,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void removeProjectById(
-            @WebParam (name = "id", partName = "id") @NotNull String id,
-            @WebParam (name = "session", partName = "session") @NotNull Session session
+            @WebParam (name = "session", partName = "session") @NotNull Session session,
+            @WebParam (name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
         serviceLocator.getProjectService().removeById(id, session.getUserId());

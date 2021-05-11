@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _Exception_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "Exception");
     private final static QName _AddAllUsers_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "addAllUsers");
     private final static QName _AddAllUsersResponse_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "addAllUsersResponse");
     private final static QName _AddUser_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "addUser");
@@ -38,6 +39,8 @@ public class ObjectFactory {
     private final static QName _FindAllUsersResponse_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "findAllUsersResponse");
     private final static QName _LockUserByLogin_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "lockUserByLogin");
     private final static QName _LockUserByLoginResponse_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "lockUserByLoginResponse");
+    private final static QName _RemoveOneByLogin_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "removeOneByLogin");
+    private final static QName _RemoveOneByLoginResponse_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "removeOneByLoginResponse");
     private final static QName _RemoveUser_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "removeUser");
     private final static QName _RemoveUserResponse_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "removeUserResponse");
     private final static QName _SetUserPassword_QNAME = new QName("http://endpoint.tm.vpavlova.ru/", "setUserPassword");
@@ -52,6 +55,14 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link Exception }
+     * 
+     */
+    public Exception createException() {
+        return new Exception();
     }
 
     /**
@@ -167,6 +178,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link RemoveOneByLogin }
+     * 
+     */
+    public RemoveOneByLogin createRemoveOneByLogin() {
+        return new RemoveOneByLogin();
+    }
+
+    /**
+     * Create an instance of {@link RemoveOneByLoginResponse }
+     * 
+     */
+    public RemoveOneByLoginResponse createRemoveOneByLoginResponse() {
+        return new RemoveOneByLoginResponse();
+    }
+
+    /**
      * Create an instance of {@link RemoveUser }
      * 
      */
@@ -244,6 +271,19 @@ public class ObjectFactory {
      */
     public User createUser() {
         return new User();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Exception }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link Exception }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.tm.vpavlova.ru/", name = "Exception")
+    public JAXBElement<Exception> createException(Exception value) {
+        return new JAXBElement<Exception>(_Exception_QNAME, Exception.class, null, value);
     }
 
     /**
@@ -426,6 +466,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://endpoint.tm.vpavlova.ru/", name = "lockUserByLoginResponse")
     public JAXBElement<LockUserByLoginResponse> createLockUserByLoginResponse(LockUserByLoginResponse value) {
         return new JAXBElement<LockUserByLoginResponse>(_LockUserByLoginResponse_QNAME, LockUserByLoginResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveOneByLogin }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link RemoveOneByLogin }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.tm.vpavlova.ru/", name = "removeOneByLogin")
+    public JAXBElement<RemoveOneByLogin> createRemoveOneByLogin(RemoveOneByLogin value) {
+        return new JAXBElement<RemoveOneByLogin>(_RemoveOneByLogin_QNAME, RemoveOneByLogin.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveOneByLoginResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link RemoveOneByLoginResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://endpoint.tm.vpavlova.ru/", name = "removeOneByLoginResponse")
+    public JAXBElement<RemoveOneByLoginResponse> createRemoveOneByLoginResponse(RemoveOneByLoginResponse value) {
+        return new JAXBElement<RemoveOneByLoginResponse>(_RemoveOneByLoginResponse_QNAME, RemoveOneByLoginResponse.class, null, value);
     }
 
     /**

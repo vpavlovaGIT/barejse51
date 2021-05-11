@@ -35,7 +35,7 @@ public class UserChangePasswordCommand extends AbstractCommand {
         if (endpointLocator == null) throw new ObjectNotFoundException();
         System.out.println("ENTER NEW PASSWORD:");
         @NotNull final String password = TerminalUtil.nextLine();
-        endpointLocator.getAdminEndpoint().setUserPassword(session.getUserId(), password, session);
+        endpointLocator.getAdminEndpoint().setUserPassword(session, session.getUserId(), password);
     }
 
 }

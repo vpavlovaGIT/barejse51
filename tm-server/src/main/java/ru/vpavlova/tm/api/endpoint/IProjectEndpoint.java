@@ -23,14 +23,14 @@ public interface IProjectEndpoint {
     @Nullable
     @WebMethod
     Project findProjectById(
-            @WebParam(name = "id", partName = "id") @NotNull final String id,
-            @WebParam(name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "id", partName = "id") @NotNull final String id
     );
 
     @WebMethod
     void removeProjectById(
-            @WebParam(name = "id", partName = "id") @NotNull final String id,
-            @WebParam(name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "id", partName = "id") @NotNull final String id
     );
 
     @NotNull

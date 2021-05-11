@@ -1,13 +1,14 @@
-package ru.vpavlova.tm.command.task;
+package ru.vpavlova.tm.command.user;
 
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.command.AbstractTaskCommand;
+import ru.vpavlova.tm.command.AbstractCommand;
 import ru.vpavlova.tm.endpoint.Session;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
 
-public final class TaskByIdRemoveCommand extends AbstractTaskCommand {
+public class UserRemoveByLoginCommand extends AbstractCommand {
 
     @Nullable
     @Override
@@ -18,24 +19,25 @@ public final class TaskByIdRemoveCommand extends AbstractTaskCommand {
     @NotNull
     @Override
     public String name() {
-        return "task-remove-by-id";
+        return "user-remove";
     }
 
     @NotNull
     @Override
     public String description() {
-        return "Remove task by id.";
+        return "Remove user by login.";
     }
 
     @Override
+    @SneakyThrows
     public void execute() {
-        System.out.println("[REMOVE TASK]");
-        System.out.println("ENTER ID:");
         if (bootstrap == null) throw new ObjectNotFoundException();
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
-        @NotNull final String taskId = TerminalUtil.nextLine();
-        endpointLocator.getTaskEndpoint().removeTaskById(session, taskId);
+        System.out.println("[REMOVE USER]");
+        System.out.println("ENTER LOGIN:");
+        @NotNull final String login = TerminalUtil.nextLine();
+        endpointLocator.getAdminEndpoint().removeOneByLogin(session, login);
     }
 
 }

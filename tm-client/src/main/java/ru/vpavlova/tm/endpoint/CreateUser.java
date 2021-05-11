@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
+ *         &amp;lt;element name="session" type="{http://endpoint.tm.vpavlova.ru/}session" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="login" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="password" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="session" type="{http://endpoint.tm.vpavlova.ru/}session" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *     &amp;lt;/restriction&amp;gt;
  *   &amp;lt;/complexContent&amp;gt;
@@ -29,15 +29,39 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "createUser", propOrder = {
+    "session",
     "login",
-    "password",
-    "session"
+    "password"
 })
 public class CreateUser {
 
+    protected Session session;
     protected String login;
     protected String password;
-    protected Session session;
+
+    /**
+     * Gets the value of the session property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Session }
+     *     
+     */
+    public Session getSession() {
+        return session;
+    }
+
+    /**
+     * Sets the value of the session property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Session }
+     *     
+     */
+    public void setSession(Session value) {
+        this.session = value;
+    }
 
     /**
      * Gets the value of the login property.
@@ -85,30 +109,6 @@ public class CreateUser {
      */
     public void setPassword(String value) {
         this.password = value;
-    }
-
-    /**
-     * Gets the value of the session property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Session }
-     *     
-     */
-    public Session getSession() {
-        return session;
-    }
-
-    /**
-     * Sets the value of the session property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Session }
-     *     
-     */
-    public void setSession(Session value) {
-        this.session = value;
     }
 
 }

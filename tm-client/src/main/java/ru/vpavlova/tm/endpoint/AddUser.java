@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="user" type="{http://endpoint.tm.vpavlova.ru/}user" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="session" type="{http://endpoint.tm.vpavlova.ru/}session" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="user" type="{http://endpoint.tm.vpavlova.ru/}user" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *     &amp;lt;/restriction&amp;gt;
  *   &amp;lt;/complexContent&amp;gt;
@@ -28,37 +28,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "addUser", propOrder = {
-    "user",
-    "session"
+    "session",
+    "user"
 })
 public class AddUser {
 
-    protected User user;
     protected Session session;
-
-    /**
-     * Gets the value of the user property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link User }
-     *     
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the value of the user property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link User }
-     *     
-     */
-    public void setUser(User value) {
-        this.user = value;
-    }
+    protected User user;
 
     /**
      * Gets the value of the session property.
@@ -82,6 +58,30 @@ public class AddUser {
      */
     public void setSession(Session value) {
         this.session = value;
+    }
+
+    /**
+     * Gets the value of the user property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link User }
+     *     
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets the value of the user property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link User }
+     *     
+     */
+    public void setUser(User value) {
+        this.user = value;
     }
 
 }

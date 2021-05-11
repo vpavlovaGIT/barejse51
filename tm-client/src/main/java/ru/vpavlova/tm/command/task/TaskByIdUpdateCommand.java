@@ -38,7 +38,7 @@ public class TaskByIdUpdateCommand extends AbstractTaskCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String id = TerminalUtil.nextLine();
-        @NotNull final Task task = endpointLocator.getTaskEndpoint().findTaskById(id, session);
+        @NotNull final Task task = endpointLocator.getTaskEndpoint().findTaskById(session, id);
         Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
         System.out.println("ENTER NAME:");
         @NotNull final String name = TerminalUtil.nextLine();

@@ -21,6 +21,7 @@ import ru.vpavlova.tm.util.TerminalUtil;
 
 import javax.xml.ws.Endpoint;
 import java.io.File;
+import java.lang.Exception;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Paths;

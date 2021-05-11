@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="login" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="session" type="{http://endpoint.tm.vpavlova.ru/}session" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="login" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *     &amp;lt;/restriction&amp;gt;
  *   &amp;lt;/complexContent&amp;gt;
@@ -28,37 +28,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "unlockUserByLogin", propOrder = {
-    "login",
-    "session"
+    "session",
+    "login"
 })
 public class UnlockUserByLogin {
 
-    protected String login;
     protected Session session;
-
-    /**
-     * Gets the value of the login property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLogin() {
-        return login;
-    }
-
-    /**
-     * Sets the value of the login property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLogin(String value) {
-        this.login = value;
-    }
+    protected String login;
 
     /**
      * Gets the value of the session property.
@@ -82,6 +58,30 @@ public class UnlockUserByLogin {
      */
     public void setSession(Session value) {
         this.session = value;
+    }
+
+    /**
+     * Gets the value of the login property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getLogin() {
+        return login;
+    }
+
+    /**
+     * Sets the value of the login property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setLogin(String value) {
+        this.login = value;
     }
 
 }

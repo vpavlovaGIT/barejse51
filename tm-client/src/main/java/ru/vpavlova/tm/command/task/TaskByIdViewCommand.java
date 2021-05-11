@@ -39,7 +39,7 @@ public class TaskByIdViewCommand extends AbstractTaskCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String id = TerminalUtil.nextLine();
-        @NotNull final Task task = endpointLocator.getTaskEndpoint().findTaskById(id, session);
+        @NotNull final Task task = endpointLocator.getTaskEndpoint().findTaskById(session, id);
         Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
         showTask(task);
     }

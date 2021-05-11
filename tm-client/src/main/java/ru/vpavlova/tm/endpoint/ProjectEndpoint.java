@@ -26,10 +26,10 @@ public interface ProjectEndpoint {
     @WebResult(name = "return", targetNamespace = "")
     public ru.vpavlova.tm.endpoint.Project findProjectById(
 
-        @WebParam(name = "id", targetNamespace = "")
-        java.lang.String id,
         @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session
+        ru.vpavlova.tm.endpoint.Session session,
+        @WebParam(name = "id", targetNamespace = "")
+        java.lang.String id
     );
 
     @WebMethod
@@ -240,10 +240,10 @@ public interface ProjectEndpoint {
     @ResponseWrapper(localName = "removeProjectByIdResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.RemoveProjectByIdResponse")
     public void removeProjectById(
 
-        @WebParam(name = "id", targetNamespace = "")
-        java.lang.String id,
         @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session
+        ru.vpavlova.tm.endpoint.Session session,
+        @WebParam(name = "id", targetNamespace = "")
+        java.lang.String id
     );
 
     @WebMethod

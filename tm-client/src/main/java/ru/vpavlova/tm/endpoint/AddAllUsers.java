@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="users" type="{http://endpoint.tm.vpavlova.ru/}user" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="session" type="{http://endpoint.tm.vpavlova.ru/}session" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="users" type="{http://endpoint.tm.vpavlova.ru/}user" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *     &amp;lt;/restriction&amp;gt;
  *   &amp;lt;/complexContent&amp;gt;
@@ -30,13 +30,37 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "addAllUsers", propOrder = {
-    "users",
-    "session"
+    "session",
+    "users"
 })
 public class AddAllUsers {
 
-    protected List<User> users;
     protected Session session;
+    protected List<User> users;
+
+    /**
+     * Gets the value of the session property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Session }
+     *     
+     */
+    public Session getSession() {
+        return session;
+    }
+
+    /**
+     * Sets the value of the session property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Session }
+     *     
+     */
+    public void setSession(Session value) {
+        this.session = value;
+    }
 
     /**
      * Gets the value of the users property.
@@ -65,30 +89,6 @@ public class AddAllUsers {
             users = new ArrayList<User>();
         }
         return this.users;
-    }
-
-    /**
-     * Gets the value of the session property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Session }
-     *     
-     */
-    public Session getSession() {
-        return session;
-    }
-
-    /**
-     * Sets the value of the session property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Session }
-     *     
-     */
-    public void setSession(Session value) {
-        this.session = value;
     }
 
 }

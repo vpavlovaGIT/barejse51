@@ -37,7 +37,7 @@ public class ProjectByIdUpdateCommand extends AbstractProjectCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String id = TerminalUtil.nextLine();
-        @NotNull final Project project = endpointLocator.getProjectEndpoint().findProjectById(id, session);
+        @NotNull final Project project = endpointLocator.getProjectEndpoint().findProjectById(session, id);
         if (project == null) throw new ProjectNotFoundException();
         System.out.println("ENTER NAME:");
         @NotNull final String name = TerminalUtil.nextLine();

@@ -24,16 +24,11 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
     @WebMethod
     @SneakyThrows
     public User findUserByLogin(
-            @WebParam(name = "login", partName = "login") @NotNull final String login,
-            @WebParam (name = "session", partName = "session") @NotNull Session session
+            @WebParam (name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "login", partName = "login") @NotNull final String login
     ) {
         serviceLocator.getSessionService().validate(session);
         return serviceLocator.getUserService().findByLogin(login).orElse(null);
-    }
-
-    @Override
-    public void removeUserOneByLogin(@NotNull String login, @NotNull Session session) {
-
     }
 
     @Override

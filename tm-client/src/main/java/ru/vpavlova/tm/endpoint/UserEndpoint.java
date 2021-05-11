@@ -20,18 +20,6 @@ import javax.xml.ws.ResponseWrapper;
 public interface UserEndpoint {
 
     @WebMethod
-    @Action(input = "http://endpoint.tm.vpavlova.ru/UserEndpoint/removeUserOneByLoginRequest", output = "http://endpoint.tm.vpavlova.ru/UserEndpoint/removeUserOneByLoginResponse")
-    @RequestWrapper(localName = "removeUserOneByLogin", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.RemoveUserOneByLogin")
-    @ResponseWrapper(localName = "removeUserOneByLoginResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.RemoveUserOneByLoginResponse")
-    public void removeUserOneByLogin(
-
-        @WebParam(name = "arg0", targetNamespace = "")
-        java.lang.String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session arg1
-    );
-
-    @WebMethod
     @Action(input = "http://endpoint.tm.vpavlova.ru/UserEndpoint/findUserOneBySessionRequest", output = "http://endpoint.tm.vpavlova.ru/UserEndpoint/findUserOneBySessionResponse")
     @RequestWrapper(localName = "findUserOneBySession", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindUserOneBySession")
     @ResponseWrapper(localName = "findUserOneBySessionResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindUserOneBySessionResponse")
@@ -49,9 +37,9 @@ public interface UserEndpoint {
     @WebResult(name = "return", targetNamespace = "")
     public ru.vpavlova.tm.endpoint.User findUserByLogin(
 
-        @WebParam(name = "login", targetNamespace = "")
-        java.lang.String login,
         @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session
+        ru.vpavlova.tm.endpoint.Session session,
+        @WebParam(name = "login", targetNamespace = "")
+        java.lang.String login
     );
 }

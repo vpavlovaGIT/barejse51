@@ -34,7 +34,7 @@ public class ProjectByIdRemoveCommand extends AbstractProjectCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String id = TerminalUtil.nextLine();
-        endpointLocator.getProjectEndpoint().removeProjectById(id, session);
+        endpointLocator.getProjectEndpoint().removeProjectById(session, id);
     }
 
 }

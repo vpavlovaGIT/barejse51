@@ -39,8 +39,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public Task findTaskById(
-            @WebParam(name = "id", partName = "id") @NotNull String id,
-            @WebParam (name = "session", partName = "session") @NotNull Session session
+            @WebParam (name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
         return serviceLocator.getTaskService().findById(session.getUserId(), id).orElse(null);
@@ -74,8 +74,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void removeTaskById(
-            @WebParam (name = "id", partName = "id") @NotNull String id,
-            @WebParam (name = "session", partName = "session") @NotNull Session session
+            @WebParam (name = "session", partName = "session") @NotNull Session session,
+            @WebParam (name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
         serviceLocator.getTaskService().removeById(id, session.getUserId());

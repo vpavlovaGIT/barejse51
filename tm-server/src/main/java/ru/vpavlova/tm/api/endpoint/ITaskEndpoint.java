@@ -23,8 +23,8 @@ public interface ITaskEndpoint {
     @Nullable
     @WebMethod
     Task findTaskById(
-            @WebParam(name = "id", partName = "id") @NotNull final String id,
-            @WebParam(name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "id", partName = "id") @NotNull final String id
     );
 
     @Nullable
@@ -43,8 +43,8 @@ public interface ITaskEndpoint {
 
     @WebMethod
     void removeTaskById(
-            @WebParam(name = "id", partName = "id") @NotNull final String id,
-            @WebParam(name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "id", partName = "id") @NotNull final String id
     );
 
     @WebMethod

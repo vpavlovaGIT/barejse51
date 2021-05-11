@@ -35,7 +35,7 @@ public class UserLockByLoginCommand extends AbstractCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String login = TerminalUtil.nextLine();
-        endpointLocator.getAdminEndpoint().lockUserByLogin(login, session);
+        endpointLocator.getAdminEndpoint().lockUserByLogin(session, login);
     }
 
 }

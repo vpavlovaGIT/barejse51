@@ -20,14 +20,16 @@ import javax.xml.ws.ResponseWrapper;
 public interface TaskEndpoint {
 
     @WebMethod
-    @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/findAllTasksRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/findAllTasksResponse")
-    @RequestWrapper(localName = "findAllTasks", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindAllTasks")
-    @ResponseWrapper(localName = "findAllTasksResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindAllTasksResponse")
+    @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/finishTaskByIdRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/finishTaskByIdResponse")
+    @RequestWrapper(localName = "finishTaskById", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FinishTaskById")
+    @ResponseWrapper(localName = "finishTaskByIdResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FinishTaskByIdResponse")
     @WebResult(name = "return", targetNamespace = "")
-    public java.util.List<ru.vpavlova.tm.endpoint.Task> findAllTasks(
+    public ru.vpavlova.tm.endpoint.Task finishTaskById(
 
         @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session
+        ru.vpavlova.tm.endpoint.Session session,
+        @WebParam(name = "id", targetNamespace = "")
+        java.lang.String id
     );
 
     @WebMethod
@@ -48,16 +50,14 @@ public interface TaskEndpoint {
     );
 
     @WebMethod
-    @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/finishTaskByIdRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/finishTaskByIdResponse")
-    @RequestWrapper(localName = "finishTaskById", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FinishTaskById")
-    @ResponseWrapper(localName = "finishTaskByIdResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FinishTaskByIdResponse")
+    @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/findAllTasksRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/findAllTasksResponse")
+    @RequestWrapper(localName = "findAllTasks", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindAllTasks")
+    @ResponseWrapper(localName = "findAllTasksResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindAllTasksResponse")
     @WebResult(name = "return", targetNamespace = "")
-    public ru.vpavlova.tm.endpoint.Task finishTaskById(
+    public java.util.List<ru.vpavlova.tm.endpoint.Task> findAllTasks(
 
         @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session,
-        @WebParam(name = "id", targetNamespace = "")
-        java.lang.String id
+        ru.vpavlova.tm.endpoint.Session session
     );
 
     @WebMethod
@@ -122,10 +122,10 @@ public interface TaskEndpoint {
     @ResponseWrapper(localName = "removeTaskByIdResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.RemoveTaskByIdResponse")
     public void removeTaskById(
 
-        @WebParam(name = "id", targetNamespace = "")
-        java.lang.String id,
         @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session
+        ru.vpavlova.tm.endpoint.Session session,
+        @WebParam(name = "id", targetNamespace = "")
+        java.lang.String id
     );
 
     @WebMethod
@@ -168,24 +168,24 @@ public interface TaskEndpoint {
     );
 
     @WebMethod
-    @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/clearTasksRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/clearTasksResponse")
-    @RequestWrapper(localName = "clearTasks", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.ClearTasks")
-    @ResponseWrapper(localName = "clearTasksResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.ClearTasksResponse")
-    public void clearTasks(
-
-        @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session
-    );
-
-    @WebMethod
     @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/findTaskByIdRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/findTaskByIdResponse")
     @RequestWrapper(localName = "findTaskById", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindTaskById")
     @ResponseWrapper(localName = "findTaskByIdResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindTaskByIdResponse")
     @WebResult(name = "return", targetNamespace = "")
     public ru.vpavlova.tm.endpoint.Task findTaskById(
 
+        @WebParam(name = "session", targetNamespace = "")
+        ru.vpavlova.tm.endpoint.Session session,
         @WebParam(name = "id", targetNamespace = "")
-        java.lang.String id,
+        java.lang.String id
+    );
+
+    @WebMethod
+    @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/clearTasksRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/clearTasksResponse")
+    @RequestWrapper(localName = "clearTasks", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.ClearTasks")
+    @ResponseWrapper(localName = "clearTasksResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.ClearTasksResponse")
+    public void clearTasks(
+
         @WebParam(name = "session", targetNamespace = "")
         ru.vpavlova.tm.endpoint.Session session
     );
@@ -234,6 +234,19 @@ public interface TaskEndpoint {
     );
 
     @WebMethod
+    @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/finishTaskByIndexRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/finishTaskByIndexResponse")
+    @RequestWrapper(localName = "finishTaskByIndex", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FinishTaskByIndex")
+    @ResponseWrapper(localName = "finishTaskByIndexResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FinishTaskByIndexResponse")
+    @WebResult(name = "return", targetNamespace = "")
+    public ru.vpavlova.tm.endpoint.Task finishTaskByIndex(
+
+        @WebParam(name = "session", targetNamespace = "")
+        ru.vpavlova.tm.endpoint.Session session,
+        @WebParam(name = "index", targetNamespace = "")
+        java.lang.Integer index
+    );
+
+    @WebMethod
     @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/changeTaskStatusByIndexRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/changeTaskStatusByIndexResponse")
     @RequestWrapper(localName = "changeTaskStatusByIndex", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.ChangeTaskStatusByIndex")
     @ResponseWrapper(localName = "changeTaskStatusByIndexResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.ChangeTaskStatusByIndexResponse")
@@ -246,19 +259,6 @@ public interface TaskEndpoint {
         java.lang.Integer index,
         @WebParam(name = "status", targetNamespace = "")
         ru.vpavlova.tm.endpoint.Status status
-    );
-
-    @WebMethod
-    @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/finishTaskByIndexRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/finishTaskByIndexResponse")
-    @RequestWrapper(localName = "finishTaskByIndex", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FinishTaskByIndex")
-    @ResponseWrapper(localName = "finishTaskByIndexResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FinishTaskByIndexResponse")
-    @WebResult(name = "return", targetNamespace = "")
-    public ru.vpavlova.tm.endpoint.Task finishTaskByIndex(
-
-        @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session,
-        @WebParam(name = "index", targetNamespace = "")
-        java.lang.Integer index
     );
 
     @WebMethod

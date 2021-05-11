@@ -13,14 +13,8 @@ public interface IUserEndpoint {
     @Nullable
     @WebMethod
     User findUserByLogin(
-            @WebParam (name = "login", partName = "login") @NotNull final String login,
-            @WebParam (name = "session", partName = "session") @NotNull Session session
-    );
-
-    @WebMethod
-    void removeUserOneByLogin(
-            @WebParam (name = "login", partName = "login") @NotNull final String login,
-            @WebParam (name = "session", partName = "session") @NotNull Session session
+            @WebParam (name = "session", partName = "session") @NotNull Session session,
+            @WebParam (name = "login", partName = "login") @NotNull final String login
     );
 
     @Nullable
