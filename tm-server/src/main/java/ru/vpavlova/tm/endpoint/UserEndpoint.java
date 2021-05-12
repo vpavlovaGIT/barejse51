@@ -7,6 +7,7 @@ import ru.vpavlova.tm.api.endpoint.IUserEndpoint;
 import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.entity.Session;
 import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.enumerated.Role;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -27,7 +28,7 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
             @WebParam (name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "login", partName = "login") @NotNull final String login
     ) {
-        serviceLocator.getSessionService().validate(session);
+        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         return serviceLocator.getUserService().findByLogin(login).orElse(null);
     }
 
