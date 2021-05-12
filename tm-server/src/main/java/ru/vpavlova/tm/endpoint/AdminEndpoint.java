@@ -126,7 +126,6 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
         serviceLocator.getUserService().unlockUserByLogin(login);
     }
 
-    @Nullable
     @Override
     @WebMethod
     @SneakyThrows

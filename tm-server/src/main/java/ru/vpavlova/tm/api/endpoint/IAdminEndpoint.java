@@ -73,7 +73,6 @@ public interface IAdminEndpoint {
             @WebParam(name = "login", partName = "login") @NotNull final String login
     );
 
-    @Nullable
     @WebMethod
     List<User> findAllUsers(
             @WebParam(name = "session", partName = "session") @NotNull Session session
