@@ -12,4 +12,6 @@ build:
   - mvn clean install
   artifacts:
     paths:
-      - target/*.jar
+      - tm-client/target/*.jar
+      - tm-server/target/*.jar
+
