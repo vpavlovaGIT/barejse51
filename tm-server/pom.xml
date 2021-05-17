@@ -32,7 +32,20 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <slf4jVersion>1.7.5</slf4jVersion>
+        <test.category>ru.vpavlova.tm.marker.UnitCategory</test.category>
     </properties>
+
+    <profiles>
+    <profile>
+        <id>UNIT</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+            <test.category>ru.vpavlova.tm.marker.UnitCategory</test.category>
+        </properties>
+    </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -196,6 +209,15 @@
                     <executable>java</executable>
                     <includeProjectDependencies>true</includeProjectDependencies>
                     <mainClass>ru.vpavlova.tm.Application</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.1</version>
+                <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
         </plugins>
