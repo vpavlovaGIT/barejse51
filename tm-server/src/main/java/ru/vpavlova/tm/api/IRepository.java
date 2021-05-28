@@ -9,9 +9,6 @@ import java.util.Optional;
 
 public interface IRepository<E extends AbstractEntity> {
 
-    @NotNull
-    List<E> findAll();
-
     @Nullable
     E add(@Nullable E entity);
 
@@ -19,6 +16,9 @@ public interface IRepository<E extends AbstractEntity> {
 
     @NotNull
     Optional<E> findById(@NotNull String id);
+
+    @NotNull
+    List<E> findAll();
 
     void clear();
 

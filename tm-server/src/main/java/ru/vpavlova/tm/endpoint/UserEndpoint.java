@@ -29,7 +29,7 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
             @WebParam(name = "login", partName = "login") @NotNull final String login
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
-        return serviceLocator.getUserService().findByLogin(login).orElse(null);
+        return serviceLocator.getUserService().findByLogin(login);
     }
 
     @Override

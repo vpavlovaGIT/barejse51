@@ -252,8 +252,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().updateById(session.getUserId(), id, name, description)
-                .orElse(null);
+        return serviceLocator.getProjectService().updateById(session.getUserId(), id, name, description);
     }
 
     @Override

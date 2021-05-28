@@ -74,6 +74,30 @@ public class PropertyService implements IPropertyService {
     public static final String SERVER_PORT_DEFAULT = "8080";
 
     @NotNull
+    public static final String JDBC_DRIVER = "jdbc.driver";
+
+    @NotNull
+    public static final String JDBC_DRIVER_DEFAULT = "com.mysql.jdbc.Driver";
+
+    @NotNull
+    public static final String JDBC_USER = "jdbc.user";
+
+    @NotNull
+    public static final String JDBC_USER_DEFAULT = "root";
+
+    @NotNull
+    public static final String JDBC_PASSWORD = "jdbc.password";
+
+    @NotNull
+    public static final String JDBC_PASSWORD_DEFAULT = "329354";
+
+    @NotNull
+    private static final String JDBC_URL = "jdbc.url";
+
+    @NotNull
+    private static final String JDBC_URL_DEFAULT = "jdbc:mysql://localhost:3306/task_manager";
+
+    @NotNull
     private final Properties properties = new Properties();
 
     @SneakyThrows
@@ -105,6 +129,30 @@ public class PropertyService implements IPropertyService {
         }
         final String value = properties.getProperty(PASSWORD_ITERATION_KEY, PASSWORD_ITERATION_DEFAULT);
         return Integer.parseInt(value);
+    }
+
+    @NotNull
+    @Override
+    public String getJdbcUrl() {
+        return properties.getProperty(JDBC_URL, JDBC_URL_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getJdbcDriver() {
+        return properties.getProperty(JDBC_DRIVER, JDBC_DRIVER_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getJdbcUser() {
+        return properties.getProperty(JDBC_USER, JDBC_USER_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getJdbcPassword() {
+        return properties.getProperty(JDBC_PASSWORD, JDBC_PASSWORD_DEFAULT);
     }
 
     @NotNull

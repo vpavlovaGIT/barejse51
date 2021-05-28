@@ -2,9 +2,7 @@ package ru.vpavlova.tm.api.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.entity.Task;
-import ru.vpavlova.tm.entity.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +18,6 @@ public interface IProjectTaskService {
     @Nullable
     Optional<Task> unbindTaskFromProject(@Nullable String userId, @Nullable String taskId);
 
-    @Nullable
-    Project removeProjectById(@Nullable String userId, @Nullable String projectId);
+    void removeProjectById(@Nullable String userId, @Nullable String projectId);
 
 }

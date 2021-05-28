@@ -135,7 +135,6 @@ public interface IProjectEndpoint {
             @WebParam(name = "name", partName = "name") @NotNull String name
     );
 
-    @Nullable
     @WebMethod
     Project updateProjectById(
             @WebParam(name = "session", partName = "session") @NotNull Session session,

@@ -1,15 +1,23 @@
 package ru.vpavlova.tm.reposotory;
 
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
+import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.marker.UnitCategory;
 import ru.vpavlova.tm.repository.ProjectRepository;
+import ru.vpavlova.tm.service.ConnectionService;
+import ru.vpavlova.tm.service.PropertyService;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +25,25 @@ import java.util.Optional;
 public class ProjectRepositoryTest {
 
     @NotNull
-    private final IProjectRepository projectRepository = new ProjectRepository();
+    private final IPropertyService propertyService = new PropertyService();
+
+    @NotNull
+    private final IConnectionService connectionService = new ConnectionService(propertyService);
+
+    @NotNull
+    final Connection connection = connectionService.getConnection();
+
+    @NotNull
+    private final IProjectRepository projectRepository = new ProjectRepository(connection);
+
+    @After
+    @SneakyThrows
+    public void after() {
+        connection.commit();
+    }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void addAllProjectsTest() {
         final List<Project> projects = new ArrayList<>();
         final Project project1 = new Project();
@@ -33,21 +56,21 @@ public class ProjectRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void addProjectTest() {
         final Project project = new Project();
         Assert.assertNotNull(projectRepository.add(project));
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void clearProjectTest() {
         projectRepository.clear();
         Assert.assertTrue(projectRepository.findAll().isEmpty());
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findAllProjects() {
         final List<Project> projects = new ArrayList<>();
         final Project projectOne = new Project();
@@ -59,7 +82,7 @@ public class ProjectRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findProjectOneByIdTest() {
         final Project project1 = new Project();
         final String projectId = project1.getId();
@@ -68,14 +91,14 @@ public class ProjectRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findProjectOneByIndexTest() {
         @NotNull final Optional<Project> project = projectRepository.findByIndex("testUser", 0);
         Assert.assertNotNull(project);
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findProjectOneByNameTest() {
         final Project project = new Project();
         final User user = new User();
@@ -89,7 +112,7 @@ public class ProjectRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeProjectByIdTest() {
         final Project project1 = new Project();
         projectRepository.add(project1);
@@ -99,7 +122,7 @@ public class ProjectRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeProjectOneByIndexTest() {
         final Project project1 = new Project();
         final Project project2 = new Project();
@@ -118,7 +141,7 @@ public class ProjectRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeProjectByNameTest() {
         final Project project = new Project();
         final User user = new User();
@@ -132,7 +155,7 @@ public class ProjectRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeProjectTest() {
         final List<Project> projects = new ArrayList<>();
         for (@NotNull final Project project : projects) {

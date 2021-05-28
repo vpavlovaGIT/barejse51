@@ -4,27 +4,29 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import ru.vpavlova.tm.api.repository.IProjectRepository;
+import ru.vpavlova.tm.api.IPropertyService;
+import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IProjectService;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.entity.User;
-import ru.vpavlova.tm.marker.UnitCategory;
-import ru.vpavlova.tm.repository.ProjectRepository;
+import ru.vpavlova.tm.marker.DBCategory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class ProjectServiceTest {
 
     @NotNull
-    private final IProjectRepository projectRepository = new ProjectRepository();
+    private final IPropertyService propertyService = new PropertyService();
 
     @NotNull
-    private final IProjectService projectService = new ProjectService(projectRepository);
+    private final IConnectionService connectionService = new ConnectionService(propertyService);
+
+    @NotNull
+    private final IProjectService projectService = new ProjectService(connectionService);
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void addAllProjectsTest() {
         final List<Project> projects = new ArrayList<>();
         final Project project1 = new Project();
@@ -37,21 +39,21 @@ public class ProjectServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void addProjectTest() {
         final Project project = new Project();
         Assert.assertNotNull(projectService.add(project));
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void clearProjectTest() {
         projectService.clear();
         Assert.assertTrue(projectService.findAll().isEmpty());
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findAllProjects() {
         final List<Project> projects = new ArrayList<>();
         final Project projectOne = new Project();
@@ -63,7 +65,7 @@ public class ProjectServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findProjectOneByIdTest() {
         final Project project1 = new Project();
         final String projectId = project1.getId();
@@ -72,14 +74,17 @@ public class ProjectServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findProjectOneByIndexTest() {
-        @NotNull final Optional<Project> project = projectRepository.findByIndex("testUser", 0);
-        Assert.assertNotNull(project);
+        final Project project = new Project();
+        projectService.add(project);
+        final String projectId = project.getId();
+        Assert.assertTrue(projectService.findById(projectId).isPresent());
+        projectService.remove(project);
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findProjectOneByNameTest() {
         final Project project = new Project();
         final User user = new User();
@@ -93,7 +98,7 @@ public class ProjectServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeProjectOneByIdTest() {
         final Project project1 = new Project();
         projectService.add(project1);
@@ -102,19 +107,7 @@ public class ProjectServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
-    public void removeProjectOneByIdTestByUserId() {
-        final Project project = new Project();
-        final User user = new User();
-        final String userId = user.getId();
-        project.setUserId(userId);
-        projectService.add(project);
-        final String projectId = project.getId();
-        Assert.assertNull(projectService.removeById(userId, projectId));
-    }
-
-    @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeProjectOneByIndexTest() {
         final Project project1 = new Project();
         final Project project2 = new Project();
@@ -133,21 +126,20 @@ public class ProjectServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeProjectOneByNameTest() {
         final Project project = new Project();
         final User user = new User();
         final String userId = user.getId();
         project.setUserId(userId);
         project.setName("project1");
-        projectService.add(project);
         final String name = project.getName();
-        Assert.assertNotNull(name);
-        Assert.assertNull(projectService.removeByName(userId, name));
+        projectService.add(project);
+        projectService.removeByName(name, userId);
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeProjectTest() {
         final List<Project> projects = new ArrayList<>();
         for (@NotNull final Project project : projects) {

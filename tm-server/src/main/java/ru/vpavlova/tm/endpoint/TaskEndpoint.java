@@ -271,18 +271,16 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task updateTaskById(
+    public void updateTaskById(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().updateById(session.getUserId(), id, name, description)
-                .orElse(null);
+        serviceLocator.getTaskService().updateById(session.getUserId(), id, name, description);
     }
 
     @Override

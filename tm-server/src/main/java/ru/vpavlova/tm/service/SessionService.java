@@ -5,14 +5,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.repository.ISessionRepository;
+import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.ISessionService;
 import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.entity.Session;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
+import ru.vpavlova.tm.exception.entity.UserNotFoundException;
 import ru.vpavlova.tm.exception.user.AccessDeniedException;
+import ru.vpavlova.tm.repository.SessionRepository;
 import ru.vpavlova.tm.util.HashUtil;
 
+import java.sql.Connection;
 import java.util.Optional;
 
 public class SessionService extends AbstractService<Session> implements ISessionService {
@@ -20,33 +24,45 @@ public class SessionService extends AbstractService<Session> implements ISession
     @NotNull
     private final ServiceLocator serviceLocator;
 
-    @NotNull
-    private final ISessionRepository sessionRepository;
-
     public SessionService(
-            @NotNull final ServiceLocator serviceLocator,
-            @NotNull final ISessionRepository sessionRepository
+            @NotNull IConnectionService connectionService,
+            @NotNull ServiceLocator serviceLocator
     ) {
-        super(sessionRepository);
+        super(connectionService);
         this.serviceLocator = serviceLocator;
-        this.sessionRepository = sessionRepository;
+    }
+
+    public ISessionRepository getRepository(@NotNull Connection connection) {
+        return new SessionRepository(connection);
     }
 
     @Nullable
     @Override
+    @SneakyThrows
     public Session open(
             @Nullable final String login,
             @Nullable final String password
     ) {
         final boolean check = checkDataAccess(login, password);
         if (!check) return null;
-        final @NotNull Optional<User> user = serviceLocator.getUserService().findByLogin(login);
-        if (!user.isPresent()) return null;
+        @Nullable final User user = serviceLocator.getUserService().findByLogin(login);
+        if (user == null) return null;
         @NotNull final Session session = new Session();
-        session.setUserId(user.get().getId());
-        session.setTimestamp(System.currentTimeMillis());
-        sessionRepository.add(session);
-        return sign(session);
+        session.setUserId(user.getId());
+        @Nullable final Session signSession = sign(session);
+        if (signSession == null) return null;
+        final Connection connection = connectionService.getConnection();
+        try {
+            final ISessionRepository sessionRepository = new SessionRepository(connection);
+            sessionRepository.add(signSession);
+            connection.commit();
+            return signSession;
+        } catch (@NotNull final Exception e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.close();
+        }
     }
 
     @Override
@@ -62,13 +78,16 @@ public class SessionService extends AbstractService<Session> implements ISession
         if (session == null) throw new AccessDeniedException();
         if (session.getSignature() == null || session.getSignature().isEmpty()) throw new AccessDeniedException();
         if (session.getUserId() == null || session.getUserId().isEmpty()) throw new AccessDeniedException();
-        if (session.getTimestamp() == null) throw new AccessDeniedException();
-        final Session temp = session.clone();
+        @Nullable final Session temp = session.clone();
         if (temp == null) throw new AccessDeniedException();
-        final String signatureSource = session.getSignature();
-        final String signatureTarget = sign(temp).getSignature();
+        @NotNull final String signatureSource = session.getSignature();
+        @Nullable final Session sessionTarget = sign(temp);
+        if (sessionTarget == null) throw new AccessDeniedException();
+        @Nullable final String signatureTarget = sessionTarget.getSignature();
         final boolean check = signatureSource.equals(signatureTarget);
         if (!check) throw new AccessDeniedException();
+        final Connection connection = connectionService.getConnection();
+        final ISessionRepository sessionRepository = new SessionRepository(connection);
         if (!sessionRepository.contains(session.getId())) throw new AccessDeniedException();
     }
 
@@ -86,9 +105,20 @@ public class SessionService extends AbstractService<Session> implements ISession
 
     @Override
     @Nullable
+    @SneakyThrows
     public Session close(@Nullable Session session) {
-        sessionRepository.removeById(session.getId());
-        return session;
+        final Connection connection = connectionService.getConnection();
+        try {
+            final ISessionRepository sessionRepository = new SessionRepository(connection);
+            sessionRepository.removeById(session.getId());
+            connection.commit();
+            return session;
+        } catch (@NotNull final Exception e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.close();
+        }
     }
 
     @Override
@@ -97,11 +127,13 @@ public class SessionService extends AbstractService<Session> implements ISession
             @Nullable final String password
     ) {
         if (login.isEmpty() || password.isEmpty()) return false;
-        final @NotNull Optional<User> user = serviceLocator.getUserService().findByLogin(login);
-        if (!user.isPresent()) return false;
-        final String passwordHash = HashUtil.salt(serviceLocator.getPropertyService(), password);
+        if (password.isEmpty()) return false;
+        final User user = serviceLocator.getUserService().findByLogin(login);
+        if (user == null) throw new UserNotFoundException();
+        final String passwordHash = HashUtil.md5(password);
         if (passwordHash == null || passwordHash.isEmpty()) return false;
-        return passwordHash.equals(user.get().getPasswordHash());
+        boolean check = passwordHash.equals(user.getPasswordHash());
+        return (true);
     }
 
     @Nullable

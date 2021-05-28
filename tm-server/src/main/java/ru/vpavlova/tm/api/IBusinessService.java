@@ -3,19 +3,13 @@ package ru.vpavlova.tm.api;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.entity.AbstractBusinessEntity;
+import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.enumerated.Status;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 
-public interface IBusinessService<E extends AbstractBusinessEntity> extends IService<E> {
-
-    @NotNull
-    List<E> findAll(@NotNull String userId);
-
-    @NotNull
-    List<E> findAll(@NotNull String userId, @Nullable Comparator<E> comparator);
+public interface IBusinessService<E extends AbstractBusinessEntity>
+        extends IBusinessRepository<E>, IService<E> {
 
     @Nullable
     E add(@NotNull String userId, @Nullable E entity);
@@ -39,8 +33,7 @@ public interface IBusinessService<E extends AbstractBusinessEntity> extends ISer
             @Nullable String description
     );
 
-    @NotNull
-    Optional<E> updateById(
+    Project updateById(
             @Nullable String userId,
             @Nullable String id,
             @Nullable String name,
@@ -88,13 +81,10 @@ public interface IBusinessService<E extends AbstractBusinessEntity> extends ISer
 
     void remove(@Nullable String userId, @Nullable E entity);
 
-    @Nullable
-    E removeById(@Nullable String userId, @Nullable String id);
+    void removeById(@Nullable String userId, @Nullable String id);
 
-    @Nullable
-    E removeByIndex(@NotNull String userId, @Nullable Integer index);
+    void removeByIndex(@NotNull String userId, @Nullable Integer index);
 
-    @Nullable
-    E removeByName(@NotNull String userId, @Nullable String name);
+    void removeByName(@NotNull String userId, @Nullable String name);
 
 }

@@ -1,16 +1,24 @@
 package ru.vpavlova.tm.reposotory;
 
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
+import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.marker.UnitCategory;
 import ru.vpavlova.tm.repository.TaskRepository;
+import ru.vpavlova.tm.service.ConnectionService;
+import ru.vpavlova.tm.service.PropertyService;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +26,25 @@ import java.util.Optional;
 public class TaskRepositoryTest {
 
     @NotNull
-    private final ITaskRepository taskRepository = new TaskRepository();
+    private final IPropertyService propertyService = new PropertyService();
+
+    @NotNull
+    private final IConnectionService connectionService = new ConnectionService(propertyService);
+
+    @NotNull
+    final Connection connection = connectionService.getConnection();
+
+    @NotNull
+    private final ITaskRepository taskRepository = new TaskRepository(connection);
+
+    @After
+    @SneakyThrows
+    public void after() {
+        connection.commit();
+    }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void addAllTasksTest() {
         final List<Task> tasks = new ArrayList<>();
         final Task task1 = new Task();
@@ -34,14 +57,14 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void addTaskTest() {
         final Task task = new Task();
         Assert.assertNotNull(taskRepository.add(task));
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void bindTaskByProjectIdTest() {
         final Task task = new Task();
         final User user = new User();
@@ -55,14 +78,14 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void clearTaskTest() {
         taskRepository.clear();
         Assert.assertTrue(taskRepository.findAll().isEmpty());
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findAllTasks() {
         final List<Task> tasks = new ArrayList<>();
         final Task taskOne = new Task();
@@ -74,7 +97,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findTaskOneByIdTest() {
         final Task task1 = new Task();
         final String taskId = task1.getId();
@@ -83,14 +106,14 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findTaskOneByIndexTest() {
         @NotNull final Optional<Task> task = taskRepository.findByIndex("testUser", 0);
         Assert.assertNotNull(task);
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findTaskOneByIndexTestByUserId() {
         final Task task = new Task();
         final User user = new User();
@@ -102,7 +125,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findTaskOneByNameTest() {
         final Task task = new Task();
         final User user = new User();
@@ -116,7 +139,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeAllByProjectIdTest() {
         final Task task = new Task();
         final Task task2 = new Task();
@@ -140,7 +163,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeTaskOneByIdTest() {
         final Task task1 = new Task();
         taskRepository.add(task1);
@@ -150,7 +173,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeTaskOneByIndexTest() {
         final Task task1 = new Task();
         final Task task2 = new Task();
@@ -169,7 +192,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeTaskOneByNameTest() {
         final Task task = new Task();
         final User user = new User();
@@ -183,7 +206,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeTaskTest() {
         final List<Task> tasks = new ArrayList<>();
         for (@NotNull final Task task : tasks) {
@@ -193,7 +216,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void unbindTaskFromProjectIdTest() {
         final Task task = new Task();
         final User user = new User();

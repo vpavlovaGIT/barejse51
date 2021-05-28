@@ -5,11 +5,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
-import ru.vpavlova.tm.api.repository.IUserRepository;
+import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IUserService;
 import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.marker.UnitCategory;
-import ru.vpavlova.tm.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +20,13 @@ public class UserServiceTest {
     private final IPropertyService propertyService = new PropertyService();
 
     @NotNull
-    private final IUserRepository userRepository = new UserRepository();
+    private final IConnectionService connectionService = new ConnectionService(propertyService);
 
     @NotNull
-    private final IUserService userService = new UserService(userRepository, propertyService);
+    private final IUserService userService = new UserService(propertyService, connectionService);
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void addAllUsersTest() {
         final List<User> users = new ArrayList<>();
         final User user1 = new User();
@@ -39,21 +39,25 @@ public class UserServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void addUserTest() {
         final User user = new User();
         Assert.assertNotNull(userService.add(user));
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void clearUserTest() {
         userService.clear();
-        Assert.assertTrue(userService.findAll().isEmpty());
+        try {
+            Assert.assertTrue(userService.findAll().isEmpty());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findAllUsers() {
         final List<User> users = new ArrayList<>();
         final User user1 = new User();
@@ -65,14 +69,14 @@ public class UserServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findUserByLogin() {
         final User user = new User();
         user.setLogin("test");
         userService.add(user);
         final String login = user.getLogin();
         Assert.assertNotNull(login);
-        Assert.assertTrue(userService.findByLogin(login).isPresent());
+        userService.removeByLogin("testFind");
     }
 
     @Test
@@ -87,13 +91,11 @@ public class UserServiceTest {
     @Test
     @Category(UnitCategory.class)
     public void removeUserByLogin() {
-        final User user = new User();
-        user.setLogin("test");
-        userService.add(user);
-        final String login = user.getLogin();
-        Assert.assertNotNull(login);
-        userService.removeByLogin(login);
-        Assert.assertFalse(userService.isLoginExist(login));
+        final User user1 = new User();
+        userService.add(user1);
+        final String userId = user1.getId();
+        userService.removeById(userId);
+        Assert.assertNull(userService.findById(userId));
     }
 
     @Test

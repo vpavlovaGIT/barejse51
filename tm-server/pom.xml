@@ -36,15 +36,24 @@
     </properties>
 
     <profiles>
-    <profile>
-        <id>UNIT</id>
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-        <properties>
-            <test.category>ru.vpavlova.tm.marker.UnitCategory</test.category>
-        </properties>
-    </profile>
+        <profile>
+            <id>UNIT</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <test.category>ru.vpavlova.tm.marker.UnitCategory</test.category>
+            </properties>
+        </profile>
+        <profile>
+            <id>DB</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <test.category>ru.vpavlova.tm.marker.DBCategory</test.category>
+            </properties>
+        </profile>
     </profiles>
 
     <dependencies>
@@ -117,6 +126,11 @@
             <artifactId>buildnumber-maven-plugin</artifactId>
             <version>1.4</version>
             <type>maven-plugin</type>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.47</version>
         </dependency>
     </dependencies>
 

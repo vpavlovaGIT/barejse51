@@ -142,8 +142,7 @@ public interface ITaskEndpoint {
             @WebParam(name = "taskId", partName = "taskId") @Nullable String taskId
     );
 
-    @Nullable
-    Task updateTaskById(
+    void updateTaskById(
             @NotNull Session session,
             @NotNull String id,
             @NotNull String name,

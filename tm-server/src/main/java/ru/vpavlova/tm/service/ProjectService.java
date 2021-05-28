@@ -1,40 +1,58 @@
 package ru.vpavlova.tm.service;
 
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.vpavlova.tm.api.IBusinessRepository;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
+import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IProjectService;
+import ru.vpavlova.tm.exception.empty.EmptyDescriptionException;
 import ru.vpavlova.tm.exception.empty.EmptyNameException;
 import ru.vpavlova.tm.entity.Project;
+import ru.vpavlova.tm.exception.empty.EmptyUserIdException;
+import ru.vpavlova.tm.repository.ProjectRepository;
 
-import java.util.Comparator;
-import java.util.List;
+import java.sql.Connection;
 
 public class ProjectService extends AbstractBusinessService<Project> implements IProjectService {
 
-    @NotNull
-    private final IProjectRepository projectRepository;
+    public ProjectService(@NotNull IConnectionService connectionService) {
+        super(connectionService);
+    }
 
-    public ProjectService(@NotNull final IProjectRepository projectRepository) {
-        super(projectRepository);
-        this.projectRepository = projectRepository;
+    @Override
+    public IBusinessRepository<Project> getRepository(@NotNull Connection connection) {
+        return new ProjectRepository(connection);
     }
 
     @NotNull
     @Override
+    @SneakyThrows
     public Project add(
             @Nullable final String userId,
             @Nullable final String name,
             @Nullable final String description
     ) {
-        if (name == null || name.isEmpty()) throw new EmptyNameException();
-        if (description == null || description.isEmpty()) return null;
+        if (userId.isEmpty()) throw new EmptyUserIdException();
+        if (name.isEmpty()) throw new EmptyNameException();
+        if (description.isEmpty()) throw new EmptyDescriptionException();
         @NotNull final Project project = new Project();
-        project.setUserId(userId);
         project.setName(name);
         project.setDescription(description);
-        projectRepository.add(userId, project);
-        return project;
+        project.setUserId(userId);
+        @NotNull final Connection connection = connectionService.getConnection();
+        try {
+            @NotNull final IProjectRepository projectRepository = new ProjectRepository(connection);
+            final Project projectAdd = projectRepository.add(project);
+            connection.commit();
+            return projectAdd;
+        } catch (@NotNull final Exception e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.close();
+        }
     }
 
 }

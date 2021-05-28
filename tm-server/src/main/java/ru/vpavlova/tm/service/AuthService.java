@@ -9,7 +9,6 @@ import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.exception.empty.EmptyLoginException;
 import ru.vpavlova.tm.exception.empty.EmptyPasswordException;
-import ru.vpavlova.tm.exception.entity.UserNotFoundException;
 import ru.vpavlova.tm.exception.user.AccessDeniedException;
 import ru.vpavlova.tm.util.HashUtil;
 
@@ -75,12 +74,14 @@ public class AuthService implements IAuthService {
     public void login(@Nullable final String login, @Nullable final String password) {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
-        @NotNull final Optional<User> user = userService.findByLogin(login);
-        user.orElseThrow(UserNotFoundException::new);
-        if (user.get().isLocked()) throw new AccessDeniedException();
+        @NotNull final User user = userService.findByLogin(login);
+        if (user == null) throw new AccessDeniedException();
         @Nullable final String hash = HashUtil.salt(propertyService, password);
-        if (!hash.equals(user.get().getPasswordHash())) throw new AccessDeniedException();
-        userId = user.get().getId();
+        if (hash == null) throw new AccessDeniedException();
+        if (!hash.equals(user.getPasswordHash())) throw new AccessDeniedException();
+        if (user.isLocked()) throw new AccessDeniedException();
+        userId = user.getId();
+
     }
 
     @Override

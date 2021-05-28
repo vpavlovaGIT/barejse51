@@ -4,13 +4,16 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
+import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.api.service.ITaskService;
 import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.marker.UnitCategory;
 import ru.vpavlova.tm.repository.ProjectRepository;
 import ru.vpavlova.tm.repository.TaskRepository;
@@ -20,19 +23,19 @@ import java.util.List;
 public class ProjectTaskServiceTest {
 
     @NotNull
-    private final IProjectRepository projectRepository = new ProjectRepository();
+    private final IPropertyService propertyService = new PropertyService();
 
     @NotNull
-    private final ITaskRepository taskRepository = new TaskRepository();
+    private final IConnectionService connectionService = new ConnectionService(propertyService);
 
     @NotNull
-    private final IProjectTaskService projectTaskService = new ProjectTaskService(projectRepository, taskRepository);
+    private final IProjectTaskService projectTaskService = new ProjectTaskService(connectionService);
 
     @NotNull
-    private final ITaskService taskService = new TaskService(taskRepository);
+    private final ITaskService taskService = new TaskService(connectionService);
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void bindTaskByProjectIdTest() {
         final Task task = new Task();
         final User user = new User();
@@ -46,7 +49,7 @@ public class ProjectTaskServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void findAllByProjectIdTest() {
         final User user = new User();
         final String userId = user.getId();
@@ -63,7 +66,7 @@ public class ProjectTaskServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void removeAllByProjectIdTest() {
         final Task task = new Task();
         final Task task2 = new Task();
@@ -87,7 +90,7 @@ public class ProjectTaskServiceTest {
     }
 
     @Test
-    @Category(UnitCategory.class)
+    @Category(DBCategory.class)
     public void unbindTaskFromProjectIdTest() {
         final Task task = new Task();
         final User user = new User();
