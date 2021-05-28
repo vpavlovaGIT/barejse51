@@ -1,5 +1,7 @@
 package ru.vpavlova.tm.endpoint;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -47,16 +49,16 @@ public interface TaskEndpoint {
     @Action(input = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/updateTaskByIdRequest", output = "http://endpoint.tm.vpavlova.ru/TaskEndpoint/updateTaskByIdResponse")
     @RequestWrapper(localName = "updateTaskById", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.UpdateTaskById")
     @ResponseWrapper(localName = "updateTaskByIdResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.UpdateTaskByIdResponse")
-    public void updateTaskById(
+    public @NotNull Task updateTaskById(
 
         @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session,
+        Session session,
         @WebParam(name = "id", targetNamespace = "")
-        java.lang.String id,
+        String id,
         @WebParam(name = "name", targetNamespace = "")
-        java.lang.String name,
+        String name,
         @WebParam(name = "description", targetNamespace = "")
-        java.lang.String description
+        String description
     );
 
     @WebMethod
