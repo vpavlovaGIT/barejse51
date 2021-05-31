@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.repository.IUserRepository;
 import ru.vpavlova.tm.constant.ConstantField;
+import ru.vpavlova.tm.constant.TableConst;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
 
@@ -20,7 +21,7 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
 
     @Override
     protected String getTableName() {
-        return "APP_USER";
+        return TableConst.USER;
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.constant.ConstantField;
+import ru.vpavlova.tm.constant.TableConst;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.enumerated.Status;
 
@@ -23,7 +24,7 @@ public class TaskRepository extends AbstractBusinessRepository<Task> implements 
 
     @Override
     protected String getTableName() {
-        return "APP_TASK";
+        return TableConst.TASK;
     }
 
     @NotNull

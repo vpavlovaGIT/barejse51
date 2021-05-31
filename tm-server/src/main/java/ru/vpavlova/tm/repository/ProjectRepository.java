@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.constant.ConstantField;
+import ru.vpavlova.tm.constant.TableConst;
 import ru.vpavlova.tm.entity.Project;
 
 import java.sql.Connection;
@@ -21,7 +22,7 @@ public class ProjectRepository extends AbstractBusinessRepository<Project> imple
 
     @Override
     protected String getTableName() {
-        return "APP_PROJECT";
+        return TableConst.PROJECT;
     }
 
     @Override

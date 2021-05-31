@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.repository.ISessionRepository;
 import ru.vpavlova.tm.constant.ConstantField;
+import ru.vpavlova.tm.constant.TableConst;
 import ru.vpavlova.tm.entity.Session;
 
 import java.sql.Connection;
@@ -19,7 +20,7 @@ public class SessionRepository extends AbstractRepository<Session> implements IS
 
     @Override
     protected String getTableName() {
-        return "APP_SESSION";
+        return TableConst.SESSION;
     }
 
     @NotNull
