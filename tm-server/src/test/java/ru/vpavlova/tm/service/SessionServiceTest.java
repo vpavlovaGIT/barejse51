@@ -5,15 +5,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
-import ru.vpavlova.tm.api.repository.ISessionRepository;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.ISessionService;
 import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.entity.Session;
 import ru.vpavlova.tm.marker.DBCategory;
-import ru.vpavlova.tm.marker.UnitCategory;
-import ru.vpavlova.tm.repository.SessionRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +46,8 @@ public class SessionServiceTest {
     @Category(DBCategory.class)
     public void addSessionTest() {
         final Session session = new Session();
-        Assert.assertNotNull(sessionService.add(session));
+        sessionService.add(session);
+        Assert.assertNotNull(sessionService.findById(session.getId()));
     }
 
     @Test
@@ -86,17 +84,8 @@ public class SessionServiceTest {
         final Session session = new Session();
         sessionService.add(session);
         final String sessionId = session.getId();
-        Assert.assertNotNull(sessionService.removeById(sessionId));
-    }
-
-    @Test
-    @Category(DBCategory.class)
-    public void removeSessionTest() {
-        final List<Session> sessionList = new ArrayList<>();
-        for (@NotNull final Session session : sessionList) {
-            sessionService.remove(session);
-            Assert.assertNull(sessionService.findById(session.getId()));
-        }
+        sessionService.removeById(sessionId);
+        Assert.assertFalse(sessionService.findById(sessionId).isPresent());
     }
 
 }

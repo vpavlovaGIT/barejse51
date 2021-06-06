@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
 import ru.vpavlova.tm.endpoint.Project;
+import ru.vpavlova.tm.endpoint.ProjectEndpoint;
 import ru.vpavlova.tm.endpoint.Session;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
@@ -39,14 +40,14 @@ public class ProjectByIndexUpdateCommand extends AbstractProjectCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final Integer index = TerminalUtil.nextNumber() - 1;
+        @NotNull final ProjectEndpoint projectEndpoint = endpointLocator.getProjectEndpoint();
         @NotNull final Project project = endpointLocator.getProjectEndpoint().findProjectByIndex(session, index);
         Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
         System.out.println("ENTER NAME:");
         @NotNull final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         @NotNull final String description = TerminalUtil.nextLine();
-        @NotNull final Project projectUpdatedIndex = endpointLocator.getProjectEndpoint().updateProjectByIndex(session, index, name, description);
-        Optional.ofNullable(projectUpdatedIndex).orElseThrow(ProjectNotFoundException::new);
+        projectEndpoint.updateProjectByIndex(session, index, name, description);
     }
 
 }

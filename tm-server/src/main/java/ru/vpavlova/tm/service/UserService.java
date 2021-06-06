@@ -1,6 +1,7 @@
 package ru.vpavlova.tm.service;
 
 import lombok.SneakyThrows;
+import org.apache.ibatis.session.SqlSession;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IPropertyService;
@@ -12,11 +13,9 @@ import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.exception.empty.*;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.entity.UserNotFoundException;
-import ru.vpavlova.tm.exception.user.AccessDeniedException;
-import ru.vpavlova.tm.repository.UserRepository;
 import ru.vpavlova.tm.util.HashUtil;
 
-import java.sql.Connection;
+import java.util.List;
 import java.util.Optional;
 
 public class UserService extends AbstractService<User> implements IUserService {
@@ -31,16 +30,29 @@ public class UserService extends AbstractService<User> implements IUserService {
         this.propertyService = propertyService;
     }
 
-    public IUserRepository getRepository(@NotNull Connection connection) {
-        return new UserRepository(connection);
+    @Override
+    @SneakyThrows
+    public void add(@Nullable final User user) {
+        if (user == null) throw new ObjectNotFoundException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
+            userRepository.add(user);
+            sqlSession.commit();
+        } catch (@NotNull final Exception e) {
+            sqlSession.rollback();
+            throw e;
+        } finally {
+            sqlSession.close();
+        }
     }
 
     @NotNull
     @Override
+    @SneakyThrows
     public User findByLogin(@Nullable final String login) {
-        if (login.isEmpty()) throw new EmptyLoginException();
-        @NotNull final Connection connection = connectionService.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
         return userRepository.findByLogin(login);
     }
 
@@ -49,25 +61,50 @@ public class UserService extends AbstractService<User> implements IUserService {
     @SneakyThrows
     public User findByEmail(@Nullable final String email) {
         if (email == null || email.isEmpty()) throw new EmptyEmailException();
-        @NotNull final Connection connection = connectionService.getConnection();
-        @NotNull final IUserRepository userRepository = new UserRepository(connection);
-        return userRepository.findByEmail(email);
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
+            @Nullable final User user = userRepository.findUserByEmail(email);
+            if (user == null) throw new EmptyEmailException();
+            return user;
+        } catch (final Exception e) {
+            throw e;
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    @Override
+    @SneakyThrows
+    public void remove(@Nullable final User entity) {
+        if (entity == null) throw new ObjectNotFoundException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
+            userRepository.removeById(entity.getId());
+            sqlSession.commit();
+        } catch (@NotNull final Exception e) {
+            sqlSession.rollback();
+            throw e;
+        } finally {
+            sqlSession.close();
+        }
     }
 
     @Override
     @SneakyThrows
     public void removeByLogin(@Nullable final String login) {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
-        @NotNull final Connection connection = connectionService.getConnection();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
-            @NotNull final IUserRepository userRepository = new UserRepository(connection);
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
             userRepository.removeByLogin(login);
-            connection.commit();
+            sqlSession.commit();
         } catch (@NotNull final Exception e) {
-            connection.rollback();
+            sqlSession.rollback();
             throw e;
         } finally {
-            connection.close();
+            sqlSession.close();
         }
     }
 
@@ -76,11 +113,12 @@ public class UserService extends AbstractService<User> implements IUserService {
     public User create(@Nullable final String login, @Nullable final String password) {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
-        @NotNull final User user = new User();
-        user.setRole(Role.USER);
+        @NotNull User user = new User();
         user.setLogin(login);
-        user.setPasswordHash(HashUtil.salt(propertyService, password));
-        return add(user);
+        user.setPasswordHash(HashUtil.md5(password));
+        user.setRole(Role.USER);
+        add(user);
+        return user;
     }
 
     @Override
@@ -100,8 +138,8 @@ public class UserService extends AbstractService<User> implements IUserService {
         add(user);
     }
 
-    @SneakyThrows
     @Override
+    @SneakyThrows
     public void setPassword(
             @Nullable final String userId, @Nullable final String password
     ) {
@@ -112,16 +150,16 @@ public class UserService extends AbstractService<User> implements IUserService {
         @Nullable final String hash = HashUtil.salt(propertyService, password);
         if (hash == null) return;
         user.get().setPasswordHash(hash);
-        @NotNull final Connection connection = connectionService.getConnection();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
-            @NotNull final IUserRepository userRepository = new UserRepository(connection);
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
             userRepository.setPassword(hash, userId);
-            connection.commit();
+            sqlSession.commit();
         } catch (@NotNull final Exception e) {
-            connection.rollback();
+            sqlSession.rollback();
             throw e;
         } finally {
-            connection.close();
+            sqlSession.close();
         }
     }
 
@@ -149,22 +187,22 @@ public class UserService extends AbstractService<User> implements IUserService {
             @Nullable final String lastName,
             @Nullable final String middleName
     ) {
-        if (userId == null || userId.isEmpty()) throw new AccessDeniedException();
+        if (userId.isEmpty()) throw new EmptyUserIdException();
         @NotNull final Optional<User> user = findById(userId);
         if (!user.isPresent()) throw new ObjectNotFoundException();
         user.get().setFirstName(firstName);
         user.get().setLastName(lastName);
         user.get().setMiddleName(middleName);
-        @NotNull final Connection connection = connectionService.getConnection();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
-            @NotNull final IUserRepository userRepository = new UserRepository(connection);
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
             userRepository.updateUser(user.get());
-            connection.commit();
+            sqlSession.commit();
         } catch (@NotNull final Exception e) {
-            connection.rollback();
+            sqlSession.rollback();
             throw e;
         } finally {
-            connection.close();
+            sqlSession.close();
         }
     }
 
@@ -174,18 +212,17 @@ public class UserService extends AbstractService<User> implements IUserService {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         @Nullable final User user = findByLogin(login);
         if (user == null) throw new UserNotFoundException();
-        @NotNull final Connection connection = connectionService.getConnection();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
-            @NotNull final IUserRepository userRepository = new UserRepository(connection);
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
             userRepository.lockUser(user);
-            connection.commit();
+            sqlSession.commit();
         } catch (@NotNull final Exception e) {
-            connection.rollback();
+            sqlSession.rollback();
             throw e;
         } finally {
-            connection.close();
+            sqlSession.close();
         }
-
     }
 
     @Override
@@ -194,16 +231,89 @@ public class UserService extends AbstractService<User> implements IUserService {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         @Nullable final User user = findByLogin(login);
         if (user == null) throw new UserNotFoundException();
-        @NotNull final Connection connection = connectionService.getConnection();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
-            @NotNull final IUserRepository userRepository = new UserRepository(connection);
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
             userRepository.unlockUser(user);
-            connection.commit();
+            sqlSession.commit();
         } catch (@NotNull final Exception e) {
-            connection.rollback();
+            sqlSession.rollback();
             throw e;
         } finally {
-            connection.close();
+            sqlSession.close();
+        }
+    }
+
+    @Override
+    @SneakyThrows
+    public void addAll(@Nullable List<User> entities) {
+        if (entities == null) throw new ObjectNotFoundException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
+            entities.forEach(userRepository::add);
+            sqlSession.commit();
+        } catch (@NotNull final Exception e) {
+            sqlSession.rollback();
+            throw e;
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    @Override
+    @SneakyThrows
+    public void clear() {
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
+            userRepository.clear();
+            sqlSession.commit();
+        } catch (@NotNull final Exception e) {
+            sqlSession.rollback();
+            throw e;
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    @NotNull
+    @Override
+    @SneakyThrows
+    public List<User> findAll() {
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
+        return userRepository.findAll();
+    }
+
+    @NotNull
+    @Override
+    @SneakyThrows
+    public Optional<User> findById(
+            @Nullable final String id
+    ) {
+        if (id.isEmpty()) throw new EmptyIdException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
+        return userRepository.findOneById(id);
+    }
+
+    @Override
+    @SneakyThrows
+    public void removeById(
+            @Nullable final String id
+    ) {
+        if (id.isEmpty()) throw new EmptyIdException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
+            userRepository.removeById(id);
+            sqlSession.commit();
+        } catch (@NotNull final Exception e) {
+            sqlSession.rollback();
+            throw e;
+        } finally {
+            sqlSession.close();
         }
     }
 

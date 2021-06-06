@@ -39,7 +39,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public Task findTaskById(
-            @WebParam (name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -74,8 +74,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void removeTaskById(
-            @WebParam (name = "session", partName = "session") @NotNull Session session,
-            @WebParam (name = "id", partName = "id") @NotNull String id
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
         serviceLocator.getTaskService().removeById(id, session.getUserId());
@@ -104,81 +104,69 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task startTaskById(
+    public void startTaskById(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().startById(session.getUserId(), id)
-                .orElse(null);
+        serviceLocator.getTaskService().startById(session.getUserId(), id);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task startTaskByIndex(
+    public void startTaskByIndex(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().startByIndex(session.getUserId(), index)
-                .orElse(null);
+        serviceLocator.getTaskService().startByIndex(session.getUserId(), index);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task startTaskByName(
+    public void startTaskByName(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().startByName(session.getUserId(), name)
-                .orElse(null);
+        serviceLocator.getTaskService().startByName(session.getUserId(), name);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task finishTaskById(
+    public void finishTaskById(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().finishById(session.getUserId(), id)
-                .orElse(null);
+        serviceLocator.getTaskService().finishById(session.getUserId(), id);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task finishTaskByIndex(
+    public void finishTaskByIndex(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().finishByIndex(session.getUserId(), index)
-                .orElse(null);
+        serviceLocator.getTaskService().finishByIndex(session.getUserId(), index);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task finishTaskByName(
+    public void finishTaskByName(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().finishByName(session.getUserId(), name)
-                .orElse(null);
+        serviceLocator.getTaskService().finishByName(session.getUserId(), name);
     }
 
     @NotNull
@@ -186,88 +174,78 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public List<Task> findAllTasks(
-            @WebParam (name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull Session session
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().findAll(session.getUserId());
+        return serviceLocator.getTaskService().findAll();
     }
 
     @Override
     @WebMethod
     @SneakyThrows
     public void clearTasks(
-            @WebParam (name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull Session session
     ) {
         serviceLocator.getSessionService().validate(session);
         serviceLocator.getTaskService().clear(session.getUserId());
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task changeTaskStatusById(
+    public void changeTaskStatusById(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().changeStatusById(session.getUserId(), id, status)
-                .orElse(null);
+        serviceLocator.getTaskService().changeStatusById(session.getUserId(), id, status);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task changeTaskStatusByIndex(
+    public void changeTaskStatusByIndex(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().changeStatusByIndex(session.getUserId(), index, status)
-                .orElse(null);
+        serviceLocator.getTaskService().changeStatusByIndex(session.getUserId(), index, status);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task changeTaskStatusByName(
+    public void changeTaskStatusByName(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().changeStatusByName(session.getUserId(), name, status)
-                .orElse(null);
+        serviceLocator.getTaskService().changeStatusByName(session.getUserId(), name, status);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task bindTaskByProject(
+    public void bindTaskByProject(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "projectId", partName = "projectId") @Nullable final String projectId,
             @WebParam(name = "taskId", partName = "taskId") @Nullable final String taskId
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectTaskService().bindTaskByProject(session.getUserId(), projectId, taskId)
-                .orElse(null);
+        serviceLocator.getProjectTaskService().bindTaskByProject(session.getUserId(), projectId, taskId);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task unbindTaskFromProject(
+    public void unbindTaskFromProject(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "taskId", partName = "taskId") @Nullable final String taskId) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectTaskService().unbindTaskFromProject(session.getUserId(), taskId)
-                .orElse(null);
+        serviceLocator.getProjectTaskService().unbindTaskFromProject(session.getUserId(), taskId);
     }
 
     @Override
@@ -284,18 +262,16 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Task updateTaskByIndex(
+    public void updateTaskByIndex(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().updateByIndex(session.getUserId(), index, name, description)
-                .orElse(null);
+        serviceLocator.getTaskService().updateByIndex(session.getUserId(), index, name, description);
     }
 
 }

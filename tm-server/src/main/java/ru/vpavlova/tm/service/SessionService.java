@@ -1,6 +1,7 @@
 package ru.vpavlova.tm.service;
 
 import lombok.SneakyThrows;
+import org.apache.ibatis.session.SqlSession;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IPropertyService;
@@ -11,12 +12,13 @@ import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.entity.Session;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.enumerated.Role;
+import ru.vpavlova.tm.exception.empty.EmptyIdException;
+import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.entity.UserNotFoundException;
 import ru.vpavlova.tm.exception.user.AccessDeniedException;
-import ru.vpavlova.tm.repository.SessionRepository;
 import ru.vpavlova.tm.util.HashUtil;
 
-import java.sql.Connection;
+import java.util.List;
 import java.util.Optional;
 
 public class SessionService extends AbstractService<Session> implements ISessionService {
@@ -32,8 +34,85 @@ public class SessionService extends AbstractService<Session> implements ISession
         this.serviceLocator = serviceLocator;
     }
 
-    public ISessionRepository getRepository(@NotNull Connection connection) {
-        return new SessionRepository(connection);
+    @Override
+    @SneakyThrows
+    public void add(@Nullable final Session session) {
+        if (session == null) throw new ObjectNotFoundException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final ISessionRepository sessionRepository = sqlSession.getMapper(ISessionRepository.class);
+            sessionRepository.add(session);
+            sqlSession.commit();
+        } catch (@NotNull final Exception e) {
+            sqlSession.rollback();
+            throw e;
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    @Override
+    public void addAll(@NotNull List<Session> entities) {
+        if (entities == null) throw new ObjectNotFoundException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final ISessionRepository sessionRepository = sqlSession.getMapper(ISessionRepository.class);
+            entities.forEach(sessionRepository::add);
+            sqlSession.commit();
+        } catch (@NotNull final Exception e) {
+            sqlSession.rollback();
+            throw e;
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    @Override
+    @SneakyThrows
+    public void clear() {
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final ISessionRepository sessionRepository = sqlSession.getMapper(ISessionRepository.class);
+            sessionRepository.clear();
+            sqlSession.commit();
+        } catch (@NotNull final Exception e) {
+            sqlSession.rollback();
+            throw e;
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    @Override
+    public @NotNull List<Session> findAll() {
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        @NotNull final ISessionRepository sessionRepository = sqlSession.getMapper(ISessionRepository.class);
+        return sessionRepository.findAll();
+    }
+
+    @NotNull
+    @Override
+    public Optional<Session> findById(@Nullable String id) {
+        if (id.isEmpty()) throw new EmptyIdException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        @NotNull final ISessionRepository sessionRepository = sqlSession.getMapper(ISessionRepository.class);
+        return sessionRepository.findById(id);
+    }
+
+    @Override
+    public void removeById(@Nullable String id) {
+        if (id.isEmpty()) throw new EmptyIdException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        try {
+            @NotNull final ISessionRepository sessionRepository = sqlSession.getMapper(ISessionRepository.class);
+            sessionRepository.removeById(id);
+            sqlSession.commit();
+        } catch (@NotNull final Exception e) {
+            sqlSession.rollback();
+            throw e;
+        } finally {
+            sqlSession.close();
+        }
     }
 
     @Nullable
@@ -51,17 +130,17 @@ public class SessionService extends AbstractService<Session> implements ISession
         session.setUserId(user.getId());
         @Nullable final Session signSession = sign(session);
         if (signSession == null) return null;
-        final Connection connection = connectionService.getConnection();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
-            final ISessionRepository sessionRepository = new SessionRepository(connection);
+            @NotNull final ISessionRepository sessionRepository = sqlSession.getMapper(ISessionRepository.class);
             sessionRepository.add(signSession);
-            connection.commit();
+            sqlSession.commit();
             return signSession;
         } catch (@NotNull final Exception e) {
-            connection.rollback();
+            sqlSession.rollback();
             throw e;
         } finally {
-            connection.close();
+            sqlSession.close();
         }
     }
 
@@ -86,9 +165,9 @@ public class SessionService extends AbstractService<Session> implements ISession
         @Nullable final String signatureTarget = sessionTarget.getSignature();
         final boolean check = signatureSource.equals(signatureTarget);
         if (!check) throw new AccessDeniedException();
-        final Connection connection = connectionService.getConnection();
-        final ISessionRepository sessionRepository = new SessionRepository(connection);
-        if (!sessionRepository.contains(session.getId())) throw new AccessDeniedException();
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        @NotNull final ISessionRepository sessionRepository = sqlSession.getMapper(ISessionRepository.class);
+        if (!sessionRepository.findById(session.getId()).isPresent()) throw new AccessDeniedException();
     }
 
     @Override
@@ -107,17 +186,18 @@ public class SessionService extends AbstractService<Session> implements ISession
     @Nullable
     @SneakyThrows
     public Session close(@Nullable Session session) {
-        final Connection connection = connectionService.getConnection();
+        if (session == null) return null;
+        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
-            final ISessionRepository sessionRepository = new SessionRepository(connection);
+            @NotNull final ISessionRepository sessionRepository = sqlSession.getMapper(ISessionRepository.class);
             sessionRepository.removeById(session.getId());
-            connection.commit();
+            sqlSession.commit();
             return session;
         } catch (@NotNull final Exception e) {
-            connection.rollback();
+            sqlSession.rollback();
             throw e;
         } finally {
-            connection.close();
+            sqlSession.close();
         }
     }
 

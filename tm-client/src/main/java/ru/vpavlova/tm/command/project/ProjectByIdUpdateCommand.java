@@ -3,10 +3,9 @@ package ru.vpavlova.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
-import ru.vpavlova.tm.endpoint.Project;
+import ru.vpavlova.tm.endpoint.ProjectEndpoint;
 import ru.vpavlova.tm.endpoint.Session;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
-import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 public class ProjectByIdUpdateCommand extends AbstractProjectCommand {
@@ -37,14 +36,12 @@ public class ProjectByIdUpdateCommand extends AbstractProjectCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String id = TerminalUtil.nextLine();
-        @NotNull final Project project = endpointLocator.getProjectEndpoint().findProjectById(session, id);
-        if (project == null) throw new ProjectNotFoundException();
+        @NotNull final ProjectEndpoint projectEndpoint = endpointLocator.getProjectEndpoint();
         System.out.println("ENTER NAME:");
         @NotNull final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         @NotNull final String description = TerminalUtil.nextLine();
-        @NotNull final Project projectUpdatedId = endpointLocator.getProjectEndpoint().updateProjectById(session, id, name, description);
-        if (projectUpdatedId == null) throw new ProjectNotFoundException();
+        projectEndpoint.updateProjectById(session, id, name, description);
     }
 
 }

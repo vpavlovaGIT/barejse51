@@ -10,7 +10,6 @@ import ru.vpavlova.tm.entity.Session;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import java.util.List;
 
 @WebService
 public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoint {
@@ -27,12 +26,6 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
             @WebParam(name = "password", partName = "password") String password
     ) {
         return serviceLocator.getSessionService().open(login, password);
-    }
-
-    @Override
-    @WebMethod
-    public List<Session> listSession() {
-        return serviceLocator.getSessionService().findAll();
     }
 
     @Nullable

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.command.AbstractTaskCommand;
 import ru.vpavlova.tm.endpoint.Session;
 import ru.vpavlova.tm.endpoint.Task;
+import ru.vpavlova.tm.endpoint.TaskEndpoint;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
@@ -38,14 +39,14 @@ public class TaskByIdUpdateCommand extends AbstractTaskCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String id = TerminalUtil.nextLine();
+        @NotNull final TaskEndpoint taskEndpoint = endpointLocator.getTaskEndpoint();
         @NotNull final Task task = endpointLocator.getTaskEndpoint().findTaskById(session, id);
         Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
         System.out.println("ENTER NAME:");
         @NotNull final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         @NotNull final String description = TerminalUtil.nextLine();
-        @NotNull final Task taskUpdatedId = endpointLocator.getTaskEndpoint().updateTaskById(session, id, name, description);
-        Optional.ofNullable(taskUpdatedId).orElseThrow(TaskNotFoundException::new);
+        taskEndpoint.updateTaskById(session, id, name, description);
     }
 
 }

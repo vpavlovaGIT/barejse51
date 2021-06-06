@@ -11,7 +11,6 @@ public interface IUserService extends IService<User> {
     @NotNull
     User create(@Nullable String login, @Nullable String password);
 
-    @NotNull
     void create(@Nullable String login, @Nullable String password, @Nullable String email);
 
     @NotNull
@@ -34,8 +33,10 @@ public interface IUserService extends IService<User> {
 
     void removeByLogin(@Nullable String login);
 
-   void lockUserByLogin(@Nullable String login);
+    void lockUserByLogin(@Nullable String login);
 
     void unlockUserByLogin(@Nullable String login);
+
+    void remove(@Nullable User entity);
 
 }

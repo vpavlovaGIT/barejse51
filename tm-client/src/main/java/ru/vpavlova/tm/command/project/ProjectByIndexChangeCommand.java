@@ -3,15 +3,13 @@ package ru.vpavlova.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
-import ru.vpavlova.tm.endpoint.Project;
+import ru.vpavlova.tm.endpoint.ProjectEndpoint;
 import ru.vpavlova.tm.endpoint.Session;
 import ru.vpavlova.tm.endpoint.Status;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
-import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 public class ProjectByIndexChangeCommand extends AbstractProjectCommand {
 
@@ -41,18 +39,14 @@ public class ProjectByIndexChangeCommand extends AbstractProjectCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final Integer index = TerminalUtil.nextNumber() - 1;
+        @NotNull final ProjectEndpoint projectEndpoint = endpointLocator.getProjectEndpoint();
         System.out.println("ENTER STATUS:");
         System.out.println(Arrays.toString(Status.values()));
         @NotNull
         final String statusId = TerminalUtil.nextLine();
         @NotNull
         final Status status = Status.valueOf(statusId);
-        @NotNull
-        final Project project = endpointLocator.getProjectEndpoint().findProjectByIndex(session, index);
-        Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
-        @NotNull
-        final Project projectChange = endpointLocator.getProjectEndpoint().changeProjectStatusByIndex(session, index, status);
-        if (projectChange == null) throw new ProjectNotFoundException();
+        projectEndpoint.changeProjectStatusByIndex(session, index, status);
     }
 
 }

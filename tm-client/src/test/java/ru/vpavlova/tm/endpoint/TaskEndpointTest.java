@@ -64,7 +64,7 @@ public class TaskEndpointTest {
         final ProjectEndpoint projectEndpoint = endpointLocator.getProjectEndpoint();
         final Task task = taskEndpoint.addTask(session, "taskTest", "descriptionTestTask");
         final Project project = projectEndpoint.addProject(session, "projectTest", "descriptionTestProject");
-        final Task taskBind = taskEndpoint.bindTaskByProject(session, project.getId(), task.getId());
+        final Task taskBind = taskEndpoint.findTaskById(session, task.getId());
         Assert.assertNotNull(taskBind);
         Assert.assertEquals(project.getId(), taskBind.getProjectId());
     }
@@ -88,8 +88,8 @@ public class TaskEndpointTest {
         final Task task = taskEndpoint.addTask(session, "taskTest", "descriptionTestTask");
         final List<Task> tasks = taskEndpoint.findAllTasks(session);
         int position = 0;
-        for(Task t : tasks) {
-            if(task.getId().equals(t.getId())) break;
+        for (Task t : tasks) {
+            if (task.getId().equals(t.getId())) break;
             position++;
         }
         taskEndpoint.changeTaskStatusByIndex(session, position, Status.COMPLETE);
@@ -212,7 +212,7 @@ public class TaskEndpointTest {
         final Task task = taskEndpoint.addTask(session, "taskTest2", "descriptionTestTask2");
         taskEndpoint.addTask(session, "taskTest3", "descriptionTestTask3");
         Assert.assertNotNull(taskEndpoint.findTaskById(session, task.getId()));
-        endpointLocator.getTaskEndpoint().removeTaskOneByIndex(session,0);
+        endpointLocator.getTaskEndpoint().removeTaskOneByIndex(session, 0);
         Assert.assertNull(taskEndpoint.findTaskById(session, task.getId()));
     }
 
@@ -260,8 +260,9 @@ public class TaskEndpointTest {
         final TaskEndpoint taskEndpoint = endpointLocator.getTaskEndpoint();
         final ProjectEndpoint projectEndpoint = endpointLocator.getProjectEndpoint();
         final Task task = taskEndpoint.addTask(session, "taskTest", "descriptionTestTask");
-        projectEndpoint.addProject(session, "projectTest", "descriptionTestProject");
-        Assert.assertNull(taskEndpoint.unbindTaskFromProject(session, task.getId()).getProjectId());
+        projectEndpoint.addProject(session, "projectTest", "descrTest");
+        taskEndpoint.unbindTaskFromProject(session, task.getId());
+        Assert.assertNull(taskEndpoint.findTaskById(session, task.getId()).getProjectId());
     }
 
     @Test
@@ -272,7 +273,8 @@ public class TaskEndpointTest {
         final String newName = "taskTestNew";
         final String newDescription = "descriptionTestNew";
         final Task task = taskEndpoint.addTask(session, "taskTest", "descriptionTestTask");
-        final Task taskUpdate = taskEndpoint.updateTaskById(session, task.getId(), newName, newDescription);
+        taskEndpoint.updateTaskById(session, task.getId(), newName, newDescription);
+        final Task taskUpdate = taskEndpoint.findTaskById(session, task.getId());
         Assert.assertEquals(newName, taskUpdate.getName());
         Assert.assertEquals(newDescription, taskUpdate.getDescription());
     }
@@ -284,8 +286,9 @@ public class TaskEndpointTest {
         final TaskEndpoint taskEndpoint = endpointLocator.getTaskEndpoint();
         final String newName = "taskTestNew";
         final String newDescription = "descriptionTestNew";
-        taskEndpoint.addTask(session, "taskTest", "descriptionTestTask");
-        final Task taskUpdate = taskEndpoint.updateTaskByIndex(session, 0, newName, newDescription);
+        final Task task = taskEndpoint.addTask(session, "taskTest", "descriptionTestTask");
+        taskEndpoint.updateTaskByIndex(session, 0, newName, newDescription);
+        final Task taskUpdate = taskEndpoint.findTaskById(session, task.getId());
         Assert.assertEquals(newName, taskUpdate.getName());
         Assert.assertEquals(newDescription, taskUpdate.getDescription());
     }

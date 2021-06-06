@@ -5,14 +5,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
-import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.ITaskService;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.marker.DBCategory;
-import ru.vpavlova.tm.marker.UnitCategory;
-import ru.vpavlova.tm.repository.TaskRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +43,9 @@ public class TaskServiceTest {
     @Category(DBCategory.class)
     public void addTaskTest() {
         final Task task = new Task();
-        Assert.assertNotNull(taskService.add(task));
+        taskService.add(task);
+        Assert.assertNotNull(taskService.findById(task.getId()));
+        taskService.remove(task);
     }
 
     @Test
@@ -113,10 +112,11 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTaskOneByIdTest() {
-        final Task task1 = new Task();
-        taskService.add(task1);
-        final String taskId = task1.getId();
-        Assert.assertNotNull(taskService.removeById(taskId));
+        final Task task = new Task();
+        taskService.add(task);
+        final String taskId = task.getId();
+        taskService.removeById(taskId);
+        Assert.assertFalse(taskService.findById(taskId).isPresent());
     }
 
     @Test
@@ -154,11 +154,10 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTaskTest() {
-        final List<Task> tasks = new ArrayList<>();
-        for (@NotNull final Task task : tasks) {
-            Assert.assertNotNull(taskService.removeById(task.getId()));
-            Assert.assertNull(taskService.findById(task.getId()));
-        }
+        final Task task = new Task();
+        taskService.add(task);
+        taskService.remove(task);
+        Assert.assertNotNull(taskService.findById(task.getId()));
     }
 
 }

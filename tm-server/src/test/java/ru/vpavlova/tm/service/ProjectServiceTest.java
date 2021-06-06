@@ -42,7 +42,9 @@ public class ProjectServiceTest {
     @Category(DBCategory.class)
     public void addProjectTest() {
         final Project project = new Project();
-        Assert.assertNotNull(projectService.add(project));
+        projectService.add(project);
+        Assert.assertNotNull(projectService.findById(project.getId()));
+        projectService.remove(project);
     }
 
     @Test
@@ -103,7 +105,8 @@ public class ProjectServiceTest {
         final Project project1 = new Project();
         projectService.add(project1);
         final String projectId = project1.getId();
-        Assert.assertNull(projectService.removeById(projectId));
+        projectService.removeById(projectId);
+        Assert.assertFalse(projectService.findById(projectId).isPresent());
     }
 
     @Test
@@ -141,11 +144,10 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeProjectTest() {
-        final List<Project> projects = new ArrayList<>();
-        for (@NotNull final Project project : projects) {
-            Assert.assertNotNull(projectService.removeById(project.getId()));
-            Assert.assertNull(projectService.findById(project.getId()));
-        }
+        final Project project = new Project();
+        projectService.add(project);
+        projectService.remove(project);
+        Assert.assertNotNull(projectService.findById(project.getId()));
     }
 
 }

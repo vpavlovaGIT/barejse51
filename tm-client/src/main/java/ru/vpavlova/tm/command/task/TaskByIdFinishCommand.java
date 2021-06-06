@@ -4,12 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractTaskCommand;
 import ru.vpavlova.tm.endpoint.Session;
-import ru.vpavlova.tm.endpoint.Task;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
-import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
-
-import java.util.Optional;
 
 public class TaskByIdFinishCommand extends AbstractTaskCommand {
 
@@ -39,8 +35,7 @@ public class TaskByIdFinishCommand extends AbstractTaskCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String id = TerminalUtil.nextLine();
-        @NotNull final Task task = endpointLocator.getTaskEndpoint().finishTaskById(session, id);
-        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
+        endpointLocator.getTaskEndpoint().finishTaskById(session, id);
     }
 
 }

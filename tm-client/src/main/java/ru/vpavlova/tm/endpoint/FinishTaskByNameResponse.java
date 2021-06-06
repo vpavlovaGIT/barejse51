@@ -3,7 +3,6 @@ package ru.vpavlova.tm.endpoint;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -17,7 +16,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="return" type="{http://endpoint.tm.vpavlova.ru/}task" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *     &amp;lt;/restriction&amp;gt;
  *   &amp;lt;/complexContent&amp;gt;
@@ -27,36 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "finishTaskByNameResponse", propOrder = {
-    "_return"
-})
+@XmlType(name = "finishTaskByNameResponse")
 public class FinishTaskByNameResponse {
 
-    @XmlElement(name = "return")
-    protected Task _return;
-
-    /**
-     * Gets the value of the return property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Task }
-     *     
-     */
-    public Task getReturn() {
-        return _return;
-    }
-
-    /**
-     * Sets the value of the return property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Task }
-     *     
-     */
-    public void setReturn(Task value) {
-        this._return = value;
-    }
 
 }

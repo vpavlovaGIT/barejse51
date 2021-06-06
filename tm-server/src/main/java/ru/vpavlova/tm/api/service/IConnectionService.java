@@ -1,12 +1,11 @@
 package ru.vpavlova.tm.api.service;
 
+import org.apache.ibatis.session.SqlSession;
 import org.jetbrains.annotations.NotNull;
-
-import java.sql.Connection;
 
 public interface IConnectionService {
 
     @NotNull
-    Connection getConnection();
+    SqlSession getSqlSession();
 
 }

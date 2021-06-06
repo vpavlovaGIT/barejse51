@@ -73,8 +73,8 @@ public class ProjectEndpointTest {
         final Project project = projectEndpoint.addProject(session, "projectTest", "descriptionTest");
         final List<Project> projects = projectEndpoint.findAllProjects(session);
         int position = 0;
-        for(Project t : projects) {
-            if(project.getId().equals(t.getId())) break;
+        for (Project t : projects) {
+            if (project.getId().equals(t.getId())) break;
             position++;
         }
         projectEndpoint.changeProjectStatusByIndex(session, position, Status.COMPLETE);
@@ -197,7 +197,7 @@ public class ProjectEndpointTest {
         final Project project = projectEndpoint.addProject(session, "projectTest2", "descriptionTest2");
         projectEndpoint.addProject(session, "projectTest3", "descriptionTest3");
         Assert.assertNotNull(projectEndpoint.findProjectById(session, project.getId()));
-        endpointLocator.getProjectEndpoint().removeProjectOneByIndex(session,0);
+        endpointLocator.getProjectEndpoint().removeProjectOneByIndex(session, 0);
         Assert.assertNull(projectEndpoint.findProjectById(session, project.getId()));
     }
 
@@ -245,21 +245,9 @@ public class ProjectEndpointTest {
         final ProjectEndpoint projectEndpoint = endpointLocator.getProjectEndpoint();
         final String newName = "projectTestNew";
         final String newDescription = "descriptionTestNew";
-        final Project project = projectEndpoint.addProject(session, "projectTest", "descriptionTest");
-        final Project projectUpdate = projectEndpoint.updateProjectById(session, project.getId(), newName, newDescription);
-        Assert.assertEquals(newName, projectUpdate.getName());
-        Assert.assertEquals(newDescription, projectUpdate.getDescription());
-    }
-
-    @Test
-    @SneakyThrows
-    @Category(IntegrationCategory.class)
-    public void updateProjectByIndexTest() {
-        final ProjectEndpoint projectEndpoint = endpointLocator.getProjectEndpoint();
-        final String newName = "projectTestNew";
-        final String newDescription = "descriptionTestNew";
-        projectEndpoint.addProject(session, "projectTest", "descriptionTest");
-        final Project projectUpdate = projectEndpoint.updateProjectByIndex(session, 0, newName, newDescription);
+        final Project project = projectEndpoint.addProject(session, "projectTest", "descrTest");
+        projectEndpoint.updateProjectById(session, project.getId(), newName, newDescription);
+        final Project projectUpdate = projectEndpoint.findProjectById(session, project.getId());
         Assert.assertEquals(newName, projectUpdate.getName());
         Assert.assertEquals(newDescription, projectUpdate.getDescription());
     }

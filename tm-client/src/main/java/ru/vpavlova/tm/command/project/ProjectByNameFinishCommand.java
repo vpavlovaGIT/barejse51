@@ -3,13 +3,9 @@ package ru.vpavlova.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractProjectCommand;
-import ru.vpavlova.tm.endpoint.Project;
 import ru.vpavlova.tm.endpoint.Session;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
-import ru.vpavlova.tm.exception.entity.ProjectNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
-
-import java.util.Optional;
 
 public class ProjectByNameFinishCommand extends AbstractProjectCommand {
 
@@ -39,8 +35,7 @@ public class ProjectByNameFinishCommand extends AbstractProjectCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String name = TerminalUtil.nextLine();
-        @NotNull final Project project = endpointLocator.getProjectEndpoint().finishProjectByName(session, name);
-        Optional.ofNullable(project).orElseThrow(ProjectNotFoundException::new);
+        endpointLocator.getProjectEndpoint().finishProjectByName(session, name);
     }
 
 }

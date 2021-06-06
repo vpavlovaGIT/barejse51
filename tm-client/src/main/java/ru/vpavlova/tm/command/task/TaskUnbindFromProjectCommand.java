@@ -4,12 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractTaskCommand;
 import ru.vpavlova.tm.endpoint.Session;
-import ru.vpavlova.tm.endpoint.Task;
+import ru.vpavlova.tm.endpoint.TaskEndpoint;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
-import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
-
-import java.util.Optional;
 
 public class TaskUnbindFromProjectCommand extends AbstractTaskCommand {
 
@@ -39,8 +36,8 @@ public class TaskUnbindFromProjectCommand extends AbstractTaskCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final String taskId = TerminalUtil.nextLine();
-        @NotNull final Task task = endpointLocator.getTaskEndpoint().unbindTaskFromProject(session, taskId);
-        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
+        @NotNull final TaskEndpoint taskEndpoint = endpointLocator.getTaskEndpoint();
+        taskEndpoint.unbindTaskFromProject(session, taskId);
         System.out.println("TASK REMOVE FROM PROJECT");
     }
 

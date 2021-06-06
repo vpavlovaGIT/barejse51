@@ -40,13 +40,6 @@ public class UserServiceTest {
 
     @Test
     @Category(DBCategory.class)
-    public void addUserTest() {
-        final User user = new User();
-        Assert.assertNotNull(userService.add(user));
-    }
-
-    @Test
-    @Category(DBCategory.class)
     public void clearUserTest() {
         userService.clear();
         try {
@@ -104,17 +97,17 @@ public class UserServiceTest {
         final User user = new User();
         userService.add(user);
         final String userId = user.getId();
-        Assert.assertNull(userService.removeById(userId));
+        userService.removeById(userId);
+        Assert.assertFalse(userService.findById(userId).isPresent());
     }
 
     @Test
     @Category(UnitCategory.class)
     public void removeUserTest() {
-        final List<User> users = new ArrayList<>();
-        for (@NotNull final User user : users) {
-            Assert.assertNotNull(userService.removeById(user.getId()));
-            Assert.assertNull(userService.findById(user.getId()));
-        }
+        final User user = new User();
+        userService.add(user);
+        userService.remove(user);
+        Assert.assertNotNull(userService.findById(user.getId()));
     }
 
 }

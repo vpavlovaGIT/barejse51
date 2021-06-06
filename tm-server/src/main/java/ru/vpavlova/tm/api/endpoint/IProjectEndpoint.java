@@ -57,46 +57,40 @@ public interface IProjectEndpoint {
             @WebParam(name = "name", partName = "name") @NotNull String name
     );
 
-    @Nullable
     @WebMethod
-    Project changeProjectStatusById(
+    void changeProjectStatusById(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "id", partName = "id") @NotNull String id,
             @WebParam(name = "status", partName = "status") @NotNull Status status
     );
 
-    @Nullable
     @WebMethod
-    Project finishProjectById(
+    void finishProjectById(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     );
 
-    @Nullable
     @WebMethod
-    Project finishProjectByIndex(
+    void finishProjectByIndex(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "index", partName = "index") @NotNull Integer index
     );
 
-    @Nullable
     @WebMethod
-    Project finishProjectByName(
+    void finishProjectByName(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "name", partName = "name") @NotNull String name
     );
 
-    @Nullable
     @WebMethod
-    Project changeProjectStatusByIndex(
+    void changeProjectStatusByIndex(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "index", partName = "index") @NotNull Integer index,
             @WebParam(name = "status", partName = "status") @NotNull Status status
     );
 
-    @Nullable
     @WebMethod
-    Project changeProjectStatusByName(
+    void changeProjectStatusByName(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "name", partName = "name") @NotNull String name,
             @WebParam(name = "status", partName = "status") @NotNull Status status
@@ -114,38 +108,34 @@ public interface IProjectEndpoint {
             @WebParam(name = "name", partName = "name") @NotNull String name
     );
 
-    @Nullable
     @WebMethod
-    Project startProjectById(
+    void startProjectById(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     );
 
-    @Nullable
     @WebMethod
-    Project startProjectByIndex(
+    void startProjectByIndex(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "index", partName = "index") @NotNull Integer index
     );
 
-    @Nullable
     @WebMethod
-    Project startProjectByName(
+    void startProjectByName(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "name", partName = "name") @NotNull String name
     );
 
     @WebMethod
-    Project updateProjectById(
+    void updateProjectById(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "id", partName = "id") @NotNull String id,
             @WebParam(name = "name", partName = "name") @NotNull String name,
             @WebParam(name = "description", partName = "description") @NotNull String description
     );
 
-    @Nullable
     @WebMethod
-    Project updateProjectByIndex(
+    void updateProjectByIndex(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "index", partName = "index") @NotNull Integer index,
             @WebParam(name = "name", partName = "name") @NotNull String name,

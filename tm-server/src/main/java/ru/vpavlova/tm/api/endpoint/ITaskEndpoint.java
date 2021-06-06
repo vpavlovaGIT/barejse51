@@ -59,38 +59,38 @@ public interface ITaskEndpoint {
             @WebParam(name = "name", partName = "name") @NotNull String name
     );
 
-    @Nullable
-    Task startTaskById(
+    @WebMethod
+    void startTaskById(
             @NotNull Session session,
             @NotNull String id
     );
 
-    @Nullable
-    Task startTaskByIndex(
+    @WebMethod
+    void startTaskByIndex(
             @NotNull Session session,
             @NotNull Integer index
     );
 
-    @Nullable
-    Task startTaskByName(
+    @WebMethod
+    void startTaskByName(
             @NotNull Session session,
             @NotNull String name
     );
 
-    @Nullable
-    Task finishTaskById(
+    @WebMethod
+    void finishTaskById(
             @NotNull Session session,
             @NotNull String id
     );
 
-    @Nullable
-    Task finishTaskByIndex(
+    @WebMethod
+    void finishTaskByIndex(
             @NotNull Session session,
             @NotNull Integer index
     );
 
-    @Nullable
-    Task finishTaskByName(
+    @WebMethod
+    void finishTaskByName(
             @NotNull Session session,
             @NotNull String name
     );
@@ -106,42 +106,41 @@ public interface ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @NotNull Session session
     );
 
-    @Nullable
-    Task changeTaskStatusById(
+    @WebMethod
+    void changeTaskStatusById(
             @NotNull Session session,
             @NotNull String id,
             @NotNull Status status
     );
 
-    @Nullable
-    Task changeTaskStatusByIndex(
+    @WebMethod
+    void changeTaskStatusByIndex(
             @NotNull Session session,
             @NotNull Integer index,
             @NotNull Status status
     );
 
-    @Nullable
-    Task changeTaskStatusByName(
+    @WebMethod
+    void changeTaskStatusByName(
             @NotNull Session session,
             @NotNull String name,
             @NotNull Status status
     );
 
-    @Nullable
     @WebMethod
-    Task bindTaskByProject(
+    void bindTaskByProject(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "projectId", partName = "projectId") @Nullable String projectId,
             @WebParam(name = "taskId", partName = "taskId") @Nullable String taskId
     );
 
-    @Nullable
     @WebMethod
-    Task unbindTaskFromProject(
+    void unbindTaskFromProject(
             @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "taskId", partName = "taskId") @Nullable String taskId
     );
 
+    @WebMethod
     void updateTaskById(
             @NotNull Session session,
             @NotNull String id,
@@ -149,8 +148,8 @@ public interface ITaskEndpoint {
             @NotNull String description
     );
 
-    @Nullable
-    Task updateTaskByIndex(
+    @WebMethod
+    void updateTaskByIndex(
             @NotNull Session session,
             @NotNull Integer index,
             @NotNull String name,

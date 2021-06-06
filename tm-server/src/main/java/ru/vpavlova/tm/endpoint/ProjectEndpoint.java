@@ -34,7 +34,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
         return serviceLocator.getProjectService().add(session.getUserId(), name, description);
     }
 
-    @Nullable
+    @NotNull
     @Override
     @WebMethod
     @SneakyThrows
@@ -43,7 +43,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().findById(session.getUserId(), id).orElse(null);
+        return serviceLocator.getProjectService().findOneById(session.getUserId(), id).orElse(null);
     }
 
     @Override
@@ -71,50 +71,44 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project finishProjectById(
+    public void finishProjectById(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().finishById(session.getUserId(), id)
-                .orElse(null);
+        serviceLocator.getProjectService().finishById(session.getUserId(), id);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project finishProjectByIndex(
+    public void finishProjectByIndex(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().finishByIndex(session.getUserId(), index)
-                .orElse(null);
+        serviceLocator.getProjectService().finishByIndex(session.getUserId(), index);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project finishProjectByName(
+    public void finishProjectByName(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().finishByName(session.getUserId(), name)
-                .orElse(null);
+        serviceLocator.getProjectService().finishByName(session.getUserId(), name);
     }
 
     @Override
     @WebMethod
     @SneakyThrows
     public void removeProjectById(
-            @WebParam (name = "session", partName = "session") @NotNull Session session,
-            @WebParam (name = "id", partName = "id") @NotNull String id
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
         serviceLocator.getProjectService().removeById(id, session.getUserId());
@@ -125,62 +119,56 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public List<Project> findAllProjects(
-            @WebParam (name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @Nullable Session session
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().findAll(session.getUserId());
+        return serviceLocator.getProjectService().findAll();
     }
 
     @Override
     @WebMethod
     @SneakyThrows
     public void clear(
-            @WebParam (name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull Session session
     ) {
         serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().clear(session.getUserId());
+        serviceLocator.getProjectService().clear();
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project changeProjectStatusById(
+    public void changeProjectStatusById(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().changeStatusById(session.getUserId(), id, status)
-                .orElse(null);
+        serviceLocator.getProjectService().changeStatusById(session.getUserId(), id, status);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project changeProjectStatusByIndex(
+    public void changeProjectStatusByIndex(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().changeStatusByIndex(session.getUserId(), index, status)
-                .orElse(null);
+        serviceLocator.getProjectService().changeStatusByIndex(session.getUserId(), index, status);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project changeProjectStatusByName(
+    public void changeProjectStatusByName(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().changeStatusByName(session.getUserId(), name, status)
-                .orElse(null);
+        serviceLocator.getProjectService().changeStatusByName(session.getUserId(), name, status);
     }
 
     @Override
@@ -191,7 +179,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().removeByIndex(session.getUserId(),index);
+        serviceLocator.getProjectService().removeByIndex(session.getUserId(), index);
     }
 
     @Override
@@ -206,68 +194,62 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project startProjectById(
+    public void startProjectById(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().startById(session.getUserId(), id).orElse(null);
+        serviceLocator.getProjectService().startById(session.getUserId(), id);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project startProjectByIndex(
+    public void startProjectByIndex(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().startByIndex(session.getUserId(), index).orElse(null);
+        serviceLocator.getProjectService().startByIndex(session.getUserId(), index);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project startProjectByName(
+    public void startProjectByName(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().startByName(session.getUserId(), name).orElse(null);
+        serviceLocator.getProjectService().startByName(session.getUserId(), name);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project updateProjectById(
+    public void updateProjectById(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().updateById(session.getUserId(), id, name, description);
+        serviceLocator.getProjectService().updateById(session.getUserId(), id, name, description);
     }
 
     @Override
-    @Nullable
     @WebMethod
     @SneakyThrows
-    public Project updateProjectByIndex(
+    public void updateProjectByIndex(
             @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
         serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().updateByIndex(session.getUserId(), index, name, description)
-                .orElse(null);
+        serviceLocator.getProjectService().updateByIndex(session.getUserId(), index, name, description);
     }
 
 }

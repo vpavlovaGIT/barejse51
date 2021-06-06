@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
-import ru.vpavlova.tm.api.repository.IProjectRepository;
-import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.api.service.ITaskService;
@@ -14,9 +12,6 @@ import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.marker.DBCategory;
-import ru.vpavlova.tm.marker.UnitCategory;
-import ru.vpavlova.tm.repository.ProjectRepository;
-import ru.vpavlova.tm.repository.TaskRepository;
 
 import java.util.List;
 
@@ -45,7 +40,8 @@ public class ProjectTaskServiceTest {
         final String taskId = task.getId();
         task.setUserId(userId);
         taskService.add(task);
-        Assert.assertTrue(projectTaskService.bindTaskByProject(userId, projectId, taskId).isPresent());
+        projectTaskService.bindTaskByProject(userId, projectId, taskId);
+        Assert.assertTrue(taskService.findById(userId, taskId).isPresent());
     }
 
     @Test
@@ -98,8 +94,10 @@ public class ProjectTaskServiceTest {
         final String taskId = task.getId();
         task.setUserId(userId);
         taskService.add(task);
-        Assert.assertTrue(projectTaskService.unbindTaskFromProject(userId, taskId).isPresent());
-        final Task task2 = projectTaskService.unbindTaskFromProject(userId, taskId).get();
+        projectTaskService.unbindTaskFromProject(userId, taskId);
+        Assert.assertTrue(taskService.findById(userId, taskId).isPresent());
+        projectTaskService.unbindTaskFromProject(userId, taskId);
+        final Task task2 = taskService.findById(userId, taskId).get();
         Assert.assertNull(task2.getProjectId());
     }
 

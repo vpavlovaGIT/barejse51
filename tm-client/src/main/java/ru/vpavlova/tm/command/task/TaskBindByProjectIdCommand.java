@@ -4,12 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractTaskCommand;
 import ru.vpavlova.tm.endpoint.Session;
-import ru.vpavlova.tm.endpoint.Task;
+import ru.vpavlova.tm.endpoint.TaskEndpoint;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
-import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
-
-import java.util.Optional;
 
 public class TaskBindByProjectIdCommand extends AbstractTaskCommand {
 
@@ -41,8 +38,8 @@ public class TaskBindByProjectIdCommand extends AbstractTaskCommand {
         @NotNull final String projectId = TerminalUtil.nextLine();
         System.out.println("[ENTER TASK ID:]");
         @NotNull final String taskId = TerminalUtil.nextLine();
-        @NotNull final Task task = endpointLocator.getTaskEndpoint().bindTaskByProject(session, projectId, taskId);
-        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
+        @NotNull final TaskEndpoint taskEndpoint = endpointLocator.getTaskEndpoint();
+        taskEndpoint.bindTaskByProject(session, projectId, taskId);
         System.out.println("TASK ADD TO PROJECT");
     }
 

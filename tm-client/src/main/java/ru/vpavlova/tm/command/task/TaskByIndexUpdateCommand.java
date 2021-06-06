@@ -4,12 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.command.AbstractTaskCommand;
 import ru.vpavlova.tm.endpoint.Session;
-import ru.vpavlova.tm.endpoint.Task;
+import ru.vpavlova.tm.endpoint.TaskEndpoint;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
-import ru.vpavlova.tm.exception.entity.TaskNotFoundException;
 import ru.vpavlova.tm.util.TerminalUtil;
-
-import java.util.Optional;
 
 public class TaskByIndexUpdateCommand extends AbstractTaskCommand {
 
@@ -39,14 +36,12 @@ public class TaskByIndexUpdateCommand extends AbstractTaskCommand {
         @Nullable final Session session = bootstrap.getSession();
         if (endpointLocator == null) throw new ObjectNotFoundException();
         @NotNull final Integer index = TerminalUtil.nextNumber() - 1;
-        @NotNull final Task task = endpointLocator.getTaskEndpoint().findTaskOneByIndex(session, index);
-        Optional.ofNullable(task).orElseThrow(TaskNotFoundException::new);
+        @NotNull final TaskEndpoint taskEndpoint = endpointLocator.getTaskEndpoint();
         System.out.println("ENTER NAME:");
         @NotNull final String name = TerminalUtil.nextLine();
         System.out.println("ENTER DESCRIPTION:");
         @NotNull final String description = TerminalUtil.nextLine();
-        @NotNull final Task taskUpdatedIndex = endpointLocator.getTaskEndpoint().updateTaskByIndex(session, index, name, description);
-        Optional.ofNullable(taskUpdatedIndex).orElseThrow(TaskNotFoundException::new);
+        taskEndpoint.updateTaskByIndex(session, index, name, description);
     }
 
 }
