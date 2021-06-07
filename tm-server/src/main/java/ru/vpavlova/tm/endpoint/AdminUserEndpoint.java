@@ -3,7 +3,7 @@ package ru.vpavlova.tm.endpoint;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.api.endpoint.IAdminEndpoint;
+import ru.vpavlova.tm.api.endpoint.IAdminUserEndpoint;
 import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.entity.Session;
 import ru.vpavlova.tm.entity.User;
@@ -15,9 +15,9 @@ import javax.jws.WebService;
 import java.util.List;
 
 @WebService
-public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
+public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEndpoint {
 
-    public AdminEndpoint(@NotNull ServiceLocator serviceLocator) {
+    public AdminUserEndpoint(@NotNull ServiceLocator serviceLocator) {
         super(serviceLocator);
     }
 
@@ -53,10 +53,11 @@ public class AdminEndpoint extends AbstractEndpoint implements IAdminEndpoint {
         serviceLocator.getUserService().removeByLogin(login);
     }
 
+    @NotNull
     @Override
     @WebMethod
     @SneakyThrows
-    public @NotNull User createUser(
+    public User createUser(
             @WebParam (name = "session", partName = "session") @NotNull Session session,
             @WebParam (name = "login", partName = "login") @NotNull String login,
             @WebParam (name = "password", partName = "password") @NotNull String password

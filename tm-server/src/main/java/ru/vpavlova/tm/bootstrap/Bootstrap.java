@@ -42,7 +42,7 @@ public class Bootstrap implements ServiceLocator {
     public final IUserEndpoint userEndpoint = new UserEndpoint(this);
 
     @NotNull
-    public final IAdminEndpoint adminEndpoint = new AdminEndpoint(this);
+    public final IAdminUserEndpoint adminEndpoint = new AdminUserEndpoint(this);
 
     @NotNull
     private final ITaskService taskService = new TaskService(connectionService);
@@ -58,6 +58,12 @@ public class Bootstrap implements ServiceLocator {
 
     @NotNull
     private final IUserService userService = new UserService(propertyService, connectionService);
+
+    @NotNull
+    private final BackupService backupService = new BackupService(userService, taskService, projectService, sessionService);
+
+    @NotNull
+    private final IAdminDataEndpoint adminDataEndpoint = new AdminDataEndpoint(this, backupService);
 
     @Nullable
     private Session session = null;
@@ -76,6 +82,7 @@ public class Bootstrap implements ServiceLocator {
         registry(projectEndpoint);
         registry(userEndpoint);
         registry(adminEndpoint);
+        registry(adminDataEndpoint);
     }
 
     private void registry(@NotNull final Object endpoint) {
@@ -100,6 +107,12 @@ public class Bootstrap implements ServiceLocator {
         textWelcome();
         initPID();
         initEndpoint();
+    }
+
+    @NotNull
+    @Override
+    public IBackupService getDataService() {
+        return backupService;
     }
 
 }

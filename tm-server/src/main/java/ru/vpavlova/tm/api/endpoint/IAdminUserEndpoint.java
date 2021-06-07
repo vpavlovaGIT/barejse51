@@ -9,7 +9,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import java.util.List;
 
-public interface IAdminEndpoint {
+public interface IAdminUserEndpoint {
 
     @WebMethod
     void addUser(

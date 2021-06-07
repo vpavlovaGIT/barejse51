@@ -23,4 +23,10 @@ public interface IUserEndpoint {
             @WebParam(name = "session", partName = "session") @NotNull Session session
     );
 
+    @WebMethod
+    void setPassword(
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "password", partName = "password") @Nullable String password
+    );
+
 }

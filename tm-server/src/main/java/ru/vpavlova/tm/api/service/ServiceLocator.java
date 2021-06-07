@@ -23,4 +23,10 @@ public interface ServiceLocator {
     @NotNull
     ISessionService getSessionService();
 
+    @NotNull
+    IBackupService getDataService();
+
+    @NotNull
+    IConnectionService getConnectionService();
+
 }

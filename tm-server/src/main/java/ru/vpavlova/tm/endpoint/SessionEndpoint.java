@@ -22,8 +22,8 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     @WebMethod
     @SneakyThrows
     public Session openSession(
-            @WebParam(name = "login", partName = "login") String login,
-            @WebParam(name = "password", partName = "password") String password
+            @WebParam(name = "login", partName = "login") @NotNull String login,
+            @WebParam(name = "password", partName = "password") @NotNull String password
     ) {
         return serviceLocator.getSessionService().open(login, password);
     }

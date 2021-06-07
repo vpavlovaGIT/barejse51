@@ -43,4 +43,15 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
         return serviceLocator.getUserService().findById(session.getUserId()).orElse(null);
     }
 
+    @Override
+    @WebMethod
+    @SneakyThrows
+    public void setPassword(
+            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "password", partName = "password") @Nullable final String password
+    ) {
+        serviceLocator.getSessionService().validate(session);
+        serviceLocator.getUserService().setPassword(session.getUserId(), password);
+    }
+
 }

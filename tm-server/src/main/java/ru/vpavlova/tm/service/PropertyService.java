@@ -98,6 +98,12 @@ public class PropertyService implements IPropertyService {
     private static final String JDBC_URL_DEFAULT = "jdbc:mysql://localhost:3306/task_manager";
 
     @NotNull
+    private static final String BACKUP_INTERVAL_KEY = "backup.interval";
+
+    @NotNull
+    private static final String BACKUP_INTERVAL_DEFAULT = "30";
+
+    @NotNull
     private final Properties properties = new Properties();
 
     @SneakyThrows
