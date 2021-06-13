@@ -8,7 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.component.Backup;
-import ru.vpavlova.tm.dto.Domain;
+import ru.vpavlova.tm.dto.DomainDTO;
+import ru.vpavlova.tm.dto.SessionDTO;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -47,15 +48,15 @@ public final class BackupService implements IBackupService {
 
 
     @NotNull
-    public Domain getDomain() {
-        @NotNull final Domain domain = new Domain();
+    public DomainDTO getDomain() {
+        @NotNull final DomainDTO domain = new DomainDTO();
         domain.setProjects(projectService.findAll());
         domain.setTasks(taskService.findAll());
         domain.setUsers(userService.findAll());
         return domain;
     }
 
-    public void setDomain(@Nullable final Domain domain) {
+    public void setDomain(@Nullable final DomainDTO domain) {
         if (domain == null) return;
         projectService.clear();
         projectService.addAll(domain.getProjects());
@@ -70,17 +71,17 @@ public final class BackupService implements IBackupService {
     public void loadBackup() {
         @NotNull final File file = new File(Backup.BACKUP_XML);
         if (!file.exists()) return;
-        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(Domain.class);
+        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(DomainDTO.class);
         @NotNull final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        @NotNull final Domain domain = (Domain) unmarshaller.unmarshal(file);
+        @NotNull final DomainDTO domain = (DomainDTO) unmarshaller.unmarshal(file);
         setDomain(domain);
     }
 
     @Override
     @SneakyThrows
     public void saveBackup() {
-        @NotNull final Domain domain = getDomain();
-        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(Domain.class);
+        @NotNull final DomainDTO domain = getDomain();
+        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(DomainDTO.class);
         @NotNull final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         @NotNull final FileOutputStream fileOutputStream = new FileOutputStream(Backup.BACKUP_XML);
@@ -96,7 +97,7 @@ public final class BackupService implements IBackupService {
         final byte[] decodeData = new BASE64Decoder().decodeBuffer(base64data);
         @NotNull final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decodeData);
         @NotNull final ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-        @NotNull final Domain domain = (Domain) objectInputStream.readObject();
+        @NotNull final DomainDTO domain = (DomainDTO) objectInputStream.readObject();
         setDomain(domain);
         objectInputStream.close();
         byteArrayInputStream.close();
@@ -105,7 +106,7 @@ public final class BackupService implements IBackupService {
     @Override
     @SneakyThrows
     public void saveDataBase64() {
-        @NotNull final Domain domain = getDomain();
+        @NotNull final DomainDTO domain = getDomain();
 
         @NotNull final File file = new File(Backup.FILE_BASE64);
         Files.deleteIfExists(file.toPath());
@@ -131,7 +132,7 @@ public final class BackupService implements IBackupService {
     public void loadDataBin() {
         @NotNull final FileInputStream fileInputStream = new FileInputStream(Backup.FILE_BINARY);
         @NotNull final ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-        @NotNull final Domain domain = (Domain) objectInputStream.readObject();
+        @NotNull final DomainDTO domain = (DomainDTO) objectInputStream.readObject();
         setDomain(domain);
         objectInputStream.close();
         fileInputStream.close();
@@ -140,7 +141,7 @@ public final class BackupService implements IBackupService {
     @Override
     @SneakyThrows
     public void saveDataBin() {
-        @NotNull final Domain domain = getDomain();
+        @NotNull final DomainDTO domain = getDomain();
 
         @NotNull final File file = new File(Backup.FILE_BINARY);
         Files.deleteIfExists(file.toPath());
@@ -158,14 +159,14 @@ public final class BackupService implements IBackupService {
     public void loadDataJson() {
         @NotNull final String json = new String(Files.readAllBytes(Paths.get(Backup.FILE_FASTERXML_JSON)));
         @NotNull final ObjectMapper objectMapper = new ObjectMapper();
-        @NotNull final Domain domain = objectMapper.readValue(json, Domain.class);
+        @NotNull final DomainDTO domain = objectMapper.readValue(json, DomainDTO.class);
         setDomain(domain);
     }
 
     @Override
     @SneakyThrows
     public void saveDataJson() {
-        @NotNull final Domain domain = getDomain();
+        @NotNull final DomainDTO domain = getDomain();
         @NotNull final ObjectMapper objectMapper = new ObjectMapper();
         @NotNull final String xml = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(domain);
         @NotNull final FileOutputStream fileOutputStream = new FileOutputStream(Backup.FILE_FASTERXML_JSON);
@@ -179,14 +180,14 @@ public final class BackupService implements IBackupService {
     public void loadDataXml() {
         @NotNull final String xml = new String(Files.readAllBytes(Paths.get(Backup.FILE_FASTERXML_XML)));
         @NotNull final ObjectMapper objectMapper = new XmlMapper();
-        @NotNull final Domain domain = objectMapper.readValue(xml, Domain.class);
+        @NotNull final DomainDTO domain = objectMapper.readValue(xml, DomainDTO.class);
         setDomain(domain);
     }
 
     @Override
     @SneakyThrows
     public void saveDataXml() {
-        @NotNull final Domain domain = getDomain();
+        @NotNull final DomainDTO domain = getDomain();
         @NotNull final ObjectMapper objectMapper = new XmlMapper();
         @NotNull final String xml = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(domain);
         @NotNull final FileOutputStream fileOutputStream = new FileOutputStream(Backup.FILE_FASTERXML_XML);
@@ -200,14 +201,14 @@ public final class BackupService implements IBackupService {
     public void loadDataYaml() {
         @NotNull final String json = new String(Files.readAllBytes(Paths.get(Backup.FILE_FASTERXML_YAML)));
         @NotNull final ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        @NotNull final Domain domain = objectMapper.readValue(json, Domain.class);
+        @NotNull final DomainDTO domain = objectMapper.readValue(json, DomainDTO.class);
         setDomain(domain);
     }
 
     @Override
     @SneakyThrows
     public void saveDataYaml() {
-        @NotNull final Domain domain = getDomain();
+        @NotNull final DomainDTO domain = getDomain();
         @NotNull final ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
         @NotNull final String xml = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(domain);
         @NotNull final FileOutputStream fileOutputStream = new FileOutputStream(Backup.FILE_FASTERXML_YAML);
@@ -221,10 +222,10 @@ public final class BackupService implements IBackupService {
     public void loadDataJsonJaxB() {
         System.setProperty(Backup.SYSTEM_JSON_PROPERTY_NAME, Backup.SYSTEM_JSON_PROPERTY_VALUE);
         @NotNull final File file = new File(Backup.FILE_JAXB_JSON);
-        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(Domain.class);
+        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(DomainDTO.class);
         @NotNull final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         unmarshaller.setProperty(Backup.JAXB_JSON_PROPERTY_NAME, Backup.JAXB_JSON_PROPERTY_VALUE);
-        @NotNull final Domain domain = (Domain) unmarshaller.unmarshal(file);
+        @NotNull final DomainDTO domain = (DomainDTO) unmarshaller.unmarshal(file);
         setDomain(domain);
     }
 
@@ -232,8 +233,8 @@ public final class BackupService implements IBackupService {
     @SneakyThrows
     public void saveDataJsonJaxB() {
         System.setProperty(Backup.SYSTEM_JSON_PROPERTY_NAME, Backup.SYSTEM_JSON_PROPERTY_VALUE);
-        @NotNull final Domain domain = getDomain();
-        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(Domain.class);
+        @NotNull final DomainDTO domain = getDomain();
+        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(DomainDTO.class);
         @NotNull final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Backup.JAXB_JSON_PROPERTY_NAME, Backup.JAXB_JSON_PROPERTY_VALUE);
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -248,9 +249,9 @@ public final class BackupService implements IBackupService {
     @SneakyThrows
     public void loadDataXmlJaxB() {
         @NotNull final File file = new File(Backup.FILE_JAXB_XML);
-        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(Domain.class);
+        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(DomainDTO.class);
         @NotNull final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        @NotNull final Domain domain = (Domain) unmarshaller.unmarshal(file);
+        @NotNull final DomainDTO domain = (DomainDTO) unmarshaller.unmarshal(file);
         setDomain(domain);
 
     }
@@ -258,8 +259,8 @@ public final class BackupService implements IBackupService {
     @Override
     @SneakyThrows
     public void saveDataXmlJaxB() {
-        @NotNull final Domain domain = getDomain();
-        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(Domain.class);
+        @NotNull final DomainDTO domain = getDomain();
+        @NotNull final JAXBContext jaxbContext = JAXBContext.newInstance(DomainDTO.class);
         @NotNull final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         @NotNull final FileOutputStream fileOutputStream = new FileOutputStream(Backup.FILE_JAXB_XML);

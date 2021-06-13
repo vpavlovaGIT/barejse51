@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.entity;
+package ru.vpavlova.tm.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @MappedSuperclass
 @NoArgsConstructor
-public abstract class AbstractEntity implements Serializable {
+public abstract class AbstractEntityDTO implements Serializable {
 
     @Id
     @NotNull

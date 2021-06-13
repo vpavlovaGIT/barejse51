@@ -8,8 +8,8 @@ import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IProjectTaskService;
+import ru.vpavlova.tm.dto.TaskDTO;
 import ru.vpavlova.tm.exception.empty.EmptyIdException;
-import ru.vpavlova.tm.entity.Task;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class ProjectTaskService implements IProjectTaskService {
 
     @NotNull
     @Override
-    public List<Task> findAllTaskByProjectId(
+    public List<TaskDTO> findAllTaskByProjectId(
             @Nullable final String userId,
             @Nullable final String projectId
     ) {

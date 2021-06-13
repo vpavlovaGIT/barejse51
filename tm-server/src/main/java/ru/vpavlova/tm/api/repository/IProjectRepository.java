@@ -5,19 +5,19 @@ import org.apache.ibatis.annotations.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IRepository;
-import ru.vpavlova.tm.entity.Project;
+import ru.vpavlova.tm.dto.ProjectDTO;
 import ru.vpavlova.tm.enumerated.Status;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IProjectRepository extends IRepository<Project> {
+public interface IProjectRepository extends IRepository<ProjectDTO> {
 
     @Insert("INSERT INTO `app_project` " +
             "(`id`, `name`, `description`, `user_id`, `created`, `date_start`, `date_finish`, `status`) " +
             "VALUES(" +
             "#{id}, #{name}, #{description}, #{userId}, #{created}, #{dateStart}, #{dateFinish}, #{status})")
-    void add(@NotNull Project project);
+    void add(@NotNull ProjectDTO project);
 
     @SneakyThrows
     @Update("UPDATE `app_project` SET `status` = #{status} " +
@@ -39,7 +39,7 @@ public interface IProjectRepository extends IRepository<Project> {
     @Result(column = "date_finish", property = "dateFinish")
     @Result(column = "user_id", property = "userId")
     @Result(column = "status", property = "status")
-    List<Project> findAll();
+    List<ProjectDTO> findAll();
 
     @NotNull
     @Select("SELECT * FROM `app_project` WHERE `id` = #{id} LIMIT 1")
@@ -50,7 +50,7 @@ public interface IProjectRepository extends IRepository<Project> {
     @Result(column = "date_finish", property = "dateFinish")
     @Result(column = "user_id", property = "userId")
     @Result(column = "status", property = "status")
-    Optional<Project> findById(@Param("id") @Nullable String id);
+    Optional<ProjectDTO> findById(@Param("id") @Nullable String id);
 
     @NotNull
     @Select("SELECT * FROM `app_project` WHERE `user_id` = #{userId} LIMIT #{index}, 1")
@@ -61,7 +61,7 @@ public interface IProjectRepository extends IRepository<Project> {
     @Result(column = "date_finish", property = "dateFinish")
     @Result(column = "user_id", property = "userId")
     @Result(column = "status", property = "status")
-    Optional<Project> findByIndex(
+    Optional<ProjectDTO> findByIndex(
             @Param("userId") @Nullable String userId, @Param("index") @NotNull Integer index
     );
 
@@ -74,7 +74,7 @@ public interface IProjectRepository extends IRepository<Project> {
     @Result(column = "date_finish", property = "dateFinish")
     @Result(column = "user_id", property = "userId")
     @Result(column = "status", property = "status")
-    Optional<Project> findByName(
+    Optional<ProjectDTO> findByName(
             @Param("userId") @Nullable String userId, @Param("name") @NotNull String name
     );
 
@@ -87,7 +87,7 @@ public interface IProjectRepository extends IRepository<Project> {
     @Result(column = "date_finish", property = "dateFinish")
     @Result(column = "user_id", property = "userId")
     @Result(column = "status", property = "status")
-    Optional<Project> findOneByIdAndUserId(
+    Optional<ProjectDTO> findOneByIdAndUserId(
             @Param("userId") @Nullable String userId, @Param("id") @NotNull String id
     );
 

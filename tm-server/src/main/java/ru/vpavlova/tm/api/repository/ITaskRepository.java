@@ -5,19 +5,20 @@ import org.apache.ibatis.annotations.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IRepository;
+import ru.vpavlova.tm.dto.TaskDTO;
 import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.enumerated.Status;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ITaskRepository extends IRepository<Task> {
+public interface ITaskRepository extends IRepository<TaskDTO> {
 
     @Insert("INSERT INTO `app_task` (`id`, `name`, `description`, `user_id`, " +
             "`created`, `date_start`, `date_finish`, `status`, `project_id`) " +
             "VALUES(#{id}, #{name}, #{description}, #{userId}, " +
             "#{created}, #{dateStart}, #{dateFinish}, #{status}, #{projectId})")
-    void add(@NotNull Task task);
+    void add(@NotNull TaskDTO task);
 
     @Update("UPDATE `app_task` SET `project_id` = #{projectId} WHERE `user_id` = #{userId} AND `id` = #{taskId}")
     void bindTaskByProject(
@@ -50,7 +51,7 @@ public interface ITaskRepository extends IRepository<Task> {
     @Result(column = "user_id", property = "userId")
     @Result(column = "project_id", property = "projectId")
     @Result(column = "status", property = "status")
-    Optional<Task> findOneByIdAndUserId(
+    Optional<TaskDTO> findOneByIdAndUserId(
             @Param("userId") @Nullable String userId, @Param("id") @NotNull String id
     );
 
@@ -67,7 +68,7 @@ public interface ITaskRepository extends IRepository<Task> {
     @Result(column = "user_id", property = "userId")
     @Result(column = "project_id", property = "projectId")
     @Result(column = "status", property = "status")
-    List<Task> findAll();
+    List<TaskDTO> findAll();
 
     @NotNull
     @Select("SELECT * FROM `app_task` WHERE `user_id` = #{userId} AND `project_id` = #{projectId}")
@@ -79,7 +80,7 @@ public interface ITaskRepository extends IRepository<Task> {
     @Result(column = "user_id", property = "userId")
     @Result(column = "project_id", property = "projectId")
     @Result(column = "status", property = "status")
-    List<Task> findAllByProjectId(
+    List<TaskDTO> findAllByProjectId(
             @Param("userId") @NotNull String userId,
             @Param("projectId") @NotNull String projectId
     );
@@ -94,7 +95,7 @@ public interface ITaskRepository extends IRepository<Task> {
     @Result(column = "user_id", property = "userId")
     @Result(column = "project_id", property = "projectId")
     @Result(column = "status", property = "status")
-    Optional<Task> findById(@Param("id") @Nullable String id);
+    Optional<TaskDTO> findById(@Param("id") @Nullable String id);
 
     @NotNull
     @Select("SELECT * FROM `app_task` WHERE `user_id` = #{userId} LIMIT #{index}, 1")
@@ -106,7 +107,7 @@ public interface ITaskRepository extends IRepository<Task> {
     @Result(column = "user_id", property = "userId")
     @Result(column = "project_id", property = "projectId")
     @Result(column = "status", property = "status")
-    Optional<Task> findByIndex(
+    Optional<TaskDTO> findByIndex(
             @Param("userId") @Nullable String userId, @Param("index") @NotNull Integer index
     );
 
@@ -120,7 +121,7 @@ public interface ITaskRepository extends IRepository<Task> {
     @Result(column = "user_id", property = "userId")
     @Result(column = "project_id", property = "projectId")
     @Result(column = "status", property = "status")
-    Optional<Task> findByName(
+    Optional<TaskDTO> findByName(
             @Param("userId") @Nullable String userId, @Param("name") @NotNull String name
     );
 

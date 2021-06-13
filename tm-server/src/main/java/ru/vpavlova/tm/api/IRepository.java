@@ -1,7 +1,7 @@
 package ru.vpavlova.tm.api;
 
-import ru.vpavlova.tm.entity.AbstractEntity;
+import ru.vpavlova.tm.dto.AbstractEntityDTO;
 
-public interface IRepository<E extends AbstractEntity> {
+public interface IRepository<E extends AbstractEntityDTO> {
 
 }

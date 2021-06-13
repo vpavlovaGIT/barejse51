@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.endpoint.IProjectEndpoint;
 import ru.vpavlova.tm.api.service.ServiceLocator;
-import ru.vpavlova.tm.entity.Project;
-import ru.vpavlova.tm.entity.Session;
+import ru.vpavlova.tm.dto.ProjectDTO;
+import ru.vpavlova.tm.dto.SessionDTO;
 import ru.vpavlova.tm.enumerated.Status;
 
 import javax.jws.WebMethod;
@@ -25,8 +25,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @NotNull
     @WebMethod
     @SneakyThrows
-    public Project addProject(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+    public ProjectDTO addProject(
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
@@ -38,8 +38,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @Override
     @WebMethod
     @SneakyThrows
-    public Project findProjectById(
-            @WebParam(name = "session", partName = "session") @NotNull Session session,
+    public ProjectDTO findProjectById(
+            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -50,8 +50,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @Nullable
     @WebMethod
     @SneakyThrows
-    public Project findProjectByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+    public ProjectDTO findProjectByIndex(
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -62,8 +62,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @Nullable
     @WebMethod
     @SneakyThrows
-    public Project findProjectOneByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+    public ProjectDTO findProjectOneByName(
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -74,7 +74,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void finishProjectById(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -85,7 +85,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void finishProjectByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -96,7 +96,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void finishProjectByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -107,7 +107,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void removeProjectById(
-            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -118,8 +118,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @Override
     @WebMethod
     @SneakyThrows
-    public List<Project> findAllProjects(
-            @WebParam(name = "session", partName = "session") @Nullable Session session
+    public List<ProjectDTO> findAllProjects(
+            @WebParam(name = "session", partName = "session") @Nullable SessionDTO session
     ) {
         serviceLocator.getSessionService().validate(session);
         return serviceLocator.getProjectService().findAll();
@@ -129,7 +129,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void clear(
-            @WebParam(name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
         serviceLocator.getSessionService().validate(session);
         serviceLocator.getProjectService().clear();
@@ -139,7 +139,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void changeProjectStatusById(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
@@ -151,7 +151,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void changeProjectStatusByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
@@ -163,7 +163,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void changeProjectStatusByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
@@ -175,7 +175,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void removeProjectOneByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -186,7 +186,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void removeProjectOneByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -197,7 +197,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void startProjectById(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -208,7 +208,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void startProjectByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -219,7 +219,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void startProjectByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -230,7 +230,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void updateProjectById(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
@@ -243,7 +243,7 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     @WebMethod
     @SneakyThrows
     public void updateProjectByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description

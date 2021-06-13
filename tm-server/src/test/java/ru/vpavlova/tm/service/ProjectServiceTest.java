@@ -7,8 +7,8 @@ import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IProjectService;
-import ru.vpavlova.tm.entity.Project;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.dto.ProjectDTO;
+import ru.vpavlova.tm.dto.UserDTO;
 import ru.vpavlova.tm.marker.DBCategory;
 
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addAllProjectsTest() {
-        final List<Project> projects = new ArrayList<>();
-        final Project project1 = new Project();
-        final Project project2 = new Project();
+        final List<ProjectDTO> projects = new ArrayList<>();
+        final ProjectDTO project1 = new ProjectDTO();
+        final ProjectDTO project2 = new ProjectDTO();
         projects.add(project1);
         projects.add(project2);
         projectService.addAll(projects);
@@ -41,7 +41,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addProjectTest() {
-        final Project project = new Project();
+        final ProjectDTO project = new ProjectDTO();
         projectService.add(project);
         Assert.assertNotNull(projectService.findById(project.getId()));
         projectService.remove(project);
@@ -57,9 +57,9 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findAllProjects() {
-        final List<Project> projects = new ArrayList<>();
-        final Project projectOne = new Project();
-        final Project projectTwo = new Project();
+        final List<ProjectDTO> projects = new ArrayList<>();
+        final ProjectDTO projectOne = new ProjectDTO();
+        final ProjectDTO projectTwo = new ProjectDTO();
         projects.add(projectOne);
         projects.add(projectTwo);
         projectService.addAll(projects);
@@ -69,7 +69,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findProjectOneByIdTest() {
-        final Project project1 = new Project();
+        final ProjectDTO project1 = new ProjectDTO();
         final String projectId = project1.getId();
         projectService.add(project1);
         Assert.assertNotNull(projectService.findById(projectId));
@@ -78,7 +78,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findProjectOneByIndexTest() {
-        final Project project = new Project();
+        final ProjectDTO project = new ProjectDTO();
         projectService.add(project);
         final String projectId = project.getId();
         Assert.assertTrue(projectService.findById(projectId).isPresent());
@@ -88,8 +88,8 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findProjectOneByNameTest() {
-        final Project project = new Project();
-        final User user = new User();
+        final ProjectDTO project = new ProjectDTO();
+        final UserDTO user = new UserDTO();
         final String userId = user.getId();
         project.setUserId(userId);
         project.setName("project1");
@@ -102,7 +102,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeProjectOneByIdTest() {
-        final Project project1 = new Project();
+        final ProjectDTO project1 = new ProjectDTO();
         projectService.add(project1);
         final String projectId = project1.getId();
         projectService.removeById(projectId);
@@ -112,10 +112,10 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeProjectOneByIndexTest() {
-        final Project project1 = new Project();
-        final Project project2 = new Project();
-        final Project project3 = new Project();
-        final User user = new User();
+        final ProjectDTO project1 = new ProjectDTO();
+        final ProjectDTO project2 = new ProjectDTO();
+        final ProjectDTO project3 = new ProjectDTO();
+        final UserDTO user = new UserDTO();
         final String userId = user.getId();
         project1.setUserId(userId);
         project2.setUserId(userId);
@@ -131,8 +131,8 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeProjectOneByNameTest() {
-        final Project project = new Project();
-        final User user = new User();
+        final ProjectDTO project = new ProjectDTO();
+        final UserDTO user = new UserDTO();
         final String userId = user.getId();
         project.setUserId(userId);
         project.setName("project1");
@@ -144,7 +144,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeProjectTest() {
-        final Project project = new Project();
+        final ProjectDTO project = new ProjectDTO();
         projectService.add(project);
         projectService.remove(project);
         Assert.assertNotNull(projectService.findById(project.getId()));

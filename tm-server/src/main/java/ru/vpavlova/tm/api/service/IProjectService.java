@@ -4,38 +4,38 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IBusinessService;
-import ru.vpavlova.tm.entity.Project;
+import ru.vpavlova.tm.dto.ProjectDTO;
 import ru.vpavlova.tm.enumerated.Status;
 
 import java.util.Optional;
 
-public interface IProjectService extends IBusinessService<Project> {
+public interface IProjectService extends IBusinessService<ProjectDTO> {
 
     @Nullable
-    Project add(
+    ProjectDTO add(
             @Nullable String userId,
             @Nullable String name,
             @Nullable String description
     );
 
     @SneakyThrows
-    void remove(@Nullable Project entity);
+    void remove(@Nullable ProjectDTO entity);
 
     @NotNull
     @SneakyThrows
-    Optional<Project> findOneById(
+    Optional<ProjectDTO> findOneById(
             @Nullable String userId, @Nullable String id
     );
 
     @NotNull
     @SneakyThrows
-    Optional<Project> findByIndex(
+    Optional<ProjectDTO> findByIndex(
             @Nullable String userId, @Nullable Integer index
     );
 
     @NotNull
     @SneakyThrows
-    Optional<Project> findByName(
+    Optional<ProjectDTO> findByName(
             @Nullable String userId, @Nullable String name
     );
 

@@ -61,19 +61,6 @@ public interface ProjectEndpoint {
     );
 
     @WebMethod
-    @Action(input = "http://endpoint.tm.vpavlova.ru/ProjectEndpoint/findProjectOneByNameRequest", output = "http://endpoint.tm.vpavlova.ru/ProjectEndpoint/findProjectOneByNameResponse")
-    @RequestWrapper(localName = "findProjectOneByName", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindProjectOneByName")
-    @ResponseWrapper(localName = "findProjectOneByNameResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindProjectOneByNameResponse")
-    @WebResult(name = "return", targetNamespace = "")
-    public ru.vpavlova.tm.endpoint.Project findProjectOneByName(
-
-        @WebParam(name = "session", targetNamespace = "")
-        ru.vpavlova.tm.endpoint.Session session,
-        @WebParam(name = "name", targetNamespace = "")
-        java.lang.String name
-    );
-
-    @WebMethod
     @Action(input = "http://endpoint.tm.vpavlova.ru/ProjectEndpoint/updateProjectByIdRequest", output = "http://endpoint.tm.vpavlova.ru/ProjectEndpoint/updateProjectByIdResponse")
     @RequestWrapper(localName = "updateProjectById", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.UpdateProjectById")
     @ResponseWrapper(localName = "updateProjectByIdResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.UpdateProjectByIdResponse")
@@ -87,6 +74,19 @@ public interface ProjectEndpoint {
         java.lang.String name,
         @WebParam(name = "description", targetNamespace = "")
         java.lang.String description
+    );
+
+    @WebMethod
+    @Action(input = "http://endpoint.tm.vpavlova.ru/ProjectEndpoint/findProjectOneByNameRequest", output = "http://endpoint.tm.vpavlova.ru/ProjectEndpoint/findProjectOneByNameResponse")
+    @RequestWrapper(localName = "findProjectOneByName", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindProjectOneByName")
+    @ResponseWrapper(localName = "findProjectOneByNameResponse", targetNamespace = "http://endpoint.tm.vpavlova.ru/", className = "ru.vpavlova.tm.endpoint.FindProjectOneByNameResponse")
+    @WebResult(name = "return", targetNamespace = "")
+    public ru.vpavlova.tm.endpoint.Project findProjectOneByName(
+
+        @WebParam(name = "session", targetNamespace = "")
+        ru.vpavlova.tm.endpoint.Session session,
+        @WebParam(name = "name", targetNamespace = "")
+        java.lang.String name
     );
 
     @WebMethod

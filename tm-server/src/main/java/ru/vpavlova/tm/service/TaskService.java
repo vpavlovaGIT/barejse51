@@ -7,9 +7,9 @@ import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.repository.ITaskRepository;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.ITaskService;
+import ru.vpavlova.tm.dto.TaskDTO;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.exception.empty.*;
-import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.entity.UserNotFoundException;
 import ru.vpavlova.tm.exception.system.IndexIncorrectException;
@@ -17,7 +17,7 @@ import ru.vpavlova.tm.exception.system.IndexIncorrectException;
 import java.util.List;
 import java.util.Optional;
 
-public class TaskService extends AbstractService<Task> implements ITaskService {
+public class TaskService extends AbstractService<TaskDTO> implements ITaskService {
 
     public TaskService(@NotNull IConnectionService connectionService) {
         super(connectionService);
@@ -26,7 +26,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     @NotNull
     @Override
     @SneakyThrows
-    public Task add(
+    public TaskDTO add(
             @Nullable final String userId,
             @Nullable final String name,
             @Nullable final String description
@@ -34,7 +34,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
         if (userId == null || userId.isEmpty()) throw new EmptyUserIdException();
         if (name == null || name.isEmpty()) throw new EmptyNameException();
         if (description == null || description.isEmpty()) throw new EmptyDescriptionException();
-        @NotNull final Task task = new Task();
+        @NotNull final TaskDTO task = new TaskDTO();
         task.setName(name);
         task.setDescription(description);
         task.setUserId(userId);
@@ -54,7 +54,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
 
     @Override
     @SneakyThrows
-    public void add(@Nullable final Task task) {
+    public void add(@Nullable final TaskDTO task) {
         if (task == null) throw new ObjectNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -71,7 +71,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
 
     @Override
     @SneakyThrows
-    public void addAll(@Nullable List<Task> entities) {
+    public void addAll(@Nullable List<TaskDTO> entities) {
         if (entities == null) throw new ObjectNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -105,7 +105,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     @NotNull
     @Override
     @SneakyThrows
-    public List<Task> findAll() {
+    public List<TaskDTO> findAll() {
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         @NotNull final ITaskRepository taskRepository = sqlSession.getMapper(ITaskRepository.class);
         return taskRepository.findAll();
@@ -133,7 +133,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     @NotNull
     @Override
     @SneakyThrows
-    public Optional<Task> findById(
+    public Optional<TaskDTO> findById(
             @Nullable final String id
     ) {
         if (id.isEmpty()) throw new EmptyIdException();
@@ -144,7 +144,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
 
     @Override
     @SneakyThrows
-    public void remove(@Nullable final Task entity) {
+    public void remove(@Nullable final TaskDTO entity) {
         if (entity == null) throw new ObjectNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -179,7 +179,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     @NotNull
     @Override
     @SneakyThrows
-    public Optional<Task> findById(
+    public Optional<TaskDTO> findById(
             @Nullable final String userId, @Nullable final String id
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
@@ -192,7 +192,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     @NotNull
     @Override
     @SneakyThrows
-    public Optional<Task> findByIndex(
+    public Optional<TaskDTO> findByIndex(
             @Nullable final String userId, @Nullable final Integer index
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
@@ -205,7 +205,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     @NotNull
     @Override
     @SneakyThrows
-    public Optional<Task> findByName(
+    public Optional<TaskDTO> findByName(
             @Nullable final String userId, @Nullable final String name
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
@@ -218,7 +218,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     @Override
     @SneakyThrows
     public void remove(
-            @Nullable final String userId, @Nullable final Task entity
+            @Nullable final String userId, @Nullable final TaskDTO entity
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (entity == null) throw new ObjectNotFoundException();
@@ -265,7 +265,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
             @NotNull final ITaskRepository taskRepository = sqlSession.getMapper(ITaskRepository.class);
-            @NotNull Optional<Task> task = taskRepository.findByIndex(userId, index);
+            @NotNull Optional<TaskDTO> task = taskRepository.findByIndex(userId, index);
             if (!task.isPresent()) throw new UserNotFoundException();
             taskRepository.removeOneByIdAndUserId(userId, task.get().getId());
             sqlSession.commit();
@@ -307,7 +307,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
         if (status == null) throw new ObjectNotFoundException();
-        @NotNull final Optional<Task> entity = findById(userId, id);
+        @NotNull final Optional<TaskDTO> entity = findById(userId, id);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(status);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -333,7 +333,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
         if (status == null) throw new ObjectNotFoundException();
-        @NotNull final Optional<Task> entity = findByIndex(userId, index);
+        @NotNull final Optional<TaskDTO> entity = findByIndex(userId, index);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(status);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -359,7 +359,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
         if (status == null) throw new ObjectNotFoundException();
-        @NotNull final Optional<Task> entity = findByName(userId, name);
+        @NotNull final Optional<TaskDTO> entity = findByName(userId, name);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(status);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -382,7 +382,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
-        @NotNull final Optional<Task> entity = findById(userId, id);
+        @NotNull final Optional<TaskDTO> entity = findById(userId, id);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.COMPLETE);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -405,7 +405,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
-        @NotNull final Optional<Task> entity = findByIndex(userId, index);
+        @NotNull final Optional<TaskDTO> entity = findByIndex(userId, index);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.COMPLETE);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -428,7 +428,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
-        @NotNull final Optional<Task> entity = findByName(userId, name);
+        @NotNull final Optional<TaskDTO> entity = findByName(userId, name);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.COMPLETE);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -451,7 +451,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
-        @NotNull final Optional<Task> entity = findById(userId, id);
+        @NotNull final Optional<TaskDTO> entity = findById(userId, id);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.IN_PROGRESS);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -474,7 +474,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
-        @NotNull final Optional<Task> entity = findByIndex(userId, index);
+        @NotNull final Optional<TaskDTO> entity = findByIndex(userId, index);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.IN_PROGRESS);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -497,7 +497,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
-        @NotNull final Optional<Task> entity = findByName(userId, name);
+        @NotNull final Optional<TaskDTO> entity = findByName(userId, name);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.IN_PROGRESS);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -524,7 +524,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
         if (name.isEmpty()) throw new EmptyNameException();
-        @NotNull final Optional<Task> entity = findById(userId, id);
+        @NotNull final Optional<TaskDTO> entity = findById(userId, id);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setName(name);
         entity.get().setDescription(description);
@@ -552,7 +552,7 @@ public class TaskService extends AbstractService<Task> implements ITaskService {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
         if (name.isEmpty()) throw new EmptyNameException();
-        @NotNull final Optional<Task> entity = findByIndex(userId, index);
+        @NotNull final Optional<TaskDTO> entity = findByIndex(userId, index);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setName(name);
         entity.get().setDescription(description);

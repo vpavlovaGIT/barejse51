@@ -2,12 +2,12 @@ package ru.vpavlova.tm.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.entity.AbstractEntity;
+import ru.vpavlova.tm.dto.AbstractEntityDTO;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IService<E extends AbstractEntity> {
+public interface IService<E extends AbstractEntityDTO> {
 
     void add(@NotNull E entity);
 

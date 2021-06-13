@@ -8,9 +8,9 @@ import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IProjectTaskService;
 import ru.vpavlova.tm.api.service.ITaskService;
-import ru.vpavlova.tm.entity.Project;
-import ru.vpavlova.tm.entity.Task;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.dto.ProjectDTO;
+import ru.vpavlova.tm.dto.TaskDTO;
+import ru.vpavlova.tm.dto.UserDTO;
 import ru.vpavlova.tm.marker.DBCategory;
 
 import java.util.List;
@@ -32,9 +32,9 @@ public class ProjectTaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void bindTaskByProjectIdTest() {
-        final Task task = new Task();
-        final User user = new User();
-        final Project project = new Project();
+        final TaskDTO task = new TaskDTO();
+        final UserDTO user = new UserDTO();
+        final ProjectDTO project = new ProjectDTO();
         final String userId = user.getId();
         final String projectId = project.getId();
         final String taskId = task.getId();
@@ -47,28 +47,28 @@ public class ProjectTaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findAllByProjectIdTest() {
-        final User user = new User();
+        final UserDTO user = new UserDTO();
         final String userId = user.getId();
-        final Project project = new Project();
-        final Task task1 = new Task();
-        final Task task2 = new Task();
+        final ProjectDTO project = new ProjectDTO();
+        final TaskDTO task1 = new TaskDTO();
+        final TaskDTO task2 = new TaskDTO();
         final String projectId = project.getId();
         task1.setUserId(userId);
         task2.setUserId(userId);
         task1.setProjectId(projectId);
         task2.setProjectId(projectId);
-        final List<Task> taskList = projectTaskService.findAllTaskByProjectId(projectId, userId);
+        final List<TaskDTO> taskList = projectTaskService.findAllTaskByProjectId(projectId, userId);
         Assert.assertEquals(2, taskList.size());
     }
 
     @Test
     @Category(DBCategory.class)
     public void removeAllByProjectIdTest() {
-        final Task task = new Task();
-        final Task task2 = new Task();
-        final Task task3 = new Task();
-        final User user = new User();
-        final Project project = new Project();
+        final TaskDTO task = new TaskDTO();
+        final TaskDTO task2 = new TaskDTO();
+        final TaskDTO task3 = new TaskDTO();
+        final UserDTO user = new UserDTO();
+        final ProjectDTO project = new ProjectDTO();
         final String userId = user.getId();
         final String projectId = project.getId();
         task.setUserId(userId);
@@ -88,8 +88,8 @@ public class ProjectTaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void unbindTaskFromProjectIdTest() {
-        final Task task = new Task();
-        final User user = new User();
+        final TaskDTO task = new TaskDTO();
+        final UserDTO user = new UserDTO();
         final String userId = user.getId();
         final String taskId = task.getId();
         task.setUserId(userId);
@@ -97,7 +97,7 @@ public class ProjectTaskServiceTest {
         projectTaskService.unbindTaskFromProject(userId, taskId);
         Assert.assertTrue(taskService.findById(userId, taskId).isPresent());
         projectTaskService.unbindTaskFromProject(userId, taskId);
-        final Task task2 = taskService.findById(userId, taskId).get();
+        final TaskDTO task2 = taskService.findById(userId, taskId).get();
         Assert.assertNull(task2.getProjectId());
     }
 

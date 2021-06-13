@@ -16,4 +16,13 @@ public interface IPropertyService extends ISaltSetting {
     @NotNull
     String getJdbcPassword();
 
+    @NotNull
+    String getDialect();
+
+    @NotNull
+    String getHbm2ddlAuto();
+
+    @NotNull
+    String getShowSql();
+
 }

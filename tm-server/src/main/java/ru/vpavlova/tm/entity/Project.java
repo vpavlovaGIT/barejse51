@@ -1,15 +1,24 @@
 package ru.vpavlova.tm.entity;
 
 import lombok.NoArgsConstructor;
+import lombok.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.entity.IWBS;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
+@Entity
 @NoArgsConstructor
+@Table(name = "app_project")
 public class Project extends AbstractBusinessEntity implements IWBS {
 
-    public Project(@NotNull final String name, @NotNull final String description) {
-        this.name = name;
-        this.description = description;
-    }
+    @Nullable
+    @OneToMany(mappedBy = "project")
+    private List<Task> tasks = new ArrayList<>();
 
 }

@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.entity;
+package ru.vpavlova.tm.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,11 @@ import java.util.Date;
 @Setter
 @MappedSuperclass
 @NoArgsConstructor
-public abstract class AbstractBusinessEntity extends AbstractEntity {
+public abstract class AbstractBusinessEntityDTO extends AbstractEntityDTO {
+
+    @Column
+    @NotNull
+    protected String userId;
 
     @Column
     @NotNull
@@ -40,8 +44,9 @@ public abstract class AbstractBusinessEntity extends AbstractEntity {
     @NotNull
     protected Date created = new Date();
 
-    @Nullable
-    @ManyToOne
-    private User user;
+    @NotNull
+    public String toString() {
+        return getId() + ": " + name + "; " + description + ";" + status;
+    }
 
 }

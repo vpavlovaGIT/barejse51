@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.endpoint.ISessionEndpoint;
 import ru.vpavlova.tm.api.service.ServiceLocator;
-import ru.vpavlova.tm.entity.Session;
+import ru.vpavlova.tm.dto.SessionDTO;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -21,7 +21,7 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     @Override
     @WebMethod
     @SneakyThrows
-    public Session openSession(
+    public SessionDTO openSession(
             @WebParam(name = "login", partName = "login") @NotNull String login,
             @WebParam(name = "password", partName = "password") @NotNull String password
     ) {
@@ -32,8 +32,8 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     @Override
     @WebMethod
     @SneakyThrows
-    public Session closeSession(
-            @WebParam(name = "session", partName = "session") @NotNull Session session
+    public SessionDTO closeSession(
+            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
         serviceLocator.getSessionService().validate(session);
         return serviceLocator.getSessionService().close(session);

@@ -6,7 +6,7 @@ import ru.vpavlova.tm.api.endpoint.IAdminDataEndpoint;
 import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.component.Backup;
-import ru.vpavlova.tm.entity.Session;
+import ru.vpavlova.tm.dto.SessionDTO;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.service.BackupService;
 
@@ -33,7 +33,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void loadBackup(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         backup.load();
@@ -43,7 +43,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void saveBackup(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         backup.run();
@@ -53,7 +53,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void loadDataBase64(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().loadDataBase64();
@@ -63,7 +63,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void saveDataBase64(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().saveDataBase64();
@@ -73,7 +73,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void loadDataBin(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().loadDataBin();
@@ -83,7 +83,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void saveDataBin(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().saveDataBin();
@@ -93,7 +93,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void loadDataJson(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().loadDataJson();
@@ -103,7 +103,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void saveDataJson(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().saveDataJson();
@@ -113,7 +113,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void loadDataXml(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().loadDataXml();
@@ -123,7 +123,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void saveDataXml(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().saveDataXml();
@@ -133,7 +133,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void loadDataYaml(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().loadDataYaml();
@@ -143,7 +143,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void saveDataYaml(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().saveDataYaml();
@@ -153,7 +153,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void loadDataJsonJaxB(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().loadDataJsonJaxB();
@@ -163,7 +163,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void saveDataJsonJaxB(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().saveDataJsonJaxB();
@@ -173,7 +173,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void loadDataXmlJaxB(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().loadDataXmlJaxB();
@@ -183,7 +183,7 @@ public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEnd
     @WebMethod
     @SneakyThrows
     public void saveDataXmlJaxB(
-            @WebParam(name = "session", partName = "session") @NotNull final Session session
+            @WebParam(name = "session", partName = "session") @NotNull final SessionDTO session
     ) {
         serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getDataService().saveDataXmlJaxB();

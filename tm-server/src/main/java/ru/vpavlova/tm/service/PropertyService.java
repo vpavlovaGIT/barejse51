@@ -95,13 +95,25 @@ public class PropertyService implements IPropertyService {
     private static final String JDBC_URL = "jdbc.url";
 
     @NotNull
+    private static final String DIALECT = "factory.dialect";
+
+    @NotNull
+    private static final String HBM2DLL_AUTO = "factory.hbm2dllauto";
+
+    @NotNull
+    private static final String SHOW_SQL = "factory.showsql";
+
+    @NotNull
     private static final String JDBC_URL_DEFAULT = "jdbc:mysql://localhost:3306/task_manager";
 
     @NotNull
-    private static final String BACKUP_INTERVAL_KEY = "backup.interval";
+    private static final String DIALECT_DEFAULT = "org.hibernate.dialect.MySQL5InnoDBDialect";
 
     @NotNull
-    private static final String BACKUP_INTERVAL_DEFAULT = "30";
+    private static final String HBM2DLL_AUTO_DEFAULT = "update";
+
+    @NotNull
+    private static final String SHOW_SQL_DEFAULT = "true";
 
     @NotNull
     private final Properties properties = new Properties();
@@ -159,6 +171,24 @@ public class PropertyService implements IPropertyService {
     @Override
     public String getJdbcPassword() {
         return properties.getProperty(JDBC_PASSWORD, JDBC_PASSWORD_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getDialect() {
+        return properties.getProperty(DIALECT, DIALECT_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getHbm2ddlAuto() {
+        return properties.getProperty(HBM2DLL_AUTO, HBM2DLL_AUTO_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getShowSql() {
+        return properties.getProperty(SHOW_SQL, SHOW_SQL_DEFAULT);
     }
 
     @NotNull

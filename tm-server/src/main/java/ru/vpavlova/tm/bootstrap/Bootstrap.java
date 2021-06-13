@@ -1,6 +1,5 @@
 package ru.vpavlova.tm.bootstrap;
 
-import com.jcraft.jsch.Session;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +7,9 @@ import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.endpoint.*;
 import ru.vpavlova.tm.api.service.*;
+import ru.vpavlova.tm.dto.SessionDTO;
 import ru.vpavlova.tm.endpoint.*;
+import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.service.*;
 import ru.vpavlova.tm.util.SystemUtil;
 
@@ -66,7 +67,7 @@ public class Bootstrap implements ServiceLocator {
     private final IAdminDataEndpoint adminDataEndpoint = new AdminDataEndpoint(this, backupService);
 
     @Nullable
-    private Session session = null;
+    private SessionDTO session = null;
 
     public Bootstrap() {
     }
@@ -103,10 +104,16 @@ public class Bootstrap implements ServiceLocator {
         file.deleteOnExit();
     }
 
+    public void initUser() {
+        userService.create("test", "test");
+        userService.create("admin", "admin", Role.ADMIN);
+    }
+
     public void init(@Nullable final String... args) {
         textWelcome();
         initPID();
         initEndpoint();
+        initUser();
     }
 
     @NotNull

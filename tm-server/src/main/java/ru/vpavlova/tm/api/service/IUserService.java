@@ -3,26 +3,26 @@ package ru.vpavlova.tm.api.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IService;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.dto.UserDTO;
 import ru.vpavlova.tm.enumerated.Role;
 
-public interface IUserService extends IService<User> {
+public interface IUserService extends IService<UserDTO> {
 
     @NotNull
-    User create(@Nullable String login, @Nullable String password);
+    UserDTO create(@Nullable String login, @Nullable String password);
 
     void create(@Nullable String login, @Nullable String password, @Nullable String email);
 
     @NotNull
-    User create(@Nullable String login, @Nullable String password, @Nullable Role role);
+    UserDTO create(@Nullable String login, @Nullable String password, @Nullable Role role);
 
     void setPassword(@Nullable String userId, @Nullable String password);
 
     @NotNull
-    User findByLogin(@Nullable String login);
+    UserDTO findByLogin(@Nullable String login);
 
     @Nullable
-    User findByEmail(@Nullable String email);
+    UserDTO findByEmail(@Nullable String email);
 
     void updateUser(
             @Nullable String userId,
@@ -37,6 +37,6 @@ public interface IUserService extends IService<User> {
 
     void unlockUserByLogin(@Nullable String login);
 
-    void remove(@Nullable User entity);
+    void remove(@Nullable UserDTO entity);
 
 }

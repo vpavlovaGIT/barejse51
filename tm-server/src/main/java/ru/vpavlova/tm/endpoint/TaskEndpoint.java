@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.endpoint.ITaskEndpoint;
 import ru.vpavlova.tm.api.service.ServiceLocator;
-import ru.vpavlova.tm.entity.Session;
-import ru.vpavlova.tm.entity.Task;
+import ru.vpavlova.tm.dto.SessionDTO;
+import ru.vpavlova.tm.dto.TaskDTO;
 import ru.vpavlova.tm.enumerated.Status;
 
 import javax.jws.WebMethod;
@@ -25,8 +25,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @NotNull
     @WebMethod
     @SneakyThrows
-    public Task addTask(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+    public TaskDTO addTask(
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
@@ -38,8 +38,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @Override
     @WebMethod
     @SneakyThrows
-    public Task findTaskById(
-            @WebParam(name = "session", partName = "session") @NotNull Session session,
+    public TaskDTO findTaskById(
+            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -50,8 +50,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @Nullable
     @WebMethod
     @SneakyThrows
-    public Task findTaskOneByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+    public TaskDTO findTaskOneByIndex(
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -62,8 +62,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @Nullable
     @WebMethod
     @SneakyThrows
-    public Task findTaskOneByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+    public TaskDTO findTaskOneByName(
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -74,7 +74,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void removeTaskById(
-            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -85,7 +85,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void removeTaskOneByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -96,7 +96,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void removeTaskOneByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -107,7 +107,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void startTaskById(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -118,7 +118,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void startTaskByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -129,7 +129,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void startTaskByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -140,7 +140,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void finishTaskById(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -151,7 +151,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void finishTaskByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -162,7 +162,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void finishTaskByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
         serviceLocator.getSessionService().validate(session);
@@ -173,8 +173,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @Override
     @WebMethod
     @SneakyThrows
-    public List<Task> findAllTasks(
-            @WebParam(name = "session", partName = "session") @NotNull Session session
+    public List<TaskDTO> findAllTasks(
+            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
         serviceLocator.getSessionService().validate(session);
         return serviceLocator.getTaskService().findAll();
@@ -184,7 +184,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void clearTasks(
-            @WebParam(name = "session", partName = "session") @NotNull Session session
+            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
         serviceLocator.getSessionService().validate(session);
         serviceLocator.getTaskService().clear(session.getUserId());
@@ -194,7 +194,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void changeTaskStatusById(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
@@ -206,7 +206,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void changeTaskStatusByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
@@ -218,7 +218,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void changeTaskStatusByName(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
@@ -230,7 +230,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void bindTaskByProject(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "projectId", partName = "projectId") @Nullable final String projectId,
             @WebParam(name = "taskId", partName = "taskId") @Nullable final String taskId
     ) {
@@ -242,7 +242,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void unbindTaskFromProject(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "taskId", partName = "taskId") @Nullable final String taskId) {
         serviceLocator.getSessionService().validate(session);
         serviceLocator.getProjectTaskService().unbindTaskFromProject(session.getUserId(), taskId);
@@ -252,7 +252,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void updateTaskById(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
@@ -265,7 +265,7 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     @WebMethod
     @SneakyThrows
     public void updateTaskByIndex(
-            @WebParam(name = "session", partName = "session") @Nullable final Session session,
+            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description

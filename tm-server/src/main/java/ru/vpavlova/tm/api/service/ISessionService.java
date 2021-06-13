@@ -4,30 +4,30 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IService;
-import ru.vpavlova.tm.entity.Session;
+import ru.vpavlova.tm.dto.SessionDTO;
 import ru.vpavlova.tm.enumerated.Role;
 
-public interface ISessionService extends IService<Session> {
+public interface ISessionService extends IService<SessionDTO> {
 
     @Nullable
-    Session open(String login, String password) throws Exception;
+    SessionDTO open(String login, String password) throws Exception;
 
     @SneakyThrows
-    void validate(@Nullable Session session,
+    void validate(@Nullable SessionDTO session,
                   @Nullable Role role) throws Exception;
 
     @SneakyThrows
-    void validate(@Nullable Session session) throws Exception;
+    void validate(@Nullable SessionDTO session) throws Exception;
 
     @SneakyThrows
-    void validateAdmin(@Nullable Session session,
+    void validateAdmin(@Nullable SessionDTO session,
                        @Nullable Role role) throws Exception;
 
-    @Nullable Session close(@Nullable Session session) throws Exception;
+    @Nullable SessionDTO close(@Nullable SessionDTO session) throws Exception;
 
     boolean checkDataAccess(@NotNull final String login,
                             @NotNull final String password) throws Exception;
 
-    @Nullable Session sign(@Nullable final Session session);
+    @Nullable SessionDTO sign(@Nullable final SessionDTO session);
 
 }

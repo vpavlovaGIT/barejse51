@@ -7,11 +7,11 @@ import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.repository.IProjectRepository;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IProjectService;
+import ru.vpavlova.tm.dto.ProjectDTO;
 import ru.vpavlova.tm.enumerated.Status;
 import ru.vpavlova.tm.exception.empty.EmptyDescriptionException;
 import ru.vpavlova.tm.exception.empty.EmptyIdException;
 import ru.vpavlova.tm.exception.empty.EmptyNameException;
-import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.exception.empty.EmptyUserIdException;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
 import ru.vpavlova.tm.exception.entity.UserNotFoundException;
@@ -20,7 +20,7 @@ import ru.vpavlova.tm.exception.system.IndexIncorrectException;
 import java.util.List;
 import java.util.Optional;
 
-public class ProjectService extends AbstractService<Project> implements IProjectService {
+public class ProjectService extends AbstractService<ProjectDTO> implements IProjectService {
 
     public ProjectService(@NotNull IConnectionService connectionService) {
         super(connectionService);
@@ -28,7 +28,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
 
     @Override
     @SneakyThrows
-    public void add(@Nullable final Project entity) {
+    public void add(@Nullable final ProjectDTO entity) {
         if (entity == null) throw new ObjectNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
 
@@ -46,7 +46,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
 
     @Override
     @SneakyThrows
-    public Project add(
+    public ProjectDTO add(
             @Nullable final String userId,
             @Nullable final String name,
             @Nullable final String description
@@ -54,7 +54,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
         if (description.isEmpty()) throw new EmptyDescriptionException();
-        @NotNull final Project project = new Project();
+        @NotNull final ProjectDTO project = new ProjectDTO();
         project.setName(name);
         project.setDescription(description);
         project.setUserId(userId);
@@ -74,7 +74,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
 
     @Override
     @SneakyThrows
-    public void addAll(@Nullable List<Project> entities) {
+    public void addAll(@Nullable List<ProjectDTO> entities) {
         if (entities == null) throw new ObjectNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -106,7 +106,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     }
 
     @Override
-    public void remove(@Nullable final Project project) {
+    public void remove(@Nullable final ProjectDTO project) {
         if (project == null) throw new ObjectNotFoundException();
         final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -124,7 +124,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     @NotNull
     @Override
     @SneakyThrows
-    public List<Project> findAll() {
+    public List<ProjectDTO> findAll() {
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         @NotNull final IProjectRepository projectRepository = sqlSession.getMapper(IProjectRepository.class);
         return projectRepository.findAll();
@@ -133,7 +133,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     @NotNull
     @Override
     @SneakyThrows
-    public Optional<Project> findOneById(
+    public Optional<ProjectDTO> findOneById(
             @Nullable final String userId, @Nullable final String id
     ) {
         if (id.isEmpty()) throw new EmptyIdException();
@@ -165,7 +165,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
 
     @NotNull
     @Override
-    public Optional<Project> findById(@Nullable String id) {
+    public Optional<ProjectDTO> findById(@Nullable String id) {
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         @NotNull final IProjectRepository projectRepository = sqlSession.getMapper(IProjectRepository.class);
@@ -175,7 +175,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     @NotNull
     @SneakyThrows
     @Override
-    public Optional<Project> findByIndex(
+    public Optional<ProjectDTO> findByIndex(
             @Nullable final String userId, @Nullable final Integer index
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
@@ -188,7 +188,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     @NotNull
     @SneakyThrows
     @Override
-    public Optional<Project> findByName(
+    public Optional<ProjectDTO> findByName(
             @Nullable final String userId, @Nullable final String name
     ) {
         if (name.isEmpty()) throw new EmptyNameException();
@@ -228,7 +228,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
             @NotNull final IProjectRepository projectRepository = sqlSession.getMapper(IProjectRepository.class);
-            @NotNull Optional<Project> project = projectRepository.findByIndex(userId, index);
+            @NotNull Optional<ProjectDTO> project = projectRepository.findByIndex(userId, index);
             if (!project.isPresent()) throw new UserNotFoundException();
             projectRepository.removeOneByIdAndUserId(userId, project.get().getId());
             sqlSession.commit();
@@ -270,7 +270,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
         if (id.isEmpty()) throw new EmptyIdException();
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (status == null) throw new ObjectNotFoundException();
-        @NotNull final Optional<Project> entity = findOneById(userId, id);
+        @NotNull final Optional<ProjectDTO> entity = findOneById(userId, id);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(status);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -296,7 +296,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
         if (status == null) throw new ObjectNotFoundException();
-        @NotNull final Optional<Project> entity = findByIndex(userId, index);
+        @NotNull final Optional<ProjectDTO> entity = findByIndex(userId, index);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(status);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -322,7 +322,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
         if (status == null) throw new ObjectNotFoundException();
-        @NotNull final Optional<Project> entity = findByName(userId, name);
+        @NotNull final Optional<ProjectDTO> entity = findByName(userId, name);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(status);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -345,7 +345,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     ) {
         if (id.isEmpty()) throw new EmptyIdException();
         if (userId.isEmpty()) throw new EmptyUserIdException();
-        @NotNull final Optional<Project> entity = findOneById(userId, id);
+        @NotNull final Optional<ProjectDTO> entity = findOneById(userId, id);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.COMPLETE);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -368,7 +368,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
-        @NotNull final Optional<Project> entity = findByIndex(userId, index);
+        @NotNull final Optional<ProjectDTO> entity = findByIndex(userId, index);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.COMPLETE);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -391,7 +391,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
-        @NotNull final Optional<Project> entity = findByName(userId, name);
+        @NotNull final Optional<ProjectDTO> entity = findByName(userId, name);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.COMPLETE);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -414,7 +414,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
-        @NotNull final Optional<Project> entity = findOneById(userId, id);
+        @NotNull final Optional<ProjectDTO> entity = findOneById(userId, id);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.IN_PROGRESS);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -437,7 +437,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
-        @NotNull final Optional<Project> entity = findByIndex(userId, index);
+        @NotNull final Optional<ProjectDTO> entity = findByIndex(userId, index);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.IN_PROGRESS);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -460,7 +460,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
-        @NotNull final Optional<Project> entity = findByName(userId, name);
+        @NotNull final Optional<ProjectDTO> entity = findByName(userId, name);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setStatus(Status.IN_PROGRESS);
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
@@ -487,7 +487,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
         if (name.isEmpty()) throw new EmptyNameException();
-        @NotNull final Optional<Project> entity = findOneById(userId, id);
+        @NotNull final Optional<ProjectDTO> entity = findOneById(userId, id);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setName(name);
         entity.get().setDescription(description);
@@ -515,7 +515,7 @@ public class ProjectService extends AbstractService<Project> implements IProject
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
         if (name.isEmpty()) throw new EmptyNameException();
-        @NotNull final Optional<Project> entity = findByIndex(userId, index);
+        @NotNull final Optional<ProjectDTO> entity = findByIndex(userId, index);
         if (!entity.isPresent()) throw new ObjectNotFoundException();
         entity.get().setName(name);
         entity.get().setDescription(description);

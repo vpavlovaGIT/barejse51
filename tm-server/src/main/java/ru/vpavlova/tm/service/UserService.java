@@ -8,7 +8,7 @@ import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.repository.IUserRepository;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.IUserService;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.dto.UserDTO;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.exception.empty.*;
 import ru.vpavlova.tm.exception.entity.ObjectNotFoundException;
@@ -18,7 +18,7 @@ import ru.vpavlova.tm.util.HashUtil;
 import java.util.List;
 import java.util.Optional;
 
-public class UserService extends AbstractService<User> implements IUserService {
+public class UserService extends AbstractService<UserDTO> implements IUserService {
 
     @NotNull
     private final IPropertyService propertyService;
@@ -32,7 +32,7 @@ public class UserService extends AbstractService<User> implements IUserService {
 
     @Override
     @SneakyThrows
-    public void add(@Nullable final User user) {
+    public void add(@Nullable final UserDTO user) {
         if (user == null) throw new ObjectNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -50,7 +50,7 @@ public class UserService extends AbstractService<User> implements IUserService {
     @NotNull
     @Override
     @SneakyThrows
-    public User findByLogin(@Nullable final String login) {
+    public UserDTO findByLogin(@Nullable final String login) {
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
         return userRepository.findByLogin(login);
@@ -59,12 +59,12 @@ public class UserService extends AbstractService<User> implements IUserService {
     @Override
     @Nullable
     @SneakyThrows
-    public User findByEmail(@Nullable final String email) {
+    public UserDTO findByEmail(@Nullable final String email) {
         if (email == null || email.isEmpty()) throw new EmptyEmailException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
             @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
-            @Nullable final User user = userRepository.findUserByEmail(email);
+            @Nullable final UserDTO user = userRepository.findUserByEmail(email);
             if (user == null) throw new EmptyEmailException();
             return user;
         } catch (final Exception e) {
@@ -76,7 +76,7 @@ public class UserService extends AbstractService<User> implements IUserService {
 
     @Override
     @SneakyThrows
-    public void remove(@Nullable final User entity) {
+    public void remove(@Nullable final UserDTO entity) {
         if (entity == null) throw new ObjectNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -110,10 +110,10 @@ public class UserService extends AbstractService<User> implements IUserService {
 
     @NotNull
     @Override
-    public User create(@Nullable final String login, @Nullable final String password) {
+    public UserDTO create(@Nullable final String login, @Nullable final String password) {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
-        @NotNull User user = new User();
+        @NotNull UserDTO user = new UserDTO();
         user.setLogin(login);
         user.setPasswordHash(HashUtil.md5(password));
         user.setRole(Role.USER);
@@ -130,7 +130,7 @@ public class UserService extends AbstractService<User> implements IUserService {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
         if (email == null || email.isEmpty()) throw new EmptyEmailException();
-        @NotNull final User user = new User();
+        @NotNull final UserDTO user = new UserDTO();
         user.setRole(Role.USER);
         user.setLogin(login);
         user.setPasswordHash(HashUtil.salt(propertyService, password));
@@ -145,7 +145,7 @@ public class UserService extends AbstractService<User> implements IUserService {
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (password.isEmpty()) throw new EmptyPasswordException();
-        @NotNull final Optional<User> user = findById(userId);
+        @NotNull final Optional<UserDTO> user = findById(userId);
         if (!user.isPresent()) return;
         @Nullable final String hash = HashUtil.salt(propertyService, password);
         if (hash == null) return;
@@ -165,7 +165,7 @@ public class UserService extends AbstractService<User> implements IUserService {
 
     @NotNull
     @Override
-    public User create(
+    public UserDTO create(
             @Nullable final String login,
             @Nullable final String password,
             @Nullable final Role role
@@ -173,7 +173,7 @@ public class UserService extends AbstractService<User> implements IUserService {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
         if (password == null || password.isEmpty()) throw new EmptyPasswordException();
         if (role == null) throw new EmptyRoleException();
-        @NotNull final User user = create(login, password);
+        @NotNull final UserDTO user = create(login, password);
         if (user == null) return null;
         user.setRole(role);
         return user;
@@ -188,7 +188,7 @@ public class UserService extends AbstractService<User> implements IUserService {
             @Nullable final String middleName
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
-        @NotNull final Optional<User> user = findById(userId);
+        @NotNull final Optional<UserDTO> user = findById(userId);
         if (!user.isPresent()) throw new ObjectNotFoundException();
         user.get().setFirstName(firstName);
         user.get().setLastName(lastName);
@@ -210,7 +210,7 @@ public class UserService extends AbstractService<User> implements IUserService {
     @SneakyThrows
     public void lockUserByLogin(@Nullable String login) {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
-        @Nullable final User user = findByLogin(login);
+        @Nullable final UserDTO user = findByLogin(login);
         if (user == null) throw new UserNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -229,7 +229,7 @@ public class UserService extends AbstractService<User> implements IUserService {
     @SneakyThrows
     public void unlockUserByLogin(@Nullable String login) {
         if (login == null || login.isEmpty()) throw new EmptyLoginException();
-        @Nullable final User user = findByLogin(login);
+        @Nullable final UserDTO user = findByLogin(login);
         if (user == null) throw new UserNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -246,7 +246,7 @@ public class UserService extends AbstractService<User> implements IUserService {
 
     @Override
     @SneakyThrows
-    public void addAll(@Nullable List<User> entities) {
+    public void addAll(@Nullable List<UserDTO> entities) {
         if (entities == null) throw new ObjectNotFoundException();
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         try {
@@ -280,7 +280,7 @@ public class UserService extends AbstractService<User> implements IUserService {
     @NotNull
     @Override
     @SneakyThrows
-    public List<User> findAll() {
+    public List<UserDTO> findAll() {
         @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
         @NotNull final IUserRepository userRepository = sqlSession.getMapper(IUserRepository.class);
         return userRepository.findAll();
@@ -289,7 +289,7 @@ public class UserService extends AbstractService<User> implements IUserService {
     @NotNull
     @Override
     @SneakyThrows
-    public Optional<User> findById(
+    public Optional<UserDTO> findById(
             @Nullable final String id
     ) {
         if (id.isEmpty()) throw new EmptyIdException();
