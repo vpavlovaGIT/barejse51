@@ -25,14 +25,14 @@ public class SessionDTO extends AbstractBusinessEntityDTO implements Cloneable {
 
     @Column
     @Nullable
-    private Long timestamp;
+    private Long timestamp = System.currentTimeMillis();
+
+    @Nullable
+    @Column(name = "user_id")
+    private String userId;
 
     @Column
     @Nullable
-    String userId;
-
-    @Column
-    @Nullable
-    String signature;
+    private String signature;
 
 }

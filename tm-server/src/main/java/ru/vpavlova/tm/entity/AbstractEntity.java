@@ -17,6 +17,6 @@ public abstract class AbstractEntity implements Serializable {
 
     @Id
     @NotNull
-    private String id = UUID.randomUUID().toString();
+    protected String id = UUID.randomUUID().toString();
 
 }

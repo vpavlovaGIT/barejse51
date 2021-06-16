@@ -16,8 +16,8 @@ import java.util.Date;
 @NoArgsConstructor
 public abstract class AbstractBusinessEntityDTO extends AbstractEntityDTO {
 
-    @Column
     @NotNull
+    @Column(name = "user_id")
     protected String userId;
 
     @Column
@@ -32,12 +32,12 @@ public abstract class AbstractBusinessEntityDTO extends AbstractEntityDTO {
     @Enumerated(EnumType.STRING)
     protected Status status = Status.NOT_STARTED;
 
-    @Column
     @Nullable
+    @Column(name = "date_start")
     protected Date dateStart;
 
-    @Column
     @Nullable
+    @Column(name = "date_finish")
     protected Date dateFinish;
 
     @Column

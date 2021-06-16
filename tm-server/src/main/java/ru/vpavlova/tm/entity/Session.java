@@ -18,11 +18,11 @@ public class Session extends AbstractEntity implements Cloneable {
 
     @Column
     @Nullable
-    Long timestamp;
+    private Long timestamp = System.currentTimeMillis();
 
     @Column
     @Nullable
-    String signature;
+    private String signature;
 
     @Nullable
     @ManyToOne

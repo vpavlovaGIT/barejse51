@@ -16,12 +16,13 @@ import javax.persistence.*;
 @Table(name = "app_task")
 public class TaskDTO extends AbstractBusinessEntityDTO implements IWBS {
 
-    @Column
     @Nullable
+    @Column(name = "project_id")
     private String projectId;
 
-    public TaskDTO(@NotNull String name) {
+    public TaskDTO(@Nullable final String name, @Nullable final String description) {
         this.name = name;
+        this.description = description;
     }
 
 }

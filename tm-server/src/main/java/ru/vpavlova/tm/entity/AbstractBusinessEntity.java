@@ -28,12 +28,12 @@ public abstract class AbstractBusinessEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     protected Status status = Status.NOT_STARTED;
 
-    @Column
     @Nullable
+    @Column(name = "date_start")
     protected Date dateStart;
 
-    @Column
     @Nullable
+    @Column(name = "date_finish")
     protected Date dateFinish;
 
     @Column
@@ -42,6 +42,6 @@ public abstract class AbstractBusinessEntity extends AbstractEntity {
 
     @Nullable
     @ManyToOne
-    private User user;
+    protected User user;
 
 }
