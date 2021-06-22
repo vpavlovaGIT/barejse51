@@ -1,56 +1,67 @@
-package ru.vpavlova.tm.api.service;
+package ru.vpavlova.tm.api.service.dto;
 
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.api.IBusinessService;
-import ru.vpavlova.tm.dto.ProjectDTO;
+import ru.vpavlova.tm.dto.TaskDTO;
 import ru.vpavlova.tm.enumerated.Status;
 
+import java.util.List;
 import java.util.Optional;
 
-public interface IProjectService extends IBusinessService<ProjectDTO> {
+public interface ITaskDTOService extends IBusinessDTOService<TaskDTO> {
 
-    @Nullable
-    ProjectDTO add(
+    @NotNull
+    TaskDTO add(
             @Nullable String userId,
             @Nullable String name,
             @Nullable String description
     );
 
     @SneakyThrows
-    void remove(@Nullable ProjectDTO entity);
+    void remove(@Nullable TaskDTO entity);
+
+    @SneakyThrows
+    void clear(@Nullable String userId);
 
     @NotNull
     @SneakyThrows
-    Optional<ProjectDTO> findOneById(
+    List<TaskDTO> findAll(@Nullable String userId);
+
+    @SneakyThrows
+    @NotNull Optional<TaskDTO> findOneById(
             @Nullable String userId, @Nullable String id
     );
 
     @NotNull
     @SneakyThrows
-    Optional<ProjectDTO> findByIndex(
+    Optional<TaskDTO> findOneByIndex(
             @Nullable String userId, @Nullable Integer index
     );
 
     @NotNull
     @SneakyThrows
-    Optional<ProjectDTO> findByName(
+    Optional<TaskDTO> findOneByName(
             @Nullable String userId, @Nullable String name
     );
 
     @SneakyThrows
-    void removeById(
+    void remove(
+            @Nullable String userId, @Nullable TaskDTO entity
+    );
+
+    @SneakyThrows
+    void removeOneById(
             @Nullable String userId, @Nullable String id
     );
 
     @SneakyThrows
-    void removeByIndex(
+    void removeOneByIndex(
             @Nullable String userId, @Nullable Integer index
     );
 
     @SneakyThrows
-    void removeByName(
+    void removeOneByName(
             @Nullable String userId, @Nullable String name
     );
 
@@ -68,5 +79,4 @@ public interface IProjectService extends IBusinessService<ProjectDTO> {
             @Nullable String name,
             @Nullable String description
     );
-
 }

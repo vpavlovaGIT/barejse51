@@ -30,8 +30,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().add(session.getUserId(), name, description);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getProjectDTOService().add(session.getUserId(), name, description);
     }
 
     @NotNull
@@ -42,8 +42,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().findOneById(session.getUserId(), id).orElse(null);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getProjectDTOService().findOneById(session.getUserId(), id).orElse(null);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().findByIndex(session.getUserId(), index).orElse(null);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getProjectDTOService().findOneByIndex(session.getUserId(), index).orElse(null);
     }
 
     @Override
@@ -66,8 +66,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().findByName(session.getUserId(), name).orElse(null);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getProjectDTOService().findOneByName(session.getUserId(), name).orElse(null);
     }
 
     @Override
@@ -77,8 +77,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().finishById(session.getUserId(), id);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().finishById(session.getUserId(), id);
     }
 
     @Override
@@ -88,8 +88,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().finishByIndex(session.getUserId(), index);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().finishByIndex(session.getUserId(), index);
     }
 
     @Override
@@ -99,8 +99,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().finishByName(session.getUserId(), name);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().finishByName(session.getUserId(), name);
     }
 
     @Override
@@ -110,8 +110,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().removeById(id, session.getUserId());
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().removeOneById(id, session.getUserId());
     }
 
     @NotNull
@@ -121,8 +121,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     public List<ProjectDTO> findAllProjects(
             @WebParam(name = "session", partName = "session") @Nullable SessionDTO session
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getProjectService().findAll();
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getProjectDTOService().findAll();
     }
 
     @Override
@@ -131,8 +131,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
     public void clear(
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().clear();
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().clear();
     }
 
     @Override
@@ -143,8 +143,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().changeStatusById(session.getUserId(), id, status);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().changeStatusById(session.getUserId(), id, status);
     }
 
     @Override
@@ -155,8 +155,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().changeStatusByIndex(session.getUserId(), index, status);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().changeStatusByIndex(session.getUserId(), index, status);
     }
 
     @Override
@@ -167,8 +167,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().changeStatusByName(session.getUserId(), name, status);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().changeStatusByName(session.getUserId(), name, status);
     }
 
     @Override
@@ -178,8 +178,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().removeByIndex(session.getUserId(), index);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().removeOneByIndex(session.getUserId(), index);
     }
 
     @Override
@@ -189,8 +189,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().removeByName(session.getUserId(), name);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().removeOneByName(session.getUserId(), name);
     }
 
     @Override
@@ -200,8 +200,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().startById(session.getUserId(), id);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().startById(session.getUserId(), id);
     }
 
     @Override
@@ -211,8 +211,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().startByIndex(session.getUserId(), index);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().startByIndex(session.getUserId(), index);
     }
 
     @Override
@@ -222,8 +222,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().startByName(session.getUserId(), name);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().startByName(session.getUserId(), name);
     }
 
     @Override
@@ -235,8 +235,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().updateById(session.getUserId(), id, name, description);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().updateById(session.getUserId(), id, name, description);
     }
 
     @Override
@@ -248,8 +248,8 @@ public class ProjectEndpoint extends AbstractEndpoint implements IProjectEndpoin
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectService().updateByIndex(session.getUserId(), index, name, description);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectDTOService().updateByIndex(session.getUserId(), index, name, description);
     }
 
 }

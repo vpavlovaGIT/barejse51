@@ -7,10 +7,13 @@ import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.endpoint.*;
 import ru.vpavlova.tm.api.service.*;
+import ru.vpavlova.tm.api.service.dto.*;
+import ru.vpavlova.tm.api.service.model.*;
 import ru.vpavlova.tm.dto.SessionDTO;
 import ru.vpavlova.tm.endpoint.*;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.service.*;
+import ru.vpavlova.tm.service.model.*;
 import ru.vpavlova.tm.util.SystemUtil;
 
 import javax.xml.ws.Endpoint;
@@ -65,6 +68,21 @@ public class Bootstrap implements ServiceLocator {
 
     @NotNull
     private final IAdminDataEndpoint adminDataEndpoint = new AdminDataEndpoint(this, backupService);
+
+    @NotNull
+    public final IProjectDTOService projectDTOService = new ProjectDTOService(connectionService);
+
+    @NotNull
+    public final IProjectTaskDTOService projectTaskDTOService = new ProjectTaskDTOService(connectionService);
+
+    @NotNull
+    public final ISessionDTOService sessionDTOService = new SessionDTOService(connectionService, this);
+
+    @NotNull
+    public final ITaskDTOService taskDTOService = new TaskDTOService(connectionService);
+
+    @NotNull
+    public final IUserDTOService userDTOService = new UserDTOService(propertyService, connectionService);
 
     @Nullable
     private SessionDTO session = null;

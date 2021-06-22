@@ -7,9 +7,12 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.service.*;
+import ru.vpavlova.tm.api.service.model.IProjectService;
+import ru.vpavlova.tm.api.service.model.ISessionService;
+import ru.vpavlova.tm.api.service.model.ITaskService;
+import ru.vpavlova.tm.api.service.model.IUserService;
 import ru.vpavlova.tm.component.Backup;
 import ru.vpavlova.tm.dto.DomainDTO;
-import ru.vpavlova.tm.dto.SessionDTO;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 

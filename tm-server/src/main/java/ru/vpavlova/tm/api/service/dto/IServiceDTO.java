@@ -1,13 +1,13 @@
-package ru.vpavlova.tm.api;
+package ru.vpavlova.tm.api.service.dto;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.entity.AbstractEntity;
+import ru.vpavlova.tm.dto.AbstractEntityDTO;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IService<E extends AbstractEntity> {
+public interface IServiceDTO<E extends AbstractEntityDTO> {
 
     void add(@NotNull E entity);
 
@@ -18,9 +18,9 @@ public interface IService<E extends AbstractEntity> {
     @NotNull
     List<E> findAll();
 
-    void removeById(@Nullable String id);
-
     @NotNull
-    Optional<E> findById(@Nullable String id);
+    Optional<E> findOneById(@Nullable String id);
+
+    void removeOneById(@Nullable String id);
 
 }

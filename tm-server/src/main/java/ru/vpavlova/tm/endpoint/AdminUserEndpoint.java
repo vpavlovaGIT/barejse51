@@ -28,8 +28,8 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "user", partName = "user") @NotNull UserDTO user
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
-        serviceLocator.getUserService().add(user);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getUserDTOService().add(user);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "user", partName = "user") @NotNull UserDTO user
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
-        serviceLocator.getUserService().remove(user);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getUserDTOService().remove(user);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "login", partName = "login") @Nullable final String login
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserService().removeByLogin(login);
     }
 
@@ -63,7 +63,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "login", partName = "login") @NotNull String login,
             @WebParam(name = "password", partName = "password") @NotNull String password
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserService().create(login, password);
     }
 
@@ -76,7 +76,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "password", partName = "password") @NotNull String password,
             @WebParam(name = "email", partName = "email") @NotNull String email
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserService().create(login, password, email);
     }
 
@@ -88,7 +88,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "userId", partName = "userId") @NotNull String userId,
             @WebParam(name = "password", partName = "password") @NotNull String password
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserService().setPassword(userId, password);
     }
 
@@ -102,7 +102,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "lastName", partName = "lastName") @Nullable String lastName,
             @WebParam(name = "middleName", partName = "middleName") @Nullable String middleName
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserService().updateUser(userId, firstName, lastName, middleName);
     }
 
@@ -113,7 +113,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "login", partName = "login") @NotNull String login
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserService().lockUserByLogin(login);
     }
 
@@ -124,7 +124,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "login", partName = "login") @NotNull String login
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserService().unlockUserByLogin(login);
     }
 
@@ -134,8 +134,8 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     public List<UserDTO> findAllUsers(
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
-        return serviceLocator.getUserService().findAll();
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
+        return serviceLocator.getUserDTOService().findAll();
     }
 
     @Override
@@ -144,7 +144,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     public void clearUsers(
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserService().clear();
 
     }
@@ -156,8 +156,8 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "users", partName = "users") @NotNull List<UserDTO> users
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
-        serviceLocator.getUserService().addAll(users);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getUserDTOService().addAll(users);
     }
 
 }

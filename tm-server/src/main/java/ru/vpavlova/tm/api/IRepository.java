@@ -1,7 +1,17 @@
 package ru.vpavlova.tm.api;
 
-import ru.vpavlova.tm.dto.AbstractEntityDTO;
+import org.jetbrains.annotations.NotNull;
+import ru.vpavlova.tm.entity.AbstractEntity;
 
-public interface IRepository<E extends AbstractEntityDTO> {
+import javax.persistence.TypedQuery;
+import java.util.Optional;
+
+public interface IRepository<E extends AbstractEntity> {
+
+    void add(@NotNull E entity);
+
+    Optional<E> getSingleResult(@NotNull TypedQuery<E> query);
+
+    void update(E entity);
 
 }

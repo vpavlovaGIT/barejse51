@@ -28,8 +28,8 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
             @WebParam (name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "login", partName = "login") @NotNull final String login
     ) {
-        serviceLocator.getSessionService().validateAdmin(session, Role.ADMIN);
-        return serviceLocator.getUserService().findByLogin(login);
+        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
+        return serviceLocator.getUserDTOService().findByLogin(login).orElse(null);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
     public UserDTO findUserOneBySession(
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getUserService().findById(session.getUserId()).orElse(null);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getUserDTOService().findOneById(session.getUserId()).orElse(null);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "password", partName = "password") @Nullable final String password
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getUserService().setPassword(session.getUserId(), password);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getUserDTOService().setPassword(session.getUserId(), password);
     }
 
 }

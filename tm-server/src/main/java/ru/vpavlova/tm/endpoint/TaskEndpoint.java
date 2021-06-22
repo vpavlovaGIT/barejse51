@@ -30,8 +30,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().add(session.getUserId(), name, description);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getTaskDTOService().add(session.getUserId(), name, description);
     }
 
     @Nullable
@@ -42,8 +42,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().findById(session.getUserId(), id).orElse(null);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getTaskDTOService().findOneById(session.getUserId(), id).orElse(null);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().findByIndex(session.getUserId(), index).orElse(null);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getTaskDTOService().findOneByIndex(session.getUserId(), index).orElse(null);
     }
 
     @Override
@@ -66,8 +66,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().findByName(session.getUserId(), name).orElse(null);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getTaskDTOService().findOneByName(session.getUserId(), name).orElse(null);
     }
 
     @Override
@@ -77,8 +77,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull String id
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().removeById(id, session.getUserId());
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().removeOneById(id, session.getUserId());
     }
 
     @Override
@@ -88,8 +88,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().removeByIndex(session.getUserId(), index);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().removeOneByIndex(session.getUserId(), index);
     }
 
     @Override
@@ -99,8 +99,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().removeByName(session.getUserId(), name);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().removeOneByName(session.getUserId(), name);
     }
 
     @Override
@@ -110,8 +110,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().startById(session.getUserId(), id);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().startById(session.getUserId(), id);
     }
 
     @Override
@@ -121,8 +121,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().startByIndex(session.getUserId(), index);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().startByIndex(session.getUserId(), index);
     }
 
     @Override
@@ -132,8 +132,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().startByName(session.getUserId(), name);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().startByName(session.getUserId(), name);
     }
 
     @Override
@@ -143,8 +143,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "id", partName = "id") @NotNull final String id
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().finishById(session.getUserId(), id);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().finishById(session.getUserId(), id);
     }
 
     @Override
@@ -154,8 +154,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "index", partName = "index") @NotNull final Integer index
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().finishByIndex(session.getUserId(), index);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().finishByIndex(session.getUserId(), index);
     }
 
     @Override
@@ -165,8 +165,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "name", partName = "name") @NotNull final String name
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().finishByName(session.getUserId(), name);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().finishByName(session.getUserId(), name);
     }
 
     @NotNull
@@ -176,8 +176,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     public List<TaskDTO> findAllTasks(
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getTaskService().findAll();
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getTaskDTOService().findAll();
     }
 
     @Override
@@ -186,8 +186,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     public void clearTasks(
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().clear(session.getUserId());
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().clear(session.getUserId());
     }
 
     @Override
@@ -198,8 +198,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "id", partName = "id") @NotNull final String id,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().changeStatusById(session.getUserId(), id, status);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().changeStatusById(session.getUserId(), id, status);
     }
 
     @Override
@@ -210,8 +210,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "index", partName = "index") @NotNull final Integer index,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().changeStatusByIndex(session.getUserId(), index, status);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().changeStatusByIndex(session.getUserId(), index, status);
     }
 
     @Override
@@ -222,8 +222,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "status", partName = "status") @NotNull final Status status
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().changeStatusByName(session.getUserId(), name, status);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().changeStatusByName(session.getUserId(), name, status);
     }
 
     @Override
@@ -234,8 +234,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "projectId", partName = "projectId") @Nullable final String projectId,
             @WebParam(name = "taskId", partName = "taskId") @Nullable final String taskId
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectTaskService().bindTaskByProject(session.getUserId(), projectId, taskId);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectTaskDTOService().bindTaskByProject(session.getUserId(), projectId, taskId);
     }
 
     @Override
@@ -244,8 +244,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
     public void unbindTaskFromProject(
             @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
             @WebParam(name = "taskId", partName = "taskId") @Nullable final String taskId) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getProjectTaskService().unbindTaskFromProject(session.getUserId(), taskId);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getProjectTaskDTOService().unbindTaskFromProject(session.getUserId(), taskId);
     }
 
     @Override
@@ -257,8 +257,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().updateById(session.getUserId(), id, name, description);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().updateById(session.getUserId(), id, name, description);
     }
 
     @Override
@@ -270,8 +270,8 @@ public class TaskEndpoint extends AbstractEndpoint implements ITaskEndpoint {
             @WebParam(name = "name", partName = "name") @NotNull final String name,
             @WebParam(name = "description", partName = "description") @NotNull final String description
     ) {
-        serviceLocator.getSessionService().validate(session);
-        serviceLocator.getTaskService().updateByIndex(session.getUserId(), index, name, description);
+        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getTaskDTOService().updateByIndex(session.getUserId(), index, name, description);
     }
 
 }

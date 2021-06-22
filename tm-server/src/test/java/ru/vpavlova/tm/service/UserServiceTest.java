@@ -6,10 +6,11 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.IUserService;
+import ru.vpavlova.tm.api.service.model.IUserService;
 import ru.vpavlova.tm.dto.UserDTO;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.marker.UnitCategory;
+import ru.vpavlova.tm.service.model.UserService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,10 +2,10 @@ package ru.vpavlova.tm.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.dto.AbstractBusinessEntityDTO;
+import ru.vpavlova.tm.entity.AbstractBusinessEntity;
 import ru.vpavlova.tm.enumerated.Status;
 
-public interface IBusinessService<E extends AbstractBusinessEntityDTO>
+public interface IBusinessService<E extends AbstractBusinessEntity>
         extends IService<E> {
 
     void updateByIndex(

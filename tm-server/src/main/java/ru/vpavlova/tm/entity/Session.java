@@ -16,6 +16,15 @@ import javax.persistence.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Session extends AbstractEntity implements Cloneable {
 
+    @Override
+    public Session clone() {
+        try {
+            return (Session) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
     @Column
     @Nullable
     private Long timestamp = System.currentTimeMillis();

@@ -6,11 +6,12 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.ISessionService;
+import ru.vpavlova.tm.api.service.model.ISessionService;
 import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.dto.SessionDTO;
 import ru.vpavlova.tm.marker.DBCategory;
+import ru.vpavlova.tm.service.model.SessionService;
 
 import java.util.ArrayList;
 import java.util.List;

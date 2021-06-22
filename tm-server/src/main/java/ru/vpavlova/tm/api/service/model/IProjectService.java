@@ -1,64 +1,67 @@
-package ru.vpavlova.tm.api.service;
+package ru.vpavlova.tm.api.service.model;
 
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IBusinessService;
-import ru.vpavlova.tm.dto.TaskDTO;
+import ru.vpavlova.tm.entity.Project;
 import ru.vpavlova.tm.enumerated.Status;
 
+import java.util.List;
 import java.util.Optional;
 
-public interface ITaskService extends IBusinessService<TaskDTO> {
+public interface IProjectService extends IBusinessService<Project> {
 
-    @NotNull
-    TaskDTO add(
+    Project add(
             @Nullable String userId,
             @Nullable String name,
             @Nullable String description
     );
 
     @SneakyThrows
-    void remove(@Nullable TaskDTO entity);
+    void remove(@Nullable Project entity);
 
     @SneakyThrows
     void clear(@Nullable String userId);
 
     @NotNull
     @SneakyThrows
-    Optional<TaskDTO> findById(
+    List<Project> findAll(@Nullable String userId);
+
+    @SneakyThrows
+    @NotNull Optional<Project> findById(
             @Nullable String userId, @Nullable String id
     );
 
     @NotNull
     @SneakyThrows
-    Optional<TaskDTO> findByIndex(
+    Optional<Project> findOneByIndex(
             @Nullable String userId, @Nullable Integer index
     );
 
     @NotNull
     @SneakyThrows
-    Optional<TaskDTO> findByName(
+    Optional<Project> findOneByName(
             @Nullable String userId, @Nullable String name
     );
 
     @SneakyThrows
     void remove(
-            @Nullable String userId, @Nullable TaskDTO entity
+            @Nullable String userId, @Nullable Project entity
     );
 
     @SneakyThrows
-    void removeById(
+    void removeOneById(
             @Nullable String userId, @Nullable String id
     );
 
     @SneakyThrows
-    void removeByIndex(
+    void removeOneByIndex(
             @Nullable String userId, @Nullable Integer index
     );
 
     @SneakyThrows
-    void removeByName(
+    void removeOneByName(
             @Nullable String userId, @Nullable String name
     );
 

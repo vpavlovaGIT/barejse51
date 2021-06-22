@@ -25,7 +25,7 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
             @WebParam(name = "login", partName = "login") @NotNull String login,
             @WebParam(name = "password", partName = "password") @NotNull String password
     ) {
-        return serviceLocator.getSessionService().open(login, password);
+        return serviceLocator.getSessionDTOService().open(login, password);
     }
 
     @Nullable
@@ -35,8 +35,8 @@ public class SessionEndpoint extends AbstractEndpoint implements ISessionEndpoin
     public SessionDTO closeSession(
             @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
     ) {
-        serviceLocator.getSessionService().validate(session);
-        return serviceLocator.getSessionService().close(session);
+        serviceLocator.getSessionDTOService().validate(session);
+        return serviceLocator.getSessionDTOService().close(session);
     }
 
 }

@@ -1,15 +1,15 @@
-package ru.vpavlova.tm.api.service;
+package ru.vpavlova.tm.api.service.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.dto.TaskDTO;
+import ru.vpavlova.tm.entity.Task;
 
 import java.util.List;
 
 public interface IProjectTaskService {
 
     @NotNull
-    List<TaskDTO> findAllTaskByProjectId(@Nullable String userId, @Nullable String projectId);
+    List<Task> findAllTaskByProjectId(@Nullable String userId, @Nullable String projectId);
 
     void bindTaskByProject(@Nullable String userId, @Nullable String projectId, @Nullable String taskId);
 

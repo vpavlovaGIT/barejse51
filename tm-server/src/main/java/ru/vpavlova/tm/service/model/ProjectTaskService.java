@@ -1,16 +1,18 @@
-package ru.vpavlova.tm.service;
+package ru.vpavlova.tm.service.model;
 
 import lombok.SneakyThrows;
-import org.apache.ibatis.session.SqlSession;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.api.repository.IProjectRepository;
-import ru.vpavlova.tm.api.repository.ITaskRepository;
+import ru.vpavlova.tm.api.repository.model.IProjectRepository;
+import ru.vpavlova.tm.api.repository.model.ITaskRepository;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.IProjectTaskService;
-import ru.vpavlova.tm.dto.TaskDTO;
+import ru.vpavlova.tm.api.service.model.IProjectTaskService;
+import ru.vpavlova.tm.entity.Task;
 import ru.vpavlova.tm.exception.empty.EmptyIdException;
+import ru.vpavlova.tm.repository.model.ProjectRepository;
+import ru.vpavlova.tm.repository.model.TaskRepository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class ProjectTaskService implements IProjectTaskService {
@@ -24,14 +26,14 @@ public class ProjectTaskService implements IProjectTaskService {
 
     @NotNull
     @Override
-    public List<TaskDTO> findAllTaskByProjectId(
+    public List<Task> findAllTaskByProjectId(
             @Nullable final String userId,
             @Nullable final String projectId
     ) {
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
-        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
-        @NotNull final ITaskRepository taskRepository = sqlSession.getMapper(ITaskRepository.class);
+        @NotNull final EntityManager entityManager = connectionService.getEntityManager();
+        @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
         return taskRepository.findAllByProjectId(userId, projectId);
     }
 
@@ -45,16 +47,17 @@ public class ProjectTaskService implements IProjectTaskService {
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
         if (taskId == null || taskId.isEmpty()) throw new EmptyIdException();
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
-        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        @NotNull final EntityManager entityManager = connectionService.getEntityManager();
         try {
-            @NotNull final ITaskRepository taskRepository = sqlSession.getMapper(ITaskRepository.class);
-            taskRepository.bindTaskByProject(userId, projectId, taskId);
-            sqlSession.commit();
+            entityManager.getTransaction().begin();
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            taskRepository.bindTaskByProjectId(userId, projectId, taskId);
+            entityManager.getTransaction().commit();
         } catch (@NotNull final Exception e) {
-            sqlSession.rollback();
+            entityManager.getTransaction().rollback();
             throw e;
         } finally {
-            sqlSession.close();
+            entityManager.close();
         }
     }
 
@@ -66,15 +69,16 @@ public class ProjectTaskService implements IProjectTaskService {
     ) {
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (taskId == null || taskId.isEmpty()) throw new EmptyIdException();
-        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        @NotNull final EntityManager entityManager = connectionService.getEntityManager();
         try {
-            @NotNull final ITaskRepository taskRepository = sqlSession.getMapper(ITaskRepository.class);
-            taskRepository.unbindTaskFromProject(userId, taskId);
+            entityManager.getTransaction().begin();
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            taskRepository.unbindTaskFromProjectId(userId, taskId);
         } catch (@NotNull final Exception e) {
-            sqlSession.rollback();
+            entityManager.getTransaction().rollback();
             throw e;
         } finally {
-            sqlSession.close();
+            entityManager.close();
         }
     }
 
@@ -86,18 +90,19 @@ public class ProjectTaskService implements IProjectTaskService {
     ) {
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
-        @NotNull final SqlSession sqlSession = connectionService.getSqlSession();
+        @NotNull final EntityManager entityManager = connectionService.getEntityManager();
         try {
-            @NotNull final ITaskRepository taskRepository = sqlSession.getMapper(ITaskRepository.class);
-            @NotNull final IProjectRepository projectRepository = sqlSession.getMapper(IProjectRepository.class);
+            entityManager.getTransaction().begin();
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
             taskRepository.removeAllByProjectId(userId, projectId);
             projectRepository.removeOneByIdAndUserId(userId, projectId);
-            sqlSession.commit();
+            entityManager.getTransaction().commit();
         } catch (@NotNull final Exception e) {
-            sqlSession.rollback();
+            entityManager.getTransaction().rollback();
             throw e;
         } finally {
-            sqlSession.close();
+            entityManager.close();
         }
     }
 

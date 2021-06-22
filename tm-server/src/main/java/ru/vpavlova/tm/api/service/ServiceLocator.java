@@ -2,6 +2,8 @@ package ru.vpavlova.tm.api.service;
 
 import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.api.IPropertyService;
+import ru.vpavlova.tm.api.service.dto.*;
+import ru.vpavlova.tm.api.service.model.*;
 
 public interface ServiceLocator {
 
@@ -28,5 +30,20 @@ public interface ServiceLocator {
 
     @NotNull
     IConnectionService getConnectionService();
+
+    @NotNull
+    IProjectDTOService getProjectDTOService();
+
+    @NotNull
+    IProjectTaskDTOService getProjectTaskDTOService();
+
+    @NotNull
+    ISessionDTOService getSessionDTOService();
+
+    @NotNull
+    ITaskDTOService getTaskDTOService();
+
+    @NotNull
+    IUserDTOService getUserDTOService();
 
 }
