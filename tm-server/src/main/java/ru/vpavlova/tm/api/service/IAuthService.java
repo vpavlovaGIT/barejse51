@@ -2,6 +2,7 @@ package ru.vpavlova.tm.api.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.vpavlova.tm.api.service.dto.IUserDTOService;
 import ru.vpavlova.tm.dto.UserDTO;
 import ru.vpavlova.tm.enumerated.Role;
 

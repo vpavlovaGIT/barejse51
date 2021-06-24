@@ -8,6 +8,7 @@ import ru.vpavlova.tm.api.repository.dto.ITaskDTORepository;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.dto.IProjectTaskDTOService;
 import ru.vpavlova.tm.dto.TaskDTO;
+import ru.vpavlova.tm.exception.empty.EmptyIdException;
 import ru.vpavlova.tm.exception.empty.EmptyUserIdException;
 import ru.vpavlova.tm.repository.dto.ProjectDTORepository;
 import ru.vpavlova.tm.repository.dto.TaskDTORepository;
@@ -24,16 +25,16 @@ public final class ProjectTaskDTOService implements IProjectTaskDTOService {
         this.connectionService = connectionService;
     }
 
-    @SneakyThrows
     @Override
+    @SneakyThrows
     public void bindTaskByProject(
             @Nullable final String userId,
             @Nullable final String projectId,
             @Nullable final String taskId
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
-        if (isEmpty(projectId)) throw new ProjectIdIsEmptyException();
-        if (isEmpty(taskId)) throw new TaskIdIsEmptyException();
+        if (projectId.isEmpty()) throw new EmptyIdException();
+        if (taskId.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -49,25 +50,25 @@ public final class ProjectTaskDTOService implements IProjectTaskDTOService {
     }
 
     @NotNull
-    @SneakyThrows
     @Override
+    @SneakyThrows
     public List<TaskDTO> findAllByProjectId(
             @Nullable final String userId, @Nullable final String projectId
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
-        if (isEmpty(projectId)) throw new EmptyP();
+        if (projectId.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
         @NotNull final ITaskDTORepository taskRepository = new TaskDTORepository(entityManager);
         return taskRepository.findAllByProjectId(userId, projectId);
     }
 
-    @SneakyThrows
     @Override
+    @SneakyThrows
     public void removeProjectById(
             @Nullable final String userId, @Nullable final String projectId
     ) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
-        if (isEmpty(projectId)) throw new ProjectIdIsEmptyException();
+        if (projectId.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -84,13 +85,13 @@ public final class ProjectTaskDTOService implements IProjectTaskDTOService {
         }
     }
 
-    @SneakyThrows
     @Override
+    @SneakyThrows
     public void unbindTaskFromProject(
             @Nullable final String userId, @Nullable final String taskId
     ) {
-        if (isEmpty(userId)) throw new UserIdIsEmptyException();
-        if (isEmpty(taskId)) throw new TaskIdIsEmptyException();
+        if (userId.isEmpty()) throw new EmptyUserIdException();
+        if (taskId.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
         try {
             entityManager.getTransaction().begin();

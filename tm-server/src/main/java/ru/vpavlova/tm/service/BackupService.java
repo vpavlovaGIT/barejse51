@@ -7,6 +7,10 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.service.*;
+import ru.vpavlova.tm.api.service.dto.IProjectDTOService;
+import ru.vpavlova.tm.api.service.dto.ISessionDTOService;
+import ru.vpavlova.tm.api.service.dto.ITaskDTOService;
+import ru.vpavlova.tm.api.service.dto.IUserDTOService;
 import ru.vpavlova.tm.api.service.model.IProjectService;
 import ru.vpavlova.tm.api.service.model.ISessionService;
 import ru.vpavlova.tm.api.service.model.ITaskService;
@@ -26,22 +30,22 @@ import java.nio.file.Paths;
 public final class BackupService implements IBackupService {
 
     @NotNull
-    private final IUserService userService;
+    private final IUserDTOService userService;
 
     @NotNull
-    private final ITaskService taskService;
+    private final ITaskDTOService taskService;
 
     @NotNull
-    private final IProjectService projectService;
+    private final IProjectDTOService projectService;
 
     @NotNull
-    private final ISessionService sessionService;
+    private final ISessionDTOService sessionService;
 
     public BackupService(
-            @NotNull final IUserService userService,
-            @NotNull final ITaskService taskService,
-            @NotNull final IProjectService projectService,
-            @NotNull final ISessionService sessionService
+            @NotNull final IUserDTOService userService,
+            @NotNull final ITaskDTOService taskService,
+            @NotNull final IProjectDTOService projectService,
+            @NotNull final ISessionDTOService sessionService
     ) {
         this.userService = userService;
         this.taskService = taskService;

@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.service;
+package ru.vpavlova.tm.service.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
@@ -6,12 +6,13 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.model.ISessionService;
 import ru.vpavlova.tm.api.service.ServiceLocator;
+import ru.vpavlova.tm.api.service.model.ISessionService;
 import ru.vpavlova.tm.bootstrap.Bootstrap;
-import ru.vpavlova.tm.dto.SessionDTO;
+import ru.vpavlova.tm.entity.Session;
 import ru.vpavlova.tm.marker.DBCategory;
-import ru.vpavlova.tm.service.model.SessionService;
+import ru.vpavlova.tm.service.ConnectionService;
+import ru.vpavlova.tm.service.PropertyService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +34,9 @@ public class SessionServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addAllSessionTest() {
-        final List<SessionDTO> sessions = new ArrayList<>();
-        final SessionDTO session1 = new SessionDTO();
-        final SessionDTO session2 = new SessionDTO();
+        final List<Session> sessions = new ArrayList<>();
+        final Session session1 = new Session();
+        final Session session2 = new Session();
         sessions.add(session1);
         sessions.add(session2);
         sessionService.addAll(sessions);
@@ -46,7 +47,7 @@ public class SessionServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addSessionTest() {
-        final SessionDTO session = new SessionDTO();
+        final Session session = new Session();
         sessionService.add(session);
         Assert.assertNotNull(sessionService.findById(session.getId()));
     }
@@ -61,9 +62,9 @@ public class SessionServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findAllSession() {
-        final List<SessionDTO> sessions = new ArrayList<>();
-        final SessionDTO session1 = new SessionDTO();
-        final SessionDTO session2 = new SessionDTO();
+        final List<Session> sessions = new ArrayList<>();
+        final Session session1 = new Session();
+        final Session session2 = new Session();
         sessions.add(session1);
         sessions.add(session2);
         sessionService.addAll(sessions);
@@ -73,7 +74,7 @@ public class SessionServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findSessionOneByIdTest() {
-        final SessionDTO session1 = new SessionDTO();
+        final Session session1 = new Session();
         final String sessionId = session1.getId();
         sessionService.add(session1);
         Assert.assertNotNull(sessionService.findById(sessionId));
@@ -82,7 +83,7 @@ public class SessionServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeSessionOneByIdTest() {
-        final SessionDTO session = new SessionDTO();
+        final Session session = new Session();
         sessionService.add(session);
         final String sessionId = session.getId();
         sessionService.removeById(sessionId);

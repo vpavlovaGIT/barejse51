@@ -13,6 +13,7 @@ import ru.vpavlova.tm.dto.SessionDTO;
 import ru.vpavlova.tm.endpoint.*;
 import ru.vpavlova.tm.enumerated.Role;
 import ru.vpavlova.tm.service.*;
+import ru.vpavlova.tm.service.dto.*;
 import ru.vpavlova.tm.service.model.*;
 import ru.vpavlova.tm.util.SystemUtil;
 
@@ -64,12 +65,6 @@ public class Bootstrap implements ServiceLocator {
     private final IUserService userService = new UserService(propertyService, connectionService);
 
     @NotNull
-    private final BackupService backupService = new BackupService(userService, taskService, projectService, sessionService);
-
-    @NotNull
-    private final IAdminDataEndpoint adminDataEndpoint = new AdminDataEndpoint(this, backupService);
-
-    @NotNull
     public final IProjectDTOService projectDTOService = new ProjectDTOService(connectionService);
 
     @NotNull
@@ -83,6 +78,12 @@ public class Bootstrap implements ServiceLocator {
 
     @NotNull
     public final IUserDTOService userDTOService = new UserDTOService(propertyService, connectionService);
+
+    @NotNull
+    private final BackupService backupService = new BackupService(userDTOService, taskDTOService, projectDTOService, sessionDTOService);
+
+    @NotNull
+    private final IAdminDataEndpoint adminDataEndpoint = new AdminDataEndpoint(this, backupService);
 
     @Nullable
     private SessionDTO session = null;

@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.service;
+package ru.vpavlova.tm.service.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
@@ -7,10 +7,11 @@ import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.model.IUserService;
-import ru.vpavlova.tm.dto.UserDTO;
+import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.marker.UnitCategory;
-import ru.vpavlova.tm.service.model.UserService;
+import ru.vpavlova.tm.service.ConnectionService;
+import ru.vpavlova.tm.service.PropertyService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,9 @@ public class UserServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addAllUsersTest() {
-        final List<UserDTO> users = new ArrayList<>();
-        final UserDTO user1 = new UserDTO();
-        final UserDTO user2 = new UserDTO();
+        final List<User> users = new ArrayList<>();
+        final User user1 = new User();
+        final User user2 = new User();
         users.add(user1);
         users.add(user2);
         userService.addAll(users);
@@ -53,9 +54,9 @@ public class UserServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findAllUsers() {
-        final List<UserDTO> users = new ArrayList<>();
-        final UserDTO user1 = new UserDTO();
-        final UserDTO user2 = new UserDTO();
+        final List<User> users = new ArrayList<>();
+        final User user1 = new User();
+        final User user2 = new User();
         users.add(user1);
         users.add(user2);
         userService.addAll(users);
@@ -65,7 +66,7 @@ public class UserServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findUserByLogin() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         user.setLogin("test");
         userService.add(user);
         final String login = user.getLogin();
@@ -76,7 +77,7 @@ public class UserServiceTest {
     @Test
     @Category(UnitCategory.class)
     public void findUserOneByIdTest() {
-        final UserDTO user1 = new UserDTO();
+        final User user1 = new User();
         final String userId = user1.getId();
         userService.add(user1);
         Assert.assertNotNull(userService.findById(userId));
@@ -85,7 +86,7 @@ public class UserServiceTest {
     @Test
     @Category(UnitCategory.class)
     public void removeUserByLogin() {
-        final UserDTO user1 = new UserDTO();
+        final User user1 = new User();
         userService.add(user1);
         final String userId = user1.getId();
         userService.removeById(userId);
@@ -95,7 +96,7 @@ public class UserServiceTest {
     @Test
     @Category(UnitCategory.class)
     public void removeUserOneByIdTest() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         userService.add(user);
         final String userId = user.getId();
         userService.removeById(userId);
@@ -105,10 +106,11 @@ public class UserServiceTest {
     @Test
     @Category(UnitCategory.class)
     public void removeUserTest() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         userService.add(user);
         userService.remove(user);
         Assert.assertNotNull(userService.findById(user.getId()));
     }
 
 }
+

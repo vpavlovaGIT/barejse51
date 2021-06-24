@@ -1,4 +1,4 @@
-package ru.vpavlova.tm.service;
+package ru.vpavlova.tm.service.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
@@ -7,10 +7,12 @@ import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.model.ITaskService;
-import ru.vpavlova.tm.dto.TaskDTO;
-import ru.vpavlova.tm.dto.UserDTO;
+import ru.vpavlova.tm.api.service.model.IUserService;
+import ru.vpavlova.tm.entity.Task;
+import ru.vpavlova.tm.entity.User;
 import ru.vpavlova.tm.marker.DBCategory;
-import ru.vpavlova.tm.service.model.TaskService;
+import ru.vpavlova.tm.service.ConnectionService;
+import ru.vpavlova.tm.service.PropertyService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +29,15 @@ public class TaskServiceTest {
     @NotNull
     private final ITaskService taskService = new TaskService(connectionService);
 
+    @NotNull
+    private final IUserService userService = new UserService(propertyService, connectionService);
+
     @Test
     @Category(DBCategory.class)
     public void addAllTasksTest() {
-        final List<TaskDTO> tasks = new ArrayList<>();
-        final TaskDTO task1 = new TaskDTO();
-        final TaskDTO task2 = new TaskDTO();
+        final List<Task> tasks = new ArrayList<>();
+        final Task task1 = new Task();
+        final Task task2 = new Task();
         tasks.add(task1);
         tasks.add(task2);
         taskService.addAll(tasks);
@@ -43,7 +48,7 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addTaskTest() {
-        final TaskDTO task = new TaskDTO();
+        final Task task = new Task();
         taskService.add(task);
         Assert.assertNotNull(taskService.findById(task.getId()));
         taskService.remove(task);
@@ -59,9 +64,9 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findAllTasks() {
-        final List<TaskDTO> tasks = new ArrayList<>();
-        final TaskDTO task1 = new TaskDTO();
-        final TaskDTO task2 = new TaskDTO();
+        final List<Task> tasks = new ArrayList<>();
+        final Task task1 = new Task();
+        final Task task2 = new Task();
         tasks.add(task1);
         tasks.add(task2);
         taskService.addAll(tasks);
@@ -71,7 +76,7 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findTaskOneByIdTest() {
-        final TaskDTO task1 = new TaskDTO();
+        final Task task1 = new Task();
         final String taskId = task1.getId();
         taskService.add(task1);
         Assert.assertNotNull(taskService.findById(taskId));
@@ -80,40 +85,42 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findTaskOneByIndexTest() {
-        @NotNull final Optional<TaskDTO> task = taskService.findByIndex("testUser", 0);
+        @NotNull final Optional<Task> task = taskService.findOneByIndex("testUser", 0);
         Assert.assertNotNull(task);
     }
 
     @Test
     @Category(DBCategory.class)
     public void findTaskOneByIndexTestByUserId() {
-        final TaskDTO task = new TaskDTO();
-        final UserDTO user = new UserDTO();
-        final String userId = user.getId();
-        task.setUserId(userId);
+        final Task task = new Task();
+        @NotNull final Optional<User> user = userService.findByLogin("test");
+        final String userId = user.get().getId();
+        task.setUser(user.get());
         taskService.add(task);
         final String taskId = task.getId();
-        Assert.assertTrue(taskService.findById(userId, taskId).isPresent());
+        Assert.assertTrue(taskService.findOneById(userId, taskId).isPresent());
+        taskService.remove(task);
     }
 
     @Test
     @Category(DBCategory.class)
     public void findTaskOneByNameTest() {
-        final TaskDTO task = new TaskDTO();
-        final UserDTO user = new UserDTO();
-        final String userId = user.getId();
-        task.setUserId(userId);
-        task.setName("project1");
+        final Task task = new Task();
+        @NotNull final Optional<User> user = userService.findByLogin("test");
+        final String userId = user.get().getId();
+        task.setUser(user.get());
+        task.setName("pr1");
         taskService.add(task);
         final String name = task.getName();
         Assert.assertNotNull(name);
-        Assert.assertTrue(taskService.findByName(userId, name).isPresent());
+        Assert.assertTrue(taskService.findOneByName(userId, name).isPresent());
+        taskService.remove(task);
     }
 
     @Test
     @Category(DBCategory.class)
     public void removeTaskOneByIdTest() {
-        final TaskDTO task = new TaskDTO();
+        final Task task = new Task();
         taskService.add(task);
         final String taskId = task.getId();
         taskService.removeById(taskId);
@@ -123,39 +130,41 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTaskOneByIndexTest() {
-        final TaskDTO task1 = new TaskDTO();
-        final TaskDTO task2 = new TaskDTO();
-        final TaskDTO task3 = new TaskDTO();
-        final UserDTO user = new UserDTO();
-        final String userId = user.getId();
-        task1.setUserId(userId);
-        task2.setUserId(userId);
-        task3.setUserId(userId);
+        final Task task1 = new Task();
+        final Task task2 = new Task();
+        final Task task3 = new Task();
+        @NotNull final Optional<User> user = userService.findByLogin("test");
+        final String userId = user.get().getId();
+        task1.setUser(user.get());
+        task2.setUser(user.get());
+        task3.setUser(user.get());
         taskService.add(task1);
         taskService.add(task2);
         taskService.add(task3);
-        Assert.assertTrue(taskService.findByIndex(userId, 0).isPresent());
-        Assert.assertTrue(taskService.findByIndex(userId, 1).isPresent());
-        Assert.assertTrue(taskService.findByIndex(userId, 2).isPresent());
+        Assert.assertTrue(taskService.findOneByIndex(userId, 0).isPresent());
+        Assert.assertTrue(taskService.findOneByIndex(userId, 1).isPresent());
+        Assert.assertTrue(taskService.findOneByIndex(userId, 2).isPresent());
     }
 
     @Test
     @Category(DBCategory.class)
     public void removeTaskOneByNameTest() {
-        final TaskDTO task = new TaskDTO();
-        final UserDTO user = new UserDTO();
-        final String userId = user.getId();
-        task.setUserId(userId);
-        task.setName("task1");
-        final String name = task.getName();
+        final Task task = new Task();
+        @NotNull final Optional<User> user = userService.findByLogin("test");
+        final String userId = user.get().getId();
+        task.setUser(user.get());
+        task.setName("project1");
         taskService.add(task);
-        taskService.removeByName(name, userId);
+        final String name = task.getName();
+        Assert.assertNotNull(name);
+        taskService.removeOneByName(userId, name);
+        Assert.assertFalse(taskService.findOneByName(userId, name).isPresent());
     }
 
     @Test
     @Category(DBCategory.class)
     public void removeTaskTest() {
-        final TaskDTO task = new TaskDTO();
+        final Task task = new Task();
         taskService.add(task);
         taskService.remove(task);
         Assert.assertNotNull(taskService.findById(task.getId()));
