@@ -114,7 +114,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "login", partName = "login") @NotNull String login
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
-        serviceLocator.getUserService().lockUserByLogin(login);
+        serviceLocator.getUserDTOService().lockUserByLogin(login);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
             @WebParam(name = "login", partName = "login") @NotNull String login
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
-        serviceLocator.getUserService().unlockUserByLogin(login);
+        serviceLocator.getUserDTOService().lockUserByLogin(login);
     }
 
     @Override

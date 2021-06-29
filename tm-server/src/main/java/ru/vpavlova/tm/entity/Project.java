@@ -18,7 +18,7 @@ import java.util.List;
 public class Project extends AbstractBusinessEntity implements IWBS {
 
     @Nullable
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
 }
