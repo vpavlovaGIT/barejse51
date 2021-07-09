@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.endpoint.IAdminUserEndpoint;
 import ru.vpavlova.tm.api.service.ServiceLocator;
-import ru.vpavlova.tm.dto.SessionDTO;
-import ru.vpavlova.tm.dto.UserDTO;
+import ru.vpavlova.tm.dto.Session;
+import ru.vpavlova.tm.dto.User;
 import ru.vpavlova.tm.enumerated.Role;
 
 import javax.jws.WebMethod;
@@ -25,8 +25,8 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void addUser(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
-            @WebParam(name = "user", partName = "user") @NotNull UserDTO user
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "user", partName = "user") @NotNull User user
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserDTOService().add(user);
@@ -36,8 +36,8 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void removeUser(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
-            @WebParam(name = "user", partName = "user") @NotNull UserDTO user
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "user", partName = "user") @NotNull User user
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserDTOService().remove(user);
@@ -47,7 +47,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void removeOneByLogin(
-            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
+            @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "login", partName = "login") @Nullable final String login
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
@@ -59,7 +59,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void createUser(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "login", partName = "login") @NotNull String login,
             @WebParam(name = "password", partName = "password") @NotNull String password
     ) {
@@ -71,7 +71,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void createUserWithEmail(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "login", partName = "login") @NotNull String login,
             @WebParam(name = "password", partName = "password") @NotNull String password,
             @WebParam(name = "email", partName = "email") @NotNull String email
@@ -84,7 +84,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void setUserPassword(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "userId", partName = "userId") @NotNull String userId,
             @WebParam(name = "password", partName = "password") @NotNull String password
     ) {
@@ -96,7 +96,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void updateUser(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "userId", partName = "userId") @NotNull String userId,
             @WebParam(name = "firstName", partName = "firstName") @Nullable String firstName,
             @WebParam(name = "lastName", partName = "lastName") @Nullable String lastName,
@@ -110,7 +110,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void lockUserByLogin(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "login", partName = "login") @NotNull String login
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
@@ -121,7 +121,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void unlockUserByLogin(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "login", partName = "login") @NotNull String login
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
@@ -131,8 +131,8 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @Override
     @WebMethod
     @SneakyThrows
-    public List<UserDTO> findAllUsers(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
+    public List<User> findAllUsers(
+            @WebParam(name = "session", partName = "session") @NotNull Session session
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         return serviceLocator.getUserDTOService().findAll();
@@ -142,7 +142,7 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void clearUsers(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session
+            @WebParam(name = "session", partName = "session") @NotNull Session session
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserService().clear();
@@ -153,8 +153,8 @@ public class AdminUserEndpoint extends AbstractEndpoint implements IAdminUserEnd
     @WebMethod
     @SneakyThrows
     public void addAllUsers(
-            @WebParam(name = "session", partName = "session") @NotNull SessionDTO session,
-            @WebParam(name = "users", partName = "users") @NotNull List<UserDTO> users
+            @WebParam(name = "session", partName = "session") @NotNull Session session,
+            @WebParam(name = "users", partName = "users") @NotNull List<User> users
     ) {
         serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
         serviceLocator.getUserDTOService().addAll(users);

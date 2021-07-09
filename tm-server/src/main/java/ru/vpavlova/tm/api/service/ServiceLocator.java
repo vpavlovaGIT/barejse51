@@ -8,16 +8,16 @@ import ru.vpavlova.tm.api.service.model.*;
 public interface ServiceLocator {
 
     @NotNull
-    ITaskService getTaskService();
+    ITaskGraphService getTaskService();
 
     @NotNull
-    IProjectService getProjectService();
+    IProjectGraphService getProjectService();
 
     @NotNull
-    IProjectTaskService getProjectTaskService();
+    IProjectTaskGraphService getProjectTaskService();
 
     @NotNull
-    IUserService getUserService();
+    IUserGraphService getUserService();
 
     @NotNull
     IPropertyService getPropertyService();
@@ -32,18 +32,18 @@ public interface ServiceLocator {
     IConnectionService getConnectionService();
 
     @NotNull
-    IProjectDTOService getProjectDTOService();
+    IProjectService getProjectDTOService();
 
     @NotNull
-    IProjectTaskDTOService getProjectTaskDTOService();
+    IProjectTaskService getProjectTaskDTOService();
 
     @NotNull
-    ISessionDTOService getSessionDTOService();
+    ISessionService getSessionDTOService();
 
     @NotNull
-    ITaskDTOService getTaskDTOService();
+    ITaskService getTaskDTOService();
 
     @NotNull
-    IUserDTOService getUserDTOService();
+    IUserService getUserDTOService();
 
 }

@@ -2,8 +2,8 @@ package ru.vpavlova.tm.api.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.vpavlova.tm.api.service.dto.IUserDTOService;
-import ru.vpavlova.tm.dto.UserDTO;
+import ru.vpavlova.tm.api.service.dto.IUserService;
+import ru.vpavlova.tm.dto.User;
 import ru.vpavlova.tm.enumerated.Role;
 
 import java.util.Optional;
@@ -13,13 +13,13 @@ public interface IAuthService {
     void checkRoles(@Nullable Role... roles);
 
     @NotNull
-    Optional<UserDTO> getUser();
+    Optional<User> getUser();
 
     @NotNull
     String getUserId();
 
     @NotNull
-    IUserDTOService getUserService();
+    IUserService getUserService();
 
     boolean isAuth();
 

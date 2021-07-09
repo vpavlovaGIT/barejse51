@@ -6,13 +6,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.endpoint.*;
-import ru.vpavlova.tm.api.service.*;
+import ru.vpavlova.tm.api.service.IBackupService;
+import ru.vpavlova.tm.api.service.IConnectionService;
+import ru.vpavlova.tm.api.service.ILoggerService;
+import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.api.service.dto.*;
 import ru.vpavlova.tm.api.service.model.*;
-import ru.vpavlova.tm.dto.SessionDTO;
+import ru.vpavlova.tm.dto.Session;
 import ru.vpavlova.tm.endpoint.*;
 import ru.vpavlova.tm.enumerated.Role;
-import ru.vpavlova.tm.service.*;
+import ru.vpavlova.tm.service.BackupService;
+import ru.vpavlova.tm.service.ConnectionService;
+import ru.vpavlova.tm.service.LoggerService;
+import ru.vpavlova.tm.service.PropertyService;
 import ru.vpavlova.tm.service.dto.*;
 import ru.vpavlova.tm.service.model.*;
 import ru.vpavlova.tm.util.SystemUtil;
@@ -32,7 +38,7 @@ public class Bootstrap implements ServiceLocator {
     public final IConnectionService connectionService = new ConnectionService(propertyService);
 
     @NotNull
-    public final ISessionService sessionService = new SessionService(connectionService, this);
+    public final ISessionGraphService sessionService = new SessionGraphService(connectionService, this);
 
     @NotNull
     public final ISessionEndpoint sessionEndpoint = new SessionEndpoint(this);
@@ -50,34 +56,34 @@ public class Bootstrap implements ServiceLocator {
     public final IAdminUserEndpoint adminEndpoint = new AdminUserEndpoint(this);
 
     @NotNull
-    private final ITaskService taskService = new TaskService(connectionService);
+    private final ITaskGraphService taskService = new TaskGraphService(connectionService);
 
     @NotNull
-    private final IProjectTaskService projectTaskService = new ProjectTaskService(connectionService);
+    private final IProjectTaskGraphService projectTaskService = new ProjectTaskGraphService(connectionService);
 
     @NotNull
-    private final IProjectService projectService = new ProjectService(connectionService);
+    private final IProjectGraphService projectService = new ProjectGraphService(connectionService);
 
     @NotNull
     private final ILoggerService loggerService = new LoggerService();
 
     @NotNull
-    private final IUserService userService = new UserService(propertyService, connectionService);
+    private final IUserGraphService userService = new UserGraphService(propertyService, connectionService);
 
     @NotNull
-    public final IProjectDTOService projectDTOService = new ProjectDTOService(connectionService);
+    public final IProjectService projectDTOService = new ProjectService(connectionService);
 
     @NotNull
-    public final IProjectTaskDTOService projectTaskDTOService = new ProjectTaskDTOService(connectionService);
+    public final IProjectTaskService projectTaskDTOService = new ProjectTaskService(connectionService);
 
     @NotNull
-    public final ISessionDTOService sessionDTOService = new SessionDTOService(connectionService, this);
+    public final ISessionService sessionDTOService = new SessionService(connectionService, this);
 
     @NotNull
-    public final ITaskDTOService taskDTOService = new TaskDTOService(connectionService);
+    public final ITaskService taskDTOService = new TaskService(connectionService);
 
     @NotNull
-    public final IUserDTOService userDTOService = new UserDTOService(propertyService, connectionService);
+    public final IUserService userDTOService = new UserService(propertyService, connectionService);
 
     @NotNull
     private final BackupService backupService = new BackupService(userDTOService, taskDTOService, projectDTOService, sessionDTOService);
@@ -86,7 +92,7 @@ public class Bootstrap implements ServiceLocator {
     private final IAdminDataEndpoint adminDataEndpoint = new AdminDataEndpoint(this, backupService);
 
     @Nullable
-    private SessionDTO session = null;
+    private Session session = null;
 
     public Bootstrap() {
     }

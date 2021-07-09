@@ -7,14 +7,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.dto.ProjectDTO;
-import ru.vpavlova.tm.dto.SessionDTO;
-import ru.vpavlova.tm.dto.TaskDTO;
-import ru.vpavlova.tm.dto.UserDTO;
-import ru.vpavlova.tm.entity.Project;
-import ru.vpavlova.tm.entity.Session;
-import ru.vpavlova.tm.entity.Task;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.dto.*;
+import ru.vpavlova.tm.entity.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -52,16 +46,16 @@ public class ConnectionService implements IConnectionService {
         @NotNull final StandardServiceRegistry registry = registryBuilder.build();
         @NotNull final MetadataSources sources = new MetadataSources(registry);
 
-        sources.addAnnotatedClass(ProjectDTO.class);
+        sources.addAnnotatedClass(ProjectGraph.class);
         sources.addAnnotatedClass(Project.class);
 
-        sources.addAnnotatedClass(TaskDTO.class);
+        sources.addAnnotatedClass(TaskGraph.class);
         sources.addAnnotatedClass(Task.class);
 
-        sources.addAnnotatedClass(SessionDTO.class);
+        sources.addAnnotatedClass(SessionGraph.class);
         sources.addAnnotatedClass(Session.class);
 
-        sources.addAnnotatedClass(UserDTO.class);
+        sources.addAnnotatedClass(UserGraph.class);
         sources.addAnnotatedClass(User.class);
 
         @NotNull final Metadata metadata = sources.getMetadataBuilder().build();

@@ -5,9 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.endpoint.IUserEndpoint;
 import ru.vpavlova.tm.api.service.ServiceLocator;
-import ru.vpavlova.tm.dto.SessionDTO;
-import ru.vpavlova.tm.dto.UserDTO;
-import ru.vpavlova.tm.enumerated.Role;
+import ru.vpavlova.tm.dto.Session;
+import ru.vpavlova.tm.dto.User;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -24,11 +23,11 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
     @Override
     @WebMethod
     @SneakyThrows
-    public UserDTO findUserByLogin(
-            @WebParam (name = "session", partName = "session") @NotNull SessionDTO session,
+    public User findUserByLogin(
+            @WebParam (name = "session", partName = "session") @NotNull Session session,
             @WebParam(name = "login", partName = "login") @NotNull final String login
     ) {
-        serviceLocator.getSessionDTOService().validateAdmin(session, Role.ADMIN);
+        serviceLocator.getSessionDTOService().validate(session);
         return serviceLocator.getUserDTOService().findByLogin(login).orElse(null);
     }
 
@@ -36,10 +35,10 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
     @Nullable
     @WebMethod
     @SneakyThrows
-    public UserDTO findUserOneBySession(
-            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session
+    public User findUserOneBySession(
+            @WebParam(name = "session", partName = "session") @Nullable final Session session
     ) {
-        serviceLocator.getSessionDTOService().validate(session);
+        serviceLocator.getSessionService().validate(session);
         return serviceLocator.getUserDTOService().findOneById(session.getUserId()).orElse(null);
     }
 
@@ -47,7 +46,7 @@ public class UserEndpoint extends AbstractEndpoint implements IUserEndpoint {
     @WebMethod
     @SneakyThrows
     public void setPassword(
-            @WebParam(name = "session", partName = "session") @Nullable final SessionDTO session,
+            @WebParam(name = "session", partName = "session") @Nullable final Session session,
             @WebParam(name = "password", partName = "password") @Nullable final String password
     ) {
         serviceLocator.getSessionDTOService().validate(session);
