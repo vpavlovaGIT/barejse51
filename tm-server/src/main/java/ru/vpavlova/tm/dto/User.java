@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.enumerated.Role;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
@@ -13,6 +15,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "app_user")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User extends AbstractEntity {
 
     @Column

@@ -3,6 +3,8 @@ package ru.vpavlova.tm.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +18,7 @@ import java.util.List;
 @XmlRootElement
 @JsonRootName("domain")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Domain implements Serializable {
 
     @NotNull

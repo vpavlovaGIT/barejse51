@@ -1,15 +1,17 @@
 package ru.vpavlova.tm.service.model;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.model.ITaskService;
-import ru.vpavlova.tm.api.service.model.IUserService;
-import ru.vpavlova.tm.entity.Task;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.api.service.model.ITaskGraphService;
+import ru.vpavlova.tm.api.service.model.IUserGraphService;
+import ru.vpavlova.tm.entity.TaskGraph;
+import ru.vpavlova.tm.entity.UserGraph;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.service.ConnectionService;
 import ru.vpavlova.tm.service.PropertyService;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TaskServiceTest {
+public class TaskGraphServiceTest {
 
     @NotNull
     private final IPropertyService propertyService = new PropertyService();
@@ -27,17 +29,27 @@ public class TaskServiceTest {
     private final IConnectionService connectionService = new ConnectionService(propertyService);
 
     @NotNull
-    private final ITaskService taskService = new TaskService(connectionService);
+    private final ITaskGraphService taskService = new TaskGraphService(connectionService);
 
     @NotNull
-    private final IUserService userService = new UserService(propertyService, connectionService);
+    private final IUserGraphService userService = new UserGraphService(propertyService, connectionService);
+
+    @Before
+    public void before() {
+        connectionService.getEntityManager().getEntityManagerFactory().createEntityManager();
+    }
+
+    @After
+    public void after() {
+        connectionService.getEntityManager().getEntityManagerFactory().close();
+    }
 
     @Test
     @Category(DBCategory.class)
     public void addAllTasksTest() {
-        final List<Task> tasks = new ArrayList<>();
-        final Task task1 = new Task();
-        final Task task2 = new Task();
+        final List<TaskGraph> tasks = new ArrayList<>();
+        final TaskGraph task1 = new TaskGraph();
+        final TaskGraph task2 = new TaskGraph();
         tasks.add(task1);
         tasks.add(task2);
         taskService.addAll(tasks);
@@ -48,7 +60,7 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addTaskTest() {
-        final Task task = new Task();
+        final TaskGraph task = new TaskGraph();
         taskService.add(task);
         Assert.assertNotNull(taskService.findById(task.getId()));
         taskService.remove(task);
@@ -64,9 +76,9 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findAllTasks() {
-        final List<Task> tasks = new ArrayList<>();
-        final Task task1 = new Task();
-        final Task task2 = new Task();
+        final List<TaskGraph> tasks = new ArrayList<>();
+        final TaskGraph task1 = new TaskGraph();
+        final TaskGraph task2 = new TaskGraph();
         tasks.add(task1);
         tasks.add(task2);
         taskService.addAll(tasks);
@@ -76,7 +88,7 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findTaskOneByIdTest() {
-        final Task task1 = new Task();
+        final TaskGraph task1 = new TaskGraph();
         final String taskId = task1.getId();
         taskService.add(task1);
         Assert.assertNotNull(taskService.findById(taskId));
@@ -85,15 +97,15 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findTaskOneByIndexTest() {
-        @NotNull final Optional<Task> task = taskService.findOneByIndex("testUser", 0);
+        @NotNull final Optional<TaskGraph> task = taskService.findOneByIndex("testUser", 0);
         Assert.assertNotNull(task);
     }
 
     @Test
     @Category(DBCategory.class)
     public void findTaskOneByIndexTestByUserId() {
-        final Task task = new Task();
-        @NotNull final Optional<User> user = userService.findByLogin("test");
+        final TaskGraph task = new TaskGraph();
+        @NotNull final Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         task.setUser(user.get());
         taskService.add(task);
@@ -105,8 +117,8 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findTaskOneByNameTest() {
-        final Task task = new Task();
-        @NotNull final Optional<User> user = userService.findByLogin("test");
+        final TaskGraph task = new TaskGraph();
+        @NotNull final Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         task.setUser(user.get());
         task.setName("pr1");
@@ -120,7 +132,7 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTaskOneByIdTest() {
-        final Task task = new Task();
+        final TaskGraph task = new TaskGraph();
         taskService.add(task);
         final String taskId = task.getId();
         taskService.removeById(taskId);
@@ -130,10 +142,10 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTaskOneByIndexTest() {
-        final Task task1 = new Task();
-        final Task task2 = new Task();
-        final Task task3 = new Task();
-        @NotNull final Optional<User> user = userService.findByLogin("test");
+        final TaskGraph task1 = new TaskGraph();
+        final TaskGraph task2 = new TaskGraph();
+        final TaskGraph task3 = new TaskGraph();
+        @NotNull final Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         task1.setUser(user.get());
         task2.setUser(user.get());
@@ -149,8 +161,8 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTaskOneByNameTest() {
-        final Task task = new Task();
-        @NotNull final Optional<User> user = userService.findByLogin("test");
+        final TaskGraph task = new TaskGraph();
+        @NotNull final Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         task.setUser(user.get());
         task.setName("project1");
@@ -164,7 +176,7 @@ public class TaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTaskTest() {
-        final Task task = new Task();
+        final TaskGraph task = new TaskGraph();
         taskService.add(task);
         taskService.remove(task);
         Assert.assertNotNull(taskService.findById(task.getId()));

@@ -1,47 +1,58 @@
 package ru.vpavlova.tm.service.dto;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.dto.IProjectDTOService;
-import ru.vpavlova.tm.api.service.dto.IProjectTaskDTOService;
-import ru.vpavlova.tm.api.service.dto.IUserDTOService;
-import ru.vpavlova.tm.dto.ProjectDTO;
-import ru.vpavlova.tm.dto.UserDTO;
+import ru.vpavlova.tm.api.service.ServiceLocator;
+import ru.vpavlova.tm.api.service.dto.IProjectService;
+import ru.vpavlova.tm.api.service.dto.ITaskService;
+import ru.vpavlova.tm.api.service.dto.IUserService;
+import ru.vpavlova.tm.bootstrap.Bootstrap;
+import ru.vpavlova.tm.dto.Project;
+import ru.vpavlova.tm.dto.User;
 import ru.vpavlova.tm.marker.DBCategory;
-import ru.vpavlova.tm.service.ConnectionService;
-import ru.vpavlova.tm.service.PropertyService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProjectDTOServiceTest {
+public class ProjectServiceTest {
 
     @NotNull
-    private final IPropertyService propertyService = new PropertyService();
+    private final ServiceLocator serviceLocator = new Bootstrap();
 
     @NotNull
-    private final IConnectionService connectionService = new ConnectionService(propertyService);
+    private final IConnectionService connectionService = serviceLocator.getConnectionService();
 
     @NotNull
-    private final IProjectDTOService projectService = new ProjectDTOService(connectionService);
+    private final IProjectService projectService = serviceLocator.getProjectDTOService();
 
     @NotNull
-    private final IUserDTOService userService = new UserDTOService(propertyService, connectionService);
+    private final IUserService userService = serviceLocator.getUserDTOService();
 
     @NotNull
-    private final IProjectTaskDTOService projectTaskService = new ProjectTaskDTOService(connectionService);
+    private final ITaskService taskService = serviceLocator.getTaskDTOService();
+
+    @Before
+    public void before() {
+        connectionService.getEntityManager().getEntityManagerFactory().createEntityManager();
+    }
+
+    @After
+    public void after() {
+        connectionService.getEntityManager().getEntityManagerFactory().close();
+    }
 
     @Test
     @Category(DBCategory.class)
     public void addAllTest() {
-        final List<ProjectDTO> projects = new ArrayList<>();
-        final ProjectDTO project1 = new ProjectDTO();
-        final ProjectDTO project2 = new ProjectDTO();
+        final List<Project> projects = new ArrayList<>();
+        final Project project1 = new Project();
+        final Project project2 = new Project();
         projects.add(project1);
         projects.add(project2);
         projectService.addAll(projects);
@@ -54,7 +65,7 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addTest() {
-        final ProjectDTO project = new ProjectDTO();
+        final Project project = new Project();
         projectService.add(project);
         Assert.assertNotNull(projectService.findOneById(project.getId()));
         projectService.remove(project);
@@ -71,9 +82,9 @@ public class ProjectDTOServiceTest {
     @Category(DBCategory.class)
     public void findAll() {
         final int projectSize = projectService.findAll().size();
-        final List<ProjectDTO> projects = new ArrayList<>();
-        final ProjectDTO project1 = new ProjectDTO();
-        final ProjectDTO project2 = new ProjectDTO();
+        final List<Project> projects = new ArrayList<>();
+        final Project project1 = new Project();
+        final Project project2 = new Project();
         projects.add(project1);
         projects.add(project2);
         projectService.addAll(projects);
@@ -85,7 +96,7 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findOneByIdTest() {
-        final ProjectDTO project = new ProjectDTO();
+        final Project project = new Project();
         final String projectId = project.getId();
         projectService.add(project);
         Assert.assertNotNull(projectService.findOneById(projectId));
@@ -95,7 +106,7 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findOneByIndexTest() {
-        final ProjectDTO project = new ProjectDTO();
+        final Project project = new Project();
         projectService.add(project);
         final String projectId = project.getId();
         Assert.assertTrue(projectService.findOneById(projectId).isPresent());
@@ -105,8 +116,8 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findOneByIndexTestByUserId() {
-        final ProjectDTO project = new ProjectDTO();
-        final @NotNull Optional<UserDTO> user = userService.findByLogin("test");
+        final Project project = new Project();
+        final @NotNull Optional<User> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project.setUserId(userId);
         projectService.add(project);
@@ -118,8 +129,8 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findOneByNameTest() {
-        final ProjectDTO project = new ProjectDTO();
-        final @NotNull Optional<UserDTO> user = userService.findByLogin("test");
+        final Project project = new Project();
+        @NotNull final Optional<User> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project.setUserId(userId);
         project.setName("pr1");
@@ -133,7 +144,7 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeOneByIdTest() {
-        final ProjectDTO project = new ProjectDTO();
+        final Project project = new Project();
         projectService.add(project);
         final String projectId = project.getId();
         projectService.removeOneById(projectId);
@@ -144,8 +155,8 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeOneByIdTestByUserId() {
-        final ProjectDTO project = new ProjectDTO();
-        final @NotNull Optional<UserDTO> user = userService.findByLogin("test");
+        final Project project = new Project();
+        @NotNull final Optional<User> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project.setUserId(userId);
         projectService.add(project);
@@ -157,10 +168,10 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeOneByIndexTest() {
-        final ProjectDTO project1 = new ProjectDTO();
-        final ProjectDTO project2 = new ProjectDTO();
-        final ProjectDTO project3 = new ProjectDTO();
-        final @NotNull Optional<UserDTO> user = userService.findByLogin("test");
+        final Project project1 = new Project();
+        final Project project2 = new Project();
+        final Project project3 = new Project();
+        final @NotNull Optional<User> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project1.setUserId(userId);
         project2.setUserId(userId);
@@ -176,8 +187,8 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeOneByNameTest() {
-        final ProjectDTO project = new ProjectDTO();
-        final @NotNull Optional<UserDTO> user = userService.findByLogin("test");
+        final Project project = new Project();
+        @NotNull final Optional<User> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project.setUserId(userId);
         project.setName("pr1");
@@ -191,7 +202,7 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTest() {
-        final ProjectDTO project = new ProjectDTO();
+        final Project project = new Project();
         projectService.add(project);
         projectService.remove(project);
         Assert.assertNotNull(projectService.findOneById(project.getId()));
@@ -200,8 +211,8 @@ public class ProjectDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTestByUserIdAndObject() {
-        final ProjectDTO project = new ProjectDTO();
-        final @NotNull Optional<UserDTO> user = userService.findByLogin("test");
+        final Project project = new Project();
+        @NotNull final Optional<User> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project.setUserId(userId);
         projectService.add(project);

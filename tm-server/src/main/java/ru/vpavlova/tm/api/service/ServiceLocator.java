@@ -23,7 +23,7 @@ public interface ServiceLocator {
     IPropertyService getPropertyService();
 
     @NotNull
-    ISessionService getSessionService();
+    ISessionGraphService getSessionService();
 
     @NotNull
     IBackupService getDataService();

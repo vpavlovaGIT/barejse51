@@ -5,16 +5,19 @@ import org.jetbrains.annotations.NotNull;
 public interface IPropertyService extends ISaltSetting {
 
     @NotNull
-    String getJdbcUrl();
+    String getApplicationVersion();
+
+    @NotNull String getCacheProviderConfig();
+
+    @NotNull String getCacheRegionFactory();
+
+    @NotNull String getCacheRegionPrefix();
 
     @NotNull
-    String getJdbcDriver();
+    String getDeveloperEmail();
 
     @NotNull
-    String getJdbcUser();
-
-    @NotNull
-    String getJdbcPassword();
+    String getDeveloperName();
 
     @NotNull
     String getDialect();
@@ -23,6 +26,32 @@ public interface IPropertyService extends ISaltSetting {
     String getHbm2ddlAuto();
 
     @NotNull
+    String getJdbcDriver();
+
+    @NotNull
+    String getJdbcPassword();
+
+    @NotNull
+    String getJdbcUrl();
+
+    @NotNull
+    String getJdbcUser();
+
+    @NotNull
+    String getServerHost();
+
+    @NotNull
+    String getServerPort();
+
+    @NotNull
     String getShowSql();
+
+    @NotNull String getUseLiteMemberValue();
+
+    @NotNull String getUseMinimalPuts();
+
+    @NotNull String getUseQueryCache();
+
+    @NotNull String getUseSecondLevelCache();
 
 }

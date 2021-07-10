@@ -1,13 +1,15 @@
 package ru.vpavlova.tm.service.model;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.model.IUserService;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.api.service.model.IUserGraphService;
+import ru.vpavlova.tm.entity.UserGraph;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.marker.UnitCategory;
 import ru.vpavlova.tm.service.ConnectionService;
@@ -16,7 +18,7 @@ import ru.vpavlova.tm.service.PropertyService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserServiceTest {
+public class UserGraphServiceTest  {
 
     @NotNull
     private final IPropertyService propertyService = new PropertyService();
@@ -25,14 +27,24 @@ public class UserServiceTest {
     private final IConnectionService connectionService = new ConnectionService(propertyService);
 
     @NotNull
-    private final IUserService userService = new UserService(propertyService, connectionService);
+    private final IUserGraphService userService = new UserGraphService(propertyService, connectionService);
+
+    @Before
+    public void before() {
+        connectionService.getEntityManager().getEntityManagerFactory().createEntityManager();
+    }
+
+    @After
+    public void after() {
+        connectionService.getEntityManager().getEntityManagerFactory().close();
+    }
 
     @Test
     @Category(DBCategory.class)
     public void addAllUsersTest() {
-        final List<User> users = new ArrayList<>();
-        final User user1 = new User();
-        final User user2 = new User();
+        final List<UserGraph> users = new ArrayList<>();
+        final UserGraph user1 = new UserGraph();
+        final UserGraph user2 = new UserGraph();
         users.add(user1);
         users.add(user2);
         userService.addAll(users);
@@ -54,9 +66,9 @@ public class UserServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findAllUsers() {
-        final List<User> users = new ArrayList<>();
-        final User user1 = new User();
-        final User user2 = new User();
+        final List<UserGraph> users = new ArrayList<>();
+        final UserGraph user1 = new UserGraph();
+        final UserGraph user2 = new UserGraph();
         users.add(user1);
         users.add(user2);
         userService.addAll(users);
@@ -66,7 +78,7 @@ public class UserServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findUserByLogin() {
-        final User user = new User();
+        final UserGraph user = new UserGraph();
         user.setLogin("test");
         userService.add(user);
         final String login = user.getLogin();
@@ -77,7 +89,7 @@ public class UserServiceTest {
     @Test
     @Category(UnitCategory.class)
     public void findUserOneByIdTest() {
-        final User user1 = new User();
+        final UserGraph user1 = new UserGraph();
         final String userId = user1.getId();
         userService.add(user1);
         Assert.assertNotNull(userService.findById(userId));
@@ -86,7 +98,7 @@ public class UserServiceTest {
     @Test
     @Category(UnitCategory.class)
     public void removeUserByLogin() {
-        final User user1 = new User();
+        final UserGraph user1 = new UserGraph();
         userService.add(user1);
         final String userId = user1.getId();
         userService.removeById(userId);
@@ -96,7 +108,7 @@ public class UserServiceTest {
     @Test
     @Category(UnitCategory.class)
     public void removeUserOneByIdTest() {
-        final User user = new User();
+        final UserGraph user = new UserGraph();
         userService.add(user);
         final String userId = user.getId();
         userService.removeById(userId);
@@ -106,7 +118,7 @@ public class UserServiceTest {
     @Test
     @Category(UnitCategory.class)
     public void removeUserTest() {
-        final User user = new User();
+        final UserGraph user = new UserGraph();
         userService.add(user);
         userService.remove(user);
         Assert.assertNotNull(userService.findById(user.getId()));

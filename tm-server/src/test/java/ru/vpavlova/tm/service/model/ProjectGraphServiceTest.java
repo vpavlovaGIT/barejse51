@@ -1,16 +1,17 @@
 package ru.vpavlova.tm.service.model;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.model.IProjectService;
-import ru.vpavlova.tm.api.service.model.ITaskService;
-import ru.vpavlova.tm.api.service.model.IUserService;
-import ru.vpavlova.tm.entity.Project;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.api.service.model.IProjectGraphService;
+import ru.vpavlova.tm.api.service.model.IUserGraphService;
+import ru.vpavlova.tm.entity.ProjectGraph;
+import ru.vpavlova.tm.entity.UserGraph;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.service.ConnectionService;
 import ru.vpavlova.tm.service.PropertyService;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProjectServiceTest {
+public class ProjectGraphServiceTest {
 
     @NotNull
     private final IPropertyService propertyService = new PropertyService();
@@ -28,17 +29,27 @@ public class ProjectServiceTest {
     private final IConnectionService connectionService = new ConnectionService(propertyService);
 
     @NotNull
-    private final IProjectService projectService = new ProjectService(connectionService);
+    private final IProjectGraphService projectService = new ProjectGraphService(connectionService);
 
     @NotNull
-    private final IUserService userService = new UserService(propertyService, connectionService);
+    private final IUserGraphService userService = new UserGraphService(propertyService, connectionService);
+
+    @Before
+    public void before() {
+        connectionService.getEntityManager().getEntityManagerFactory().createEntityManager();
+    }
+
+    @After
+    public void after() {
+        connectionService.getEntityManager().getEntityManagerFactory().close();
+    }
 
     @Test
     @Category(DBCategory.class)
     public void addAllProjectsTest() {
-        final List<Project> projects = new ArrayList<>();
-        final Project project1 = new Project();
-        final Project project2 = new Project();
+        final List<ProjectGraph> projects = new ArrayList<>();
+        final ProjectGraph project1 = new ProjectGraph();
+        final ProjectGraph project2 = new ProjectGraph();
         projects.add(project1);
         projects.add(project2);
         projectService.addAll(projects);
@@ -49,7 +60,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addProjectTest() {
-        final Project project = new Project();
+        final ProjectGraph project = new ProjectGraph();
         projectService.add(project);
         Assert.assertNotNull(projectService.findById(project.getId()));
         projectService.remove(project);
@@ -65,9 +76,9 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findAllProjects() {
-        final List<Project> projects = new ArrayList<>();
-        final Project projectOne = new Project();
-        final Project projectTwo = new Project();
+        final List<ProjectGraph> projects = new ArrayList<>();
+        final ProjectGraph projectOne = new ProjectGraph();
+        final ProjectGraph projectTwo = new ProjectGraph();
         projects.add(projectOne);
         projects.add(projectTwo);
         projectService.addAll(projects);
@@ -77,7 +88,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findProjectOneByIdTest() {
-        final Project project1 = new Project();
+        final ProjectGraph project1 = new ProjectGraph();
         final String projectId = project1.getId();
         projectService.add(project1);
         Assert.assertNotNull(projectService.findById(projectId));
@@ -86,7 +97,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findProjectOneByIndexTest() {
-        final Project project = new Project();
+        final ProjectGraph project = new ProjectGraph();
         projectService.add(project);
         final String projectId = project.getId();
         Assert.assertTrue(projectService.findById(projectId).isPresent());
@@ -96,8 +107,8 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findProjectOneByNameTest() {
-        final Project project = new Project();
-        final @NotNull Optional<User> user = userService.findByLogin("test");
+        final ProjectGraph project = new ProjectGraph();
+        final @NotNull Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project.setUser(user.get());
         project.setName("project1");
@@ -111,7 +122,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeProjectOneByIdTest() {
-        final Project project1 = new Project();
+        final ProjectGraph project1 = new ProjectGraph();
         projectService.add(project1);
         final String projectId = project1.getId();
         projectService.removeById(projectId);
@@ -121,10 +132,10 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeProjectOneByIndexTest() {
-        final Project project1 = new Project();
-        final Project project2 = new Project();
-        final Project project3 = new Project();
-        final @NotNull Optional<User> user = userService.findByLogin("test");
+        final ProjectGraph project1 = new ProjectGraph();
+        final ProjectGraph project2 = new ProjectGraph();
+        final ProjectGraph project3 = new ProjectGraph();
+        final @NotNull Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project1.setUser(user.get());
         project2.setUser(user.get());
@@ -140,8 +151,8 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeProjectOneByNameTest() {
-        final Project project = new Project();
-        final @NotNull Optional<User> user = userService.findByLogin("test");
+        final ProjectGraph project = new ProjectGraph();
+        @NotNull final Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project.setUser(user.get());
         project.setName("pr1");
@@ -155,7 +166,7 @@ public class ProjectServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeProjectTest() {
-        final Project project = new Project();
+        final ProjectGraph project = new ProjectGraph();
         projectService.add(project);
         projectService.remove(project);
         Assert.assertNotNull(projectService.findById(project.getId()));

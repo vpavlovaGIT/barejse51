@@ -1,13 +1,15 @@
 package ru.vpavlova.tm.service.dto;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.dto.IUserDTOService;
-import ru.vpavlova.tm.dto.UserDTO;
+import ru.vpavlova.tm.api.service.dto.IUserService;
+import ru.vpavlova.tm.dto.User;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.service.ConnectionService;
 import ru.vpavlova.tm.service.PropertyService;
@@ -15,7 +17,7 @@ import ru.vpavlova.tm.service.PropertyService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDTOServiceTest {
+public class UserServiceTest {
 
     @NotNull
     private final IPropertyService propertyService = new PropertyService();
@@ -24,14 +26,24 @@ public class UserDTOServiceTest {
     private final IConnectionService connectionService = new ConnectionService(propertyService);
 
     @NotNull
-    private final IUserDTOService userService = new UserDTOService(propertyService, connectionService);
+    private final IUserService userService = new UserService(propertyService, connectionService);
+
+    @Before
+    public void before() {
+        connectionService.getEntityManager().getEntityManagerFactory().createEntityManager();
+    }
+
+    @After
+    public void after() {
+        connectionService.getEntityManager().getEntityManagerFactory().close();
+    }
 
     @Test
     @Category(DBCategory.class)
     public void addAllTest() {
-        final List<UserDTO> users = new ArrayList<>();
-        final UserDTO user1 = new UserDTO();
-        final UserDTO user2 = new UserDTO();
+        final List<User> users = new ArrayList<>();
+        final User user1 = new User();
+        final User user2 = new User();
         users.add(user1);
         users.add(user2);
         userService.addAll(users);
@@ -44,7 +56,7 @@ public class UserDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void addTest() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         userService.add(user);
         Assert.assertNotNull(userService.findOneById(user.getId()));
         userService.remove(user);
@@ -62,19 +74,19 @@ public class UserDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findByLogin() {
-        final UserDTO user = new UserDTO();
-        user.setLogin("testFindL");
+        final User user = new User();
+        user.setLogin("testFind");
         userService.add(user);
         final String login = user.getLogin();
         Assert.assertNotNull(login);
         Assert.assertTrue(userService.findByLogin(login).isPresent());
-        userService.removeByLogin("testFindL");
+        userService.removeByLogin("testFind");
     }
 
     @Test
     @Category(DBCategory.class)
     public void findOneByIdTest() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         final String userId = user.getId();
         userService.add(user);
         Assert.assertNotNull(userService.findOneById(userId));
@@ -84,7 +96,7 @@ public class UserDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findOneByIndexTest() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         userService.add(user);
         final String userId = user.getId();
         Assert.assertTrue(userService.findOneById(userId).isPresent());
@@ -94,7 +106,7 @@ public class UserDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void isLoginExist() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         user.setLogin("testExist");
         userService.add(user);
         final String login = user.getLogin();
@@ -106,7 +118,7 @@ public class UserDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeByLogin() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         user.setLogin("testRemoveByLogin");
         userService.add(user);
         final String login = user.getLogin();
@@ -118,7 +130,7 @@ public class UserDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeOneByIdTest() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         userService.add(user);
         final String userId = user.getId();
         userService.removeOneById(userId);
@@ -128,7 +140,7 @@ public class UserDTOServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeTest() {
-        final UserDTO user = new UserDTO();
+        final User user = new User();
         userService.add(user);
         userService.remove(user);
         Assert.assertNotNull(userService.findOneById(user.getId()));

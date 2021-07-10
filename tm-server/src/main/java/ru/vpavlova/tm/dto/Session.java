@@ -1,6 +1,8 @@
 package ru.vpavlova.tm.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "app_session")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Session extends AbstractEntity implements Cloneable {
 
     @Override

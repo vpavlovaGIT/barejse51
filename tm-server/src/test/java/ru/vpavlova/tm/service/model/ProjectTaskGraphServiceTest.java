@@ -1,25 +1,27 @@
 package ru.vpavlova.tm.service.model;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.model.IProjectService;
-import ru.vpavlova.tm.api.service.model.IProjectTaskService;
-import ru.vpavlova.tm.api.service.model.ITaskService;
-import ru.vpavlova.tm.api.service.model.IUserService;
-import ru.vpavlova.tm.entity.Project;
-import ru.vpavlova.tm.entity.Task;
-import ru.vpavlova.tm.entity.User;
+import ru.vpavlova.tm.api.service.model.IProjectGraphService;
+import ru.vpavlova.tm.api.service.model.IProjectTaskGraphService;
+import ru.vpavlova.tm.api.service.model.ITaskGraphService;
+import ru.vpavlova.tm.api.service.model.IUserGraphService;
+import ru.vpavlova.tm.entity.ProjectGraph;
+import ru.vpavlova.tm.entity.TaskGraph;
+import ru.vpavlova.tm.entity.UserGraph;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.service.ConnectionService;
 import ru.vpavlova.tm.service.PropertyService;
 
 import java.util.Optional;
 
-public class ProjectTaskServiceTest {
+public class ProjectTaskGraphServiceTest {
 
     @NotNull
     private final IPropertyService propertyService = new PropertyService();
@@ -28,24 +30,34 @@ public class ProjectTaskServiceTest {
     private final IConnectionService connectionService = new ConnectionService(propertyService);
 
     @NotNull
-    private final IProjectTaskService projectTaskService = new ProjectTaskService(connectionService);
+    private final IProjectTaskGraphService projectTaskService = new ProjectTaskGraphService(connectionService);
 
     @NotNull
-    private final ITaskService taskService = new TaskService(connectionService);
+    private final ITaskGraphService taskService = new TaskGraphService(connectionService);
 
     @NotNull
-    private final IProjectService projectService = new ProjectService(connectionService);
+    private final IProjectGraphService projectService = new ProjectGraphService(connectionService);
 
     @NotNull
-    private final IUserService userService = new UserService(propertyService, connectionService);
+    private final IUserGraphService userService = new UserGraphService(propertyService, connectionService);
+
+    @Before
+    public void before() {
+        connectionService.getEntityManager().getEntityManagerFactory().createEntityManager();
+    }
+
+    @After
+    public void after() {
+        connectionService.getEntityManager().getEntityManagerFactory().close();
+    }
 
     @Test
     @Category(DBCategory.class)
     public void bindTaskByProjectIdTest() {
-        final Task task = new Task();
-        final @NotNull Optional<User> user = userService.findByLogin("test");
+        final TaskGraph task = new TaskGraph();
+        @NotNull final Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
-        final Project project = projectService.add(userId, "testBind", "-");
+        final ProjectGraph project = projectService.add(userId, "testBind", "-");
         final String projectId = project.getId();
         final String taskId = task.getId();
         task.setUser(user.get());
@@ -57,11 +69,11 @@ public class ProjectTaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void findAllByProjectIdTest() {
-        final Project project = new Project();
-        final Task task1 = new Task();
-        final Task task2 = new Task();
+        final ProjectGraph project = new ProjectGraph();
+        final TaskGraph task1 = new TaskGraph();
+        final TaskGraph task2 = new TaskGraph();
         final String projectId = project.getId();
-        final @NotNull Optional<User> user = userService.findByLogin("test");
+        @NotNull final Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         task1.setUser(user.get());
         task2.setUser(user.get());
@@ -76,12 +88,12 @@ public class ProjectTaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void removeAllByProjectIdTest() {
-        final Task task = new Task();
-        final Task task2 = new Task();
-        final Task task3 = new Task();
-        final @NotNull Optional<User> user = userService.findByLogin("test");
+        final TaskGraph task = new TaskGraph();
+        final TaskGraph task2 = new TaskGraph();
+        final TaskGraph task3 = new TaskGraph();
+        @NotNull final Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
-        final Project project = projectService.add(userId, "testBind", "-");
+        final ProjectGraph project = projectService.add(userId, "testBind", "-");
         final String projectId = project.getId();
         task.setUser(user.get());
         task.setProject(project);
@@ -100,8 +112,8 @@ public class ProjectTaskServiceTest {
     @Test
     @Category(DBCategory.class)
     public void unbindTaskFromProjectIdTest() {
-        final Task task = new Task();
-        final @NotNull Optional<User> user = userService.findByLogin("test");
+        final TaskGraph task = new TaskGraph();
+        @NotNull final Optional<UserGraph> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         final String taskId = task.getId();
         task.setUser(user.get());
@@ -109,7 +121,7 @@ public class ProjectTaskServiceTest {
         projectTaskService.unbindTaskFromProject(userId, taskId);
         Assert.assertTrue(taskService.findOneById(userId, taskId).isPresent());
         projectTaskService.unbindTaskFromProject(userId, taskId);
-        final Task task2 = taskService.findOneById(userId, taskId).get();
+        final TaskGraph task2 = taskService.findOneById(userId, taskId).get();
         Assert.assertNull(task2.getProject());
     }
 

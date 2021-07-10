@@ -11,55 +11,55 @@ import java.util.Properties;
 public class PropertyService implements IPropertyService {
 
     @NotNull
-    private static final String FILE_NAME = "application.properties";
+    public static final String APPLICATION_VERSION = "version";
 
     @NotNull
-    private static final String PASSWORD_SECRET_KEY = "password.secret";
+    public static final String APPLICATION_VERSION_DEFAULT = "1.0.0";
 
     @NotNull
-    private static final String PASSWORD_SECRET_DEFAULT = "";
+    public static final String DEVELOPER_EMAIL = "email";
 
     @NotNull
-    private static final String PASSWORD_ITERATION_KEY = "password.iteration";
+    public static final String DEVELOPER_EMAIL_DEFAULT = "";
 
     @NotNull
-    private static final String PASSWORD_ITERATION_DEFAULT = "1";
+    public static final String DEVELOPER_NAME = "developer";
 
     @NotNull
-    private static final String APPLICATION_VERSION_KEY = "application.version";
+    public static final String DEVELOPER_NAME_DEFAULT = "";
 
     @NotNull
-    private static final String APPLICATION_VERSION_DEFAULT = "";
+    public static final String FILE_NAME = "application.properties";
 
     @NotNull
-    private static final String APPLICATION_DEVELOPER_KEY = "developer.name";
+    public static final String JDBC_DRIVER = "jdbc.driver";
 
     @NotNull
-    private static final String APPLICATION_DEVELOPER_DEFAULT = "Victoria Pavlova";
+    public static final String JDBC_DRIVER_DEFAULT = "com.mysql.jdbc.Driver";
 
     @NotNull
-    private static final String DEVELOPER_EMAIL_KEY = "developer.email";
+    public static final String JDBC_PASSWORD = "jdbc.password";
 
     @NotNull
-    private static final String DEVELOPER_EMAIL_DEFAULT = "vpavlova@tsconsulting.com";
+    public static final String JDBC_PASSWORD_DEFAULT = "329354";
 
     @NotNull
-    private static final String DEVELOPER_COMPANY_KEY = "developer.company";
+    public static final String JDBC_USER = "jdbc.user";
 
     @NotNull
-    private static final String DEVELOPER_COMPANY_DEFAULT = "TSC";
+    public static final String JDBC_USER_DEFAULT = "root";
 
     @NotNull
-    public static final String SIGN_ITERATION = "sign.iteration";
+    public static final String PASSWORD_ITERATION = "password.iteration";
 
     @NotNull
-    public static final String SIGN_ITERATION_DEFAULT = "1";
+    public static final String PASSWORD_ITERATION_DEFAULT = "1";
 
     @NotNull
-    public static final String SIGN_SECRET = "sign.secret";
+    public static final String PASSWORD_SECRET = "password.secret";
 
     @NotNull
-    public static final String SIGN_SECRET_DEFAULT = "";
+    public static final String PASSWORD_SECRET_DEFAULT = "";
 
     @NotNull
     public static final String SERVER_HOST = "server.host";
@@ -74,46 +74,86 @@ public class PropertyService implements IPropertyService {
     public static final String SERVER_PORT_DEFAULT = "8080";
 
     @NotNull
-    public static final String JDBC_DRIVER = "jdbc.driver";
+    public static final String SIGN_ITERATION = "sign.iteration";
 
     @NotNull
-    public static final String JDBC_DRIVER_DEFAULT = "com.mysql.jdbc.Driver";
+    public static final String SIGN_ITERATION_DEFAULT = "1";
 
     @NotNull
-    public static final String JDBC_USER = "jdbc.user";
+    public static final String SIGN_SECRET = "sign.secret";
 
     @NotNull
-    public static final String JDBC_USER_DEFAULT = "root";
+    public static final String SIGN_SECRET_DEFAULT = "";
 
     @NotNull
-    public static final String JDBC_PASSWORD = "jdbc.password";
+    public static final String USE_LITE_MEMBER = "hibernate.cache.hazelcast.use_lite_member";
 
     @NotNull
-    public static final String JDBC_PASSWORD_DEFAULT = "329354";
+    private static final String CACHE_PROVIDER_CONFIG = "cache.config";
 
     @NotNull
-    private static final String JDBC_URL = "jdbc.url";
+    private static final String CACHE_PROVIDER_CONFIG_DEFAULT = "hazelcast.xml";
+
+    @NotNull
+    private static final String CACHE_REGION_FACTORY = "cache.factory";
+
+    @NotNull
+    private static final String CACHE_REGION_FACTORY_DEFAULT
+            = "com.hazelcast.hibernate.HazelcastLocalCacheRegionFactory";
+
+    @NotNull
+    private static final String CACHE_REGION_PREFIX = "cache.prefix";
+
+    @NotNull
+    private static final String CACHE_REGION_PREFIX_DEFAULT = "tm";
 
     @NotNull
     private static final String DIALECT = "factory.dialect";
 
     @NotNull
-    private static final String HBM2DLL_AUTO = "factory.hbm2dllauto";
-
-    @NotNull
-    private static final String SHOW_SQL = "factory.showsql";
-
-    @NotNull
-    private static final String JDBC_URL_DEFAULT = "jdbc:mysql://localhost:3306/task_manager";
-
-    @NotNull
     private static final String DIALECT_DEFAULT = "org.hibernate.dialect.MySQL5InnoDBDialect";
+
+    @NotNull
+    private static final String HBM2DLL_AUTO = "factory.hbm2dllauto";
 
     @NotNull
     private static final String HBM2DLL_AUTO_DEFAULT = "update";
 
     @NotNull
+    private static final String JDBC_URL = "jdbc.url";
+
+    @NotNull
+    private static final String JDBC_URL_DEFAULT = "jdbc:mysql://localhost:3306/task_manager";
+
+    @NotNull
+    private static final String SHOW_SQL = "factory.showsql";
+
+    @NotNull
     private static final String SHOW_SQL_DEFAULT = "true";
+
+    @NotNull
+    private static final String USE_LITE_MEMBER_VALUE = "cache.lite-member";
+
+    @NotNull
+    private static final String USE_LITE_MEMBER_VALUE_DEFAULT = "true";
+
+    @NotNull
+    private static final String USE_MINIMAL_PUTS = "cache.minimal-puts";
+
+    @NotNull
+    private static final String USE_MINIMAL_PUTS_DEFAULT = "true";
+
+    @NotNull
+    private static final String USE_QUERY_CACHE = "cache.query";
+
+    @NotNull
+    private static final String USE_QUERY_CACHE_DEFAULT = "true";
+
+    @NotNull
+    private static final String USE_SECOND_LEVEL_CACHE = "cache.level";
+
+    @NotNull
+    private static final String USE_SECOND_LEVEL_CACHE_DEFAULT = "true";
 
     @NotNull
     private final Properties properties = new Properties();
@@ -128,49 +168,44 @@ public class PropertyService implements IPropertyService {
 
     @NotNull
     @Override
-    public String getPasswordSecret() {
-        if (System.getProperties().containsKey(PASSWORD_SECRET_KEY))
-            return System.getProperty(PASSWORD_SECRET_KEY);
-        return properties.getProperty(PASSWORD_SECRET_KEY, PASSWORD_SECRET_DEFAULT);
+    public String getApplicationVersion() {
+        if (System.getProperties().containsKey(APPLICATION_VERSION)) return System.getProperty(APPLICATION_VERSION);
+        if (System.getenv().containsKey(APPLICATION_VERSION)) return System.getenv(APPLICATION_VERSION);
+        return properties.getProperty(APPLICATION_VERSION, APPLICATION_VERSION_DEFAULT);
     }
 
     @NotNull
     @Override
-    public Integer getPasswordIteration() {
-        if (System.getProperties().containsKey(PASSWORD_ITERATION_KEY)) {
-            final String value = System.getProperty(PASSWORD_ITERATION_KEY);
-            return Integer.parseInt(value);
-        }
-        if (System.getenv().containsKey(PASSWORD_ITERATION_KEY)) {
-            final String value = System.getenv(PASSWORD_ITERATION_KEY);
-            return Integer.parseInt(value);
-        }
-        final String value = properties.getProperty(PASSWORD_ITERATION_KEY, PASSWORD_ITERATION_DEFAULT);
-        return Integer.parseInt(value);
+    public String getCacheProviderConfig() {
+        return properties.getProperty(CACHE_PROVIDER_CONFIG, CACHE_PROVIDER_CONFIG_DEFAULT);
     }
 
     @NotNull
     @Override
-    public String getJdbcUrl() {
-        return properties.getProperty(JDBC_URL, JDBC_URL_DEFAULT);
+    public String getCacheRegionFactory() {
+        return properties.getProperty(CACHE_REGION_FACTORY, CACHE_REGION_FACTORY_DEFAULT);
     }
 
     @NotNull
     @Override
-    public String getJdbcDriver() {
-        return properties.getProperty(JDBC_DRIVER, JDBC_DRIVER_DEFAULT);
+    public String getCacheRegionPrefix() {
+        return properties.getProperty(CACHE_REGION_PREFIX, CACHE_REGION_PREFIX_DEFAULT);
     }
 
     @NotNull
     @Override
-    public String getJdbcUser() {
-        return properties.getProperty(JDBC_USER, JDBC_USER_DEFAULT);
+    public String getDeveloperEmail() {
+        if (System.getProperties().containsKey(DEVELOPER_EMAIL)) return System.getProperty(DEVELOPER_EMAIL);
+        if (System.getenv().containsKey(DEVELOPER_EMAIL)) return System.getenv(DEVELOPER_EMAIL);
+        return properties.getProperty(DEVELOPER_EMAIL, DEVELOPER_EMAIL_DEFAULT);
     }
 
     @NotNull
     @Override
-    public String getJdbcPassword() {
-        return properties.getProperty(JDBC_PASSWORD, JDBC_PASSWORD_DEFAULT);
+    public String getDeveloperName() {
+        if (System.getProperties().containsKey(DEVELOPER_NAME)) return System.getProperty(DEVELOPER_NAME);
+        if (System.getenv().containsKey(DEVELOPER_NAME)) return System.getenv(DEVELOPER_NAME);
+        return properties.getProperty(DEVELOPER_NAME, DEVELOPER_NAME_DEFAULT);
     }
 
     @NotNull
@@ -187,48 +222,26 @@ public class PropertyService implements IPropertyService {
 
     @NotNull
     @Override
-    public String getShowSql() {
-        return properties.getProperty(SHOW_SQL, SHOW_SQL_DEFAULT);
+    public String getJdbcDriver() {
+        return properties.getProperty(JDBC_DRIVER, JDBC_DRIVER_DEFAULT);
     }
 
     @NotNull
     @Override
-    public String getApplicationVersion() {
-        if (System.getProperties().containsKey(APPLICATION_VERSION_KEY))
-            return System.getProperty(APPLICATION_VERSION_KEY);
-        if (System.getenv().containsKey(APPLICATION_VERSION_KEY))
-            return System.getenv(APPLICATION_VERSION_KEY);
-        return properties.getProperty(APPLICATION_VERSION_KEY, APPLICATION_VERSION_DEFAULT);
+    public String getJdbcPassword() {
+        return properties.getProperty(JDBC_PASSWORD, JDBC_PASSWORD_DEFAULT);
     }
 
     @NotNull
     @Override
-    public String getDeveloperName() {
-        if (System.getProperties().containsKey(APPLICATION_DEVELOPER_KEY))
-            return System.getProperty(APPLICATION_DEVELOPER_KEY);
-        if (System.getenv().containsKey(APPLICATION_DEVELOPER_KEY))
-            return System.getenv(APPLICATION_DEVELOPER_KEY);
-        return properties.getProperty(APPLICATION_DEVELOPER_KEY, APPLICATION_DEVELOPER_DEFAULT);
+    public String getJdbcUrl() {
+        return properties.getProperty(JDBC_URL, JDBC_URL_DEFAULT);
     }
 
     @NotNull
     @Override
-    public String getDeveloperEmail() {
-        if (System.getProperties().containsKey(DEVELOPER_EMAIL_KEY))
-            return System.getProperty(DEVELOPER_EMAIL_KEY);
-        if (System.getenv().containsKey(DEVELOPER_EMAIL_KEY))
-            return System.getenv(DEVELOPER_EMAIL_KEY);
-        return properties.getProperty(DEVELOPER_EMAIL_KEY, DEVELOPER_EMAIL_DEFAULT);
-    }
-
-    @NotNull
-    @Override
-    public String getDeveloperCompany() {
-        if (System.getProperties().containsKey(DEVELOPER_COMPANY_KEY))
-            return System.getProperty(DEVELOPER_COMPANY_KEY);
-        if (System.getenv().containsKey(DEVELOPER_COMPANY_KEY))
-            return System.getenv(DEVELOPER_COMPANY_KEY);
-        return properties.getProperty(DEVELOPER_COMPANY_KEY, DEVELOPER_COMPANY_DEFAULT);
+    public String getJdbcUser() {
+        return properties.getProperty(JDBC_USER, JDBC_USER_DEFAULT);
     }
 
     @Override
@@ -243,6 +256,59 @@ public class PropertyService implements IPropertyService {
         if (System.getProperties().containsKey(SERVER_PORT)) return System.getProperty(SERVER_PORT);
         if (System.getenv().containsKey(SERVER_PORT)) return System.getenv(SERVER_PORT);
         return properties.getProperty(SERVER_PORT, SERVER_PORT_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getShowSql() {
+        return properties.getProperty(SHOW_SQL, SHOW_SQL_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getUseLiteMemberValue() {
+        return properties.getProperty(USE_LITE_MEMBER_VALUE, USE_LITE_MEMBER_VALUE_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getUseMinimalPuts() {
+        return properties.getProperty(USE_MINIMAL_PUTS, USE_MINIMAL_PUTS_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getUseQueryCache() {
+        return properties.getProperty(USE_QUERY_CACHE, USE_QUERY_CACHE_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public String getUseSecondLevelCache() {
+        return properties.getProperty(USE_SECOND_LEVEL_CACHE, USE_SECOND_LEVEL_CACHE_DEFAULT);
+    }
+
+    @NotNull
+    @Override
+    public Integer getPasswordIteration() {
+        if (System.getProperties().containsKey(PASSWORD_ITERATION)) {
+            @NotNull final String value = System.getProperty(PASSWORD_ITERATION);
+            return Integer.valueOf(value);
+        }
+        if (System.getenv().containsKey(PASSWORD_ITERATION)) {
+            @NotNull final String value = System.getenv(PASSWORD_ITERATION);
+            return Integer.valueOf(value);
+        }
+        @NotNull final String value = properties.getProperty(PASSWORD_ITERATION, PASSWORD_ITERATION_DEFAULT);
+        return Integer.valueOf(value);
+    }
+
+    @NotNull
+    @Override
+    public String getPasswordSecret() {
+        if (System.getProperties().containsKey(PASSWORD_SECRET)) return System.getProperty(PASSWORD_SECRET);
+        if (System.getenv().containsKey(PASSWORD_SECRET)) return System.getenv(PASSWORD_SECRET);
+        return properties.getProperty(PASSWORD_SECRET, PASSWORD_SECRET_DEFAULT);
     }
 
     @NotNull
