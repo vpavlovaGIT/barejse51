@@ -33,8 +33,12 @@ public final class ProjectTaskGraphService implements IProjectTaskGraphService {
         if (projectId == null || projectId.isEmpty()) throw new EmptyIdException();
         if (userId == null || userId.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
-        return taskRepository.findAllByProjectId(userId, projectId);
+        try {
+            @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
+            return taskRepository.findAllByProjectId(userId, projectId);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override

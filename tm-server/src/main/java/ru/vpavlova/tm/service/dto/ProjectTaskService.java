@@ -58,8 +58,12 @@ public final class ProjectTaskService implements IProjectTaskService {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (projectId.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
-        return taskRepository.findAllByProjectId(userId, projectId);
+        try {
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            return taskRepository.findAllByProjectId(userId, projectId);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override

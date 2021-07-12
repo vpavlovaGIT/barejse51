@@ -121,8 +121,12 @@ public final class SessionService extends AbstractService<Session> implements IS
         final boolean check = signatureSource.equals(signatureTarget);
         if (!check) throw new AccessDeniedException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ISessionRepository sessionRepository = new SessionRepository(entityManager);
-        if (!sessionRepository.findOneById(session.getId()).isPresent()) throw new AccessDeniedException();
+        try {
+            @NotNull final ISessionRepository sessionRepository = new SessionRepository(entityManager);
+            if (!sessionRepository.findOneById(session.getId()).isPresent()) throw new AccessDeniedException();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -215,8 +219,12 @@ public final class SessionService extends AbstractService<Session> implements IS
     @SneakyThrows
     public List<Session> findAll() {
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ISessionRepository sessionRepository = new SessionRepository(entityManager);
-        return sessionRepository.findAll();
+        try {
+            @NotNull final ISessionRepository sessionRepository = new SessionRepository(entityManager);
+            return sessionRepository.findAll();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -227,8 +235,12 @@ public final class SessionService extends AbstractService<Session> implements IS
     ) {
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ISessionRepository sessionRepository = new SessionRepository(entityManager);
-        return sessionRepository.findOneById(id);
+        try {
+            @NotNull final ISessionRepository sessionRepository = new SessionRepository(entityManager);
+            return sessionRepository.findOneById(id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @SneakyThrows

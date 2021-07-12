@@ -112,8 +112,12 @@ public final class UserService extends AbstractService<User> implements IUserSer
     ) {
         if (login.isEmpty()) throw new EmptyLoginException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IUserRepository userRepository = new UserRepository(entityManager);
-        return userRepository.findByLogin(login);
+        try {
+            @NotNull final IUserRepository userRepository = new UserRepository(entityManager);
+            return userRepository.findByLogin(login);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -123,8 +127,12 @@ public final class UserService extends AbstractService<User> implements IUserSer
     ) {
         if (login.isEmpty()) throw new EmptyLoginException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IUserRepository userRepository = new UserRepository(entityManager);
-        return userRepository.findByLogin(login).isPresent();
+        try {
+            @NotNull final IUserRepository userRepository = new UserRepository(entityManager);
+            return userRepository.findByLogin(login).isPresent();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override

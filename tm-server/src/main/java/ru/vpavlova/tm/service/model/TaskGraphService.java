@@ -135,8 +135,12 @@ public final class TaskGraphService extends AbstractGraphService<TaskGraph> impl
     @SneakyThrows
     public List<TaskGraph> findAll() {
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
-        return taskRepository.findAll();
+        try {
+            @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
+            return taskRepository.findAll();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -159,9 +163,19 @@ public final class TaskGraphService extends AbstractGraphService<TaskGraph> impl
         }
     }
 
+    @NotNull
     @Override
-    public @NotNull Optional<TaskGraph> findById(@NotNull String id) {
-        return Optional.empty();
+    public Optional<TaskGraph> findById(
+            @NotNull String id
+    ) {
+        if (id.isEmpty()) throw new EmptyIdException();
+        @NotNull final EntityManager entityManager = connectionService.getEntityManager();
+        try {
+            @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
+            return taskRepository.findById(id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -187,8 +201,12 @@ public final class TaskGraphService extends AbstractGraphService<TaskGraph> impl
     public List<TaskGraph> findAll(@Nullable String userId) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
-        return taskRepository.findAllByUserId(userId);
+        try {
+            @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
+            return taskRepository.findAllByUserId(userId);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -200,8 +218,12 @@ public final class TaskGraphService extends AbstractGraphService<TaskGraph> impl
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
-        return taskRepository.findById(id);
+        try {
+            @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
+            return taskRepository.findOneByIdAndUserId(userId, id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -213,8 +235,12 @@ public final class TaskGraphService extends AbstractGraphService<TaskGraph> impl
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
-        return taskRepository.findOneByIndex(userId, index);
+        try {
+            @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
+            return taskRepository.findOneByIndex(userId, index);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -226,8 +252,12 @@ public final class TaskGraphService extends AbstractGraphService<TaskGraph> impl
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
-        return taskRepository.findOneByName(userId, name);
+        try {
+            @NotNull final ITaskGraphRepository taskRepository = new TaskGraphRepository(entityManager);
+            return taskRepository.findOneByName(userId, name);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override

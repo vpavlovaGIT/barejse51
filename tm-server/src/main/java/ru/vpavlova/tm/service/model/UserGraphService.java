@@ -57,8 +57,12 @@ public final class UserGraphService extends AbstractGraphService<UserGraph> impl
     ) {
         if (login.isEmpty()) throw new EmptyLoginException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IUserGraphRepository userRepository = new UserGraphRepository(entityManager);
-        return userRepository.findByLogin(login);
+        try {
+            @NotNull final IUserGraphRepository userRepository = new UserGraphRepository(entityManager);
+            return userRepository.findByLogin(login);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -280,8 +284,12 @@ public final class UserGraphService extends AbstractGraphService<UserGraph> impl
     @SneakyThrows
     public List<UserGraph> findAll() {
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IUserGraphRepository userRepository = new UserGraphRepository(entityManager);
-        return userRepository.findAll();
+        try {
+            @NotNull final IUserGraphRepository userRepository = new UserGraphRepository(entityManager);
+            return userRepository.findAll();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -292,8 +300,12 @@ public final class UserGraphService extends AbstractGraphService<UserGraph> impl
     ) {
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IUserGraphRepository userRepository = new UserGraphRepository(entityManager);
-        return userRepository.findById(id);
+        try {
+            @NotNull final IUserGraphRepository userRepository = new UserGraphRepository(entityManager);
+            return userRepository.findById(id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override

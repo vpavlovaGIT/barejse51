@@ -134,8 +134,12 @@ public final class ProjectService extends AbstractService<Project> implements IP
     @SneakyThrows
     public List<Project> findAll() {
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
-        return projectRepository.findAll();
+        try {
+            @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
+            return projectRepository.findAll();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -146,8 +150,12 @@ public final class ProjectService extends AbstractService<Project> implements IP
     ) {
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
-        return projectRepository.findById(id);
+        try {
+            @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
+            return projectRepository.findById(id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -194,8 +202,12 @@ public final class ProjectService extends AbstractService<Project> implements IP
     public List<Project> findAll(@Nullable final String userId) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
-        return projectRepository.findAllByUserId(userId);
+        try {
+            @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
+            return projectRepository.findAllByUserId(userId);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -207,8 +219,12 @@ public final class ProjectService extends AbstractService<Project> implements IP
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
-        return projectRepository.findOneByIdAndUserId(userId, id);
+        try {
+            @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
+            return projectRepository.findOneByIdAndUserId(userId, id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -220,8 +236,12 @@ public final class ProjectService extends AbstractService<Project> implements IP
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
-        return projectRepository.findOneByIndex(userId, index);
+        try {
+            @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
+            return projectRepository.findOneByIndex(userId, index);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -233,8 +253,12 @@ public final class ProjectService extends AbstractService<Project> implements IP
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
-        return projectRepository.findOneByName(userId, name);
+        try {
+            @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
+            return projectRepository.findOneByName(userId, name);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -329,10 +353,18 @@ public final class ProjectService extends AbstractService<Project> implements IP
     public List<Project> findAll(@Nullable String userId, @Nullable String sort) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
-        @Nullable Sort sortType = Sort.valueOf(sort);
-        @NotNull final Comparator<Project> comparator = sortType.getComparator();
-        return projectRepository.findAllByUserId(userId).stream().sorted(comparator).collect(Collectors.toList());
+        try {
+            @NotNull final IProjectRepository projectRepository = new ProjectRepository(entityManager);
+            @Nullable Sort sortType = Sort.valueOf(sort);
+            @NotNull final Comparator<Project> comparator = sortType.getComparator();
+            return projectRepository
+                    .findAllByUserId(userId)
+                    .stream()
+                    .sorted(comparator)
+                    .collect(Collectors.toList());
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override

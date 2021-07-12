@@ -135,8 +135,12 @@ public final class ProjectGraphService extends AbstractGraphService<ProjectGraph
     @SneakyThrows
     public List<ProjectGraph> findAll() {
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
-        return projectRepository.findAll();
+        try {
+            @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
+            return projectRepository.findAll();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -147,8 +151,12 @@ public final class ProjectGraphService extends AbstractGraphService<ProjectGraph
     ) {
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
-        return projectRepository.findById(id);
+        try {
+            @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
+            return projectRepository.findById(id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -195,8 +203,12 @@ public final class ProjectGraphService extends AbstractGraphService<ProjectGraph
     public List<ProjectGraph> findAll(@Nullable final String userId) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
-        return projectRepository.findAllByUserId(userId);
+        try {
+            @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
+            return projectRepository.findAllByUserId(userId);
+        } finally {
+            entityManager.close();
+        }
     }
 
 
@@ -209,8 +221,12 @@ public final class ProjectGraphService extends AbstractGraphService<ProjectGraph
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
-        return projectRepository.findOneByIdAndUserId(userId, id);
+        try {
+            @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
+            return projectRepository.findOneByIdAndUserId(userId, id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -222,8 +238,12 @@ public final class ProjectGraphService extends AbstractGraphService<ProjectGraph
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
-        return projectRepository.findOneByIndex(userId, index);
+        try {
+            @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
+            return projectRepository.findOneByIndex(userId, index);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -235,8 +255,12 @@ public final class ProjectGraphService extends AbstractGraphService<ProjectGraph
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
-        return projectRepository.findOneByName(userId, name);
+        try {
+            @NotNull final IProjectGraphRepository projectRepository = new ProjectGraphRepository(entityManager);
+            return projectRepository.findOneByName(userId, name);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override

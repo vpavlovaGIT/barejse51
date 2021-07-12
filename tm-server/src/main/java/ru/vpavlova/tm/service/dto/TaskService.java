@@ -136,8 +136,12 @@ public final class TaskService extends AbstractService<Task> implements ITaskSer
     @SneakyThrows
     public List<Task> findAll() {
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
-        return taskRepository.findAll();
+        try {
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            return taskRepository.findAll();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -148,8 +152,12 @@ public final class TaskService extends AbstractService<Task> implements ITaskSer
     ) {
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
-        return taskRepository.findById(id);
+        try {
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            return taskRepository.findById(id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -198,8 +206,12 @@ public final class TaskService extends AbstractService<Task> implements ITaskSer
     public List<Task> findAll(@Nullable final String userId) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
-        return taskRepository.findAllByUserId(userId);
+        try {
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            return taskRepository.findAllByUserId(userId);
+        } finally {
+            entityManager.close();
+        }
     }
 
 
@@ -213,8 +225,12 @@ public final class TaskService extends AbstractService<Task> implements ITaskSer
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (id.isEmpty()) throw new EmptyIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
-        return taskRepository.findOneByIdAndUserId(userId, id);
+        try {
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            return taskRepository.findOneByIdAndUserId(userId, id);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -226,8 +242,12 @@ public final class TaskService extends AbstractService<Task> implements ITaskSer
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (index < 0) throw new IndexIncorrectException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
-        return taskRepository.findOneByIndex(userId, index);
+        try {
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            return taskRepository.findOneByIndex(userId, index);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @NotNull
@@ -239,8 +259,12 @@ public final class TaskService extends AbstractService<Task> implements ITaskSer
         if (userId.isEmpty()) throw new EmptyUserIdException();
         if (name.isEmpty()) throw new EmptyNameException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
-        return taskRepository.findOneByName(userId, name);
+        try {
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            return taskRepository.findOneByName(userId, name);
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -334,10 +358,14 @@ public final class TaskService extends AbstractService<Task> implements ITaskSer
     public @NotNull List<Task> findAll(@Nullable String userId, @Nullable String sort) {
         if (userId.isEmpty()) throw new EmptyUserIdException();
         @NotNull final EntityManager entityManager = connectionService.getEntityManager();
-        @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
-        @Nullable Sort sortType = Sort.valueOf(sort);
-        @NotNull final Comparator<Task> comparator = sortType.getComparator();
-        return taskRepository.findAllByUserId(userId).stream().sorted(comparator).collect(Collectors.toList());
+        try {
+            @NotNull final ITaskRepository taskRepository = new TaskRepository(entityManager);
+            @Nullable Sort sortType = Sort.valueOf(sort);
+            @NotNull final Comparator<Task> comparator = sortType.getComparator();
+            return taskRepository.findAll().stream().sorted(comparator).collect(Collectors.toList());
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
