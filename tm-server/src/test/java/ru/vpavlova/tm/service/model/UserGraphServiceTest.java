@@ -8,12 +8,15 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
+import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.api.service.model.IUserGraphService;
+import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.entity.UserGraph;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.marker.UnitCategory;
 import ru.vpavlova.tm.service.ConnectionService;
 import ru.vpavlova.tm.service.PropertyService;
+import ru.vpavlova.tm.service.TestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +24,17 @@ import java.util.List;
 public class UserGraphServiceTest  {
 
     @NotNull
-    private final IPropertyService propertyService = new PropertyService();
+    private final ServiceLocator serviceLocator = new Bootstrap();
 
     @NotNull
-    private final IConnectionService connectionService = new ConnectionService(propertyService);
+    private final IConnectionService connectionService = serviceLocator.getConnectionService();
 
     @NotNull
-    private final IUserGraphService userService = new UserGraphService(propertyService, connectionService);
+    private final IUserGraphService userService = serviceLocator.getUserService();
+
+    {
+        TestUtil.initUser();
+    }
 
     @Before
     public void before() {

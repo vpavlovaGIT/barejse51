@@ -15,6 +15,7 @@ import ru.vpavlova.tm.dto.Session;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.service.ConnectionService;
 import ru.vpavlova.tm.service.PropertyService;
+import ru.vpavlova.tm.service.TestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +26,14 @@ public class SessionServiceTest {
     private final ServiceLocator serviceLocator = new Bootstrap();
 
     @NotNull
-    private final IPropertyService propertyService = new PropertyService();
+    private final IConnectionService connectionService = serviceLocator.getConnectionService();
 
     @NotNull
-    private final IConnectionService connectionService = new ConnectionService(propertyService);
+    private final ISessionService sessionService = serviceLocator.getSessionDTOService();
 
-    @NotNull
-    private final ISessionService sessionService = new SessionService(connectionService, serviceLocator);
+    {
+        TestUtil.initUser();
+    }
 
     @Before
     public void before() {

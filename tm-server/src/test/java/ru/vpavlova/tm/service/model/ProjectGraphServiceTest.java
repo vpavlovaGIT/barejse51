@@ -8,13 +8,17 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
+import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.api.service.model.IProjectGraphService;
+import ru.vpavlova.tm.api.service.model.ITaskGraphService;
 import ru.vpavlova.tm.api.service.model.IUserGraphService;
+import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.entity.ProjectGraph;
 import ru.vpavlova.tm.entity.UserGraph;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.service.ConnectionService;
 import ru.vpavlova.tm.service.PropertyService;
+import ru.vpavlova.tm.service.TestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +27,23 @@ import java.util.Optional;
 public class ProjectGraphServiceTest {
 
     @NotNull
-    private final IPropertyService propertyService = new PropertyService();
+    private final ServiceLocator serviceLocator = new Bootstrap();
 
     @NotNull
-    private final IConnectionService connectionService = new ConnectionService(propertyService);
+    private final IConnectionService connectionService = serviceLocator.getConnectionService();
 
     @NotNull
-    private final IProjectGraphService projectService = new ProjectGraphService(connectionService);
+    private final IProjectGraphService projectService = serviceLocator.getProjectService();
 
     @NotNull
-    private final IUserGraphService userService = new UserGraphService(propertyService, connectionService);
+    private final IUserGraphService userService = serviceLocator.getUserService();
+
+    @NotNull
+    private final ITaskGraphService taskService = serviceLocator.getTaskService();
+
+    {
+        TestUtil.initUser();
+    }
 
     @Before
     public void before() {
@@ -43,6 +54,7 @@ public class ProjectGraphServiceTest {
     public void after() {
         connectionService.getEntityManager().getEntityManagerFactory().close();
     }
+
 
     @Test
     @Category(DBCategory.class)

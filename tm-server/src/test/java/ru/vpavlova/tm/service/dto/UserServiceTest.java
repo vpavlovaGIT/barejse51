@@ -8,11 +8,14 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
+import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.api.service.dto.IUserService;
+import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.dto.User;
 import ru.vpavlova.tm.marker.DBCategory;
 import ru.vpavlova.tm.service.ConnectionService;
 import ru.vpavlova.tm.service.PropertyService;
+import ru.vpavlova.tm.service.TestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +23,17 @@ import java.util.List;
 public class UserServiceTest {
 
     @NotNull
-    private final IPropertyService propertyService = new PropertyService();
+    private final ServiceLocator serviceLocator = new Bootstrap();
 
     @NotNull
-    private final IConnectionService connectionService = new ConnectionService(propertyService);
+    private final IConnectionService connectionService = serviceLocator.getConnectionService();
 
     @NotNull
-    private final IUserService userService = new UserService(propertyService, connectionService);
+    private final IUserService userService = serviceLocator.getUserDTOService();
+
+    {
+        TestUtil.initUser();
+    }
 
     @Before
     public void before() {
@@ -37,6 +44,8 @@ public class UserServiceTest {
     public void after() {
         connectionService.getEntityManager().getEntityManagerFactory().close();
     }
+
+
 
     @Test
     @Category(DBCategory.class)

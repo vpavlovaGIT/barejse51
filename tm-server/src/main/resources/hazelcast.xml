@@ -7,7 +7,7 @@ http://www.hazelcast.com/schema/config/hazelcast-config-3.11.xsd"
         <join>
             <multicast enabled="false"></multicast>
             <tcp-ip enabled="true">
-                <member>127.0.0.1</member>
+                <member>localhost</member>
             </tcp-ip>
         </join>
     </network>

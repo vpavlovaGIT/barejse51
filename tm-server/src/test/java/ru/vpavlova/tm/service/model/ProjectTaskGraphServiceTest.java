@@ -6,40 +6,44 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
+import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.api.service.model.IProjectGraphService;
 import ru.vpavlova.tm.api.service.model.IProjectTaskGraphService;
 import ru.vpavlova.tm.api.service.model.ITaskGraphService;
 import ru.vpavlova.tm.api.service.model.IUserGraphService;
+import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.entity.ProjectGraph;
 import ru.vpavlova.tm.entity.TaskGraph;
 import ru.vpavlova.tm.entity.UserGraph;
 import ru.vpavlova.tm.marker.DBCategory;
-import ru.vpavlova.tm.service.ConnectionService;
-import ru.vpavlova.tm.service.PropertyService;
+import ru.vpavlova.tm.service.TestUtil;
 
 import java.util.Optional;
 
 public class ProjectTaskGraphServiceTest {
 
     @NotNull
-    private final IPropertyService propertyService = new PropertyService();
+    private final ServiceLocator serviceLocator = new Bootstrap();
 
     @NotNull
-    private final IConnectionService connectionService = new ConnectionService(propertyService);
+    private final IConnectionService connectionService = serviceLocator.getConnectionService();
 
     @NotNull
-    private final IProjectTaskGraphService projectTaskService = new ProjectTaskGraphService(connectionService);
+    private final IProjectTaskGraphService projectTaskService = serviceLocator.getProjectTaskService();
 
     @NotNull
-    private final ITaskGraphService taskService = new TaskGraphService(connectionService);
+    private final ITaskGraphService taskService = serviceLocator.getTaskService();
 
     @NotNull
-    private final IProjectGraphService projectService = new ProjectGraphService(connectionService);
+    private final IProjectGraphService projectService = serviceLocator.getProjectService();
 
     @NotNull
-    private final IUserGraphService userService = new UserGraphService(propertyService, connectionService);
+    private final IUserGraphService userService = serviceLocator.getUserService();
+
+    {
+        TestUtil.initUser();
+    }
 
     @Before
     public void before() {

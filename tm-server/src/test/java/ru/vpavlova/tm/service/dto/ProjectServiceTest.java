@@ -15,6 +15,7 @@ import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.dto.Project;
 import ru.vpavlova.tm.dto.User;
 import ru.vpavlova.tm.marker.DBCategory;
+import ru.vpavlova.tm.service.TestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,10 @@ public class ProjectServiceTest {
 
     @NotNull
     private final ITaskService taskService = serviceLocator.getTaskDTOService();
+
+    {
+        TestUtil.initUser();
+    }
 
     @Before
     public void before() {
@@ -117,7 +122,7 @@ public class ProjectServiceTest {
     @Category(DBCategory.class)
     public void findOneByIndexTestByUserId() {
         final Project project = new Project();
-        final @NotNull Optional<User> user = userService.findByLogin("test");
+        @NotNull final Optional<User> user = userService.findByLogin("test");
         final String userId = user.get().getId();
         project.setUserId(userId);
         projectService.add(project);

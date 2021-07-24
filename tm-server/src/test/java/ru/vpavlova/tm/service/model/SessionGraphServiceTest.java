@@ -6,15 +6,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.service.IConnectionService;
 import ru.vpavlova.tm.api.service.ServiceLocator;
 import ru.vpavlova.tm.api.service.model.ISessionGraphService;
 import ru.vpavlova.tm.bootstrap.Bootstrap;
 import ru.vpavlova.tm.entity.SessionGraph;
 import ru.vpavlova.tm.marker.DBCategory;
-import ru.vpavlova.tm.service.ConnectionService;
-import ru.vpavlova.tm.service.PropertyService;
+import ru.vpavlova.tm.service.TestUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +23,14 @@ public class SessionGraphServiceTest {
     private final ServiceLocator serviceLocator = new Bootstrap();
 
     @NotNull
-    private final IPropertyService propertyService = new PropertyService();
+    private final IConnectionService connectionService = serviceLocator.getConnectionService();
 
     @NotNull
-    private final IConnectionService connectionService = new ConnectionService(propertyService);
+    private final ISessionGraphService sessionService = serviceLocator.getSessionService();
 
-    @NotNull
-    private final ISessionGraphService sessionService = new SessionGraphService(connectionService, serviceLocator);
+    {
+        TestUtil.initUser();
+    }
 
     @Before
     public void before() {

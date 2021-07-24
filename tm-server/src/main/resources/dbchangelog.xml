@@ -1,0 +1,112 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="vpavlova (generated)" id="1618155728528-1">
+        <createTable tableName="app_project">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created" type="datetime"/>
+            <column name="date_finish" type="datetime"/>
+            <column name="date_start" type="datetime"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="user_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-2">
+        <createTable tableName="app_session">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="signature" type="VARCHAR(255)"/>
+            <column name="timestamp" type="BIGINT"/>
+            <column name="user_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-3">
+        <createTable tableName="app_task">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created" type="datetime"/>
+            <column name="date_finish" type="datetime"/>
+            <column name="date_start" type="datetime"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="user_id" type="VARCHAR(255)"/>
+            <column name="project_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-4">
+        <createTable tableName="app_user">
+            <column name="id" type="VARCHAR(255)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="locked" type="BIT(1)"/>
+            <column name="login" type="VARCHAR(255)"/>
+            <column name="middle_name" type="VARCHAR(255)"/>
+            <column name="password_hash" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-5">
+        <createIndex indexName="FKkc5pwubxw7j4b0xprgdmgkrel" tableName="app_task">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-6">
+        <createIndex indexName="FKp9byv3k2r7rgg7svn3rx10a1u" tableName="app_project">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-7">
+        <createIndex indexName="FKrrdhu5ryvprfqplat774p2n4t" tableName="app_session">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-8">
+        <createIndex indexName="FKsu3pcsyuwrs6nmpcpufikq5u4" tableName="app_task">
+            <column name="project_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-9">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="app_task"
+                                 constraintName="FKkc5pwubxw7j4b0xprgdmgkrel"
+                                 deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="app_user"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-10">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="app_project"
+                                 constraintName="FKp9byv3k2r7rgg7svn3rx10a1u"
+                                 deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="app_user"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-11">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="app_session"
+                                 constraintName="FKrrdhu5ryvprfqplat774p2n4t"
+                                 deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="app_user"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="vpavlova (generated)" id="1618155728528-12">
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="app_task"
+                                 constraintName="FKsu3pcsyuwrs6nmpcpufikq5u4"
+                                 deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="app_project"
+                                 validate="true"/>
+    </changeSet>
+</databaseChangeLog>
