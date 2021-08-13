@@ -1,5 +1,6 @@
 package ru.vpavlova.tm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import ru.vpavlova.tm.enumerated.Role;
+import ru.vpavlova.tm.listener.LoggerEntityListener;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Table(name = "app_user")
+@EntityListeners(LoggerEntityListener.class)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserGraph extends AbstractGraphEntity {
 
@@ -53,14 +56,17 @@ public class UserGraph extends AbstractGraphEntity {
     private boolean locked = false;
 
     @Nullable
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProjectGraph> projects = new ArrayList<>();
 
     @Nullable
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessionGraph> sessions = new ArrayList<>();
 
     @Nullable
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskGraph> tasks = new ArrayList<>();
 

@@ -20,6 +20,7 @@
     <modules>
         <module>tm-client</module>
         <module>tm-server</module>
+        <module>tm-logger</module>
     </modules>
 
     <developers>

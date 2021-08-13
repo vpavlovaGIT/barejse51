@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.enumerated.Role;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import ru.vpavlova.tm.listener.LoggerEntityListener;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "app_user")
+@EntityListeners(LoggerEntityListener.class)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User extends AbstractEntity {
 

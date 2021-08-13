@@ -5,12 +5,14 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
 import ru.vpavlova.tm.api.entity.IWBS;
+import ru.vpavlova.tm.listener.LoggerEntityListener;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @Table(name = "app_project")
+@EntityListeners(LoggerEntityListener.class)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Project extends AbstractBusinessEntity implements IWBS {
 

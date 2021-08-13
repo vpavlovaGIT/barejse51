@@ -6,6 +6,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
+import ru.vpavlova.tm.listener.LoggerEntityListener;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "app_session")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@EntityListeners(LoggerEntityListener.class)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Session extends AbstractEntity implements Cloneable {
 

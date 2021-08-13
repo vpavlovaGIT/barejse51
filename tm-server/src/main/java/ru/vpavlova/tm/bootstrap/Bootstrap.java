@@ -2,23 +2,18 @@ package ru.vpavlova.tm.bootstrap;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.activemq.broker.BrokerService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.vpavlova.tm.api.IPropertyService;
 import ru.vpavlova.tm.api.endpoint.*;
-import ru.vpavlova.tm.api.service.IBackupService;
-import ru.vpavlova.tm.api.service.IConnectionService;
-import ru.vpavlova.tm.api.service.ILoggerService;
-import ru.vpavlova.tm.api.service.ServiceLocator;
+import ru.vpavlova.tm.api.service.*;
 import ru.vpavlova.tm.api.service.dto.*;
 import ru.vpavlova.tm.api.service.model.*;
 import ru.vpavlova.tm.dto.Session;
 import ru.vpavlova.tm.endpoint.*;
 import ru.vpavlova.tm.enumerated.Role;
-import ru.vpavlova.tm.service.BackupService;
-import ru.vpavlova.tm.service.ConnectionService;
-import ru.vpavlova.tm.service.LoggerService;
-import ru.vpavlova.tm.service.PropertyService;
+import ru.vpavlova.tm.service.*;
 import ru.vpavlova.tm.service.dto.*;
 import ru.vpavlova.tm.service.model.*;
 import ru.vpavlova.tm.util.SystemUtil;
@@ -91,6 +86,9 @@ public class Bootstrap implements ServiceLocator {
     @NotNull
     private final IAdminDataEndpoint adminDataEndpoint = new AdminDataEndpoint(this, backupService);
 
+    @NotNull
+    public IActiveMQConnectionService activeMQConnectionService;
+
     @Nullable
     private Session session = null;
 
@@ -100,6 +98,18 @@ public class Bootstrap implements ServiceLocator {
     private void textWelcome() {
         loggerService.debug("TEST!!");
         loggerService.info("*** WELCOME TO TASK MANAGER ***");
+    }
+
+    private void initActiveMQConnectionService() {
+        activeMQConnectionService = new ActiveMQConnectionService(this);
+    }
+
+    @SneakyThrows
+    public void initJMSBroker() {
+        @NotNull final BrokerService broker = new BrokerService();
+        @NotNull final String bindAddress = "tcp://" + BrokerService.DEFAULT_BROKER_NAME + ":" + BrokerService.DEFAULT_PORT;
+        broker.addConnector(bindAddress);
+        broker.start();
     }
 
     private void initEndpoint() {
@@ -134,9 +144,12 @@ public class Bootstrap implements ServiceLocator {
         userService.create("admin", "admin", Role.ADMIN);
     }
 
+    @SneakyThrows
     public void init(@Nullable final String... args) {
         textWelcome();
         initPID();
+        initJMSBroker();
+        initActiveMQConnectionService();
         initEndpoint();
         initUser();
     }
