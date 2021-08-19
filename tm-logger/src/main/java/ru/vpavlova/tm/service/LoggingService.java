@@ -56,5 +56,5 @@ public class LoggingService implements ILoggingService {
                 return null;
         }
     }
-    
+
 }
