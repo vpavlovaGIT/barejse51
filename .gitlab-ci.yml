@@ -5,13 +5,62 @@ variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
 
-build:
+tm-server:
   image: maven:3-jdk-8
   stage: build
   script:
   - mvn clean install
   artifacts:
     paths:
-      - tm-client/target/*.jar
       - tm-server/target/*.jar
+
+tm-logger:
+ image: maven:3-jdk-8
+ stage: build
+ script:
+  - mvn clean install
+ artifacts:
+  paths:
+   - tm-logger/target/*.jar
+
+tm-client:
+ image: maven:3-jdk-8
+ stage: build
+ script:
+  - mvn clean install
+ artifacts:
+  paths:
+   - tm-client/target/*.jar
+
+publish-tm-server:
+ image: docker:19.03.0
+ stage: deploy
+ script:
+  - docker build -f ./tm-server/Dockerfile -t registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-server:latest .
+  - docker login -u vpavlova -p GP1X5JYicHfctk56CPYn registry.gitlab.com
+  - docker push registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-server:latest
+ dependencies:
+  - tm-server
+  
+ publish-tm-logger:
+ image: docker:19.03.0
+ stage: deploy
+ script:
+  - docker build -f ./tm-logger/Dockerfile -t registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-logger:latest .
+  - docker login -u vpavlova -p GP1X5JYicHfctk56CPYn registry.gitlab.com
+  - docker push registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-logger:latest
+ dependencies:
+  - tm-logger
+
+publish-tm-client:
+ image: docker:19.03.0
+ stage: deploy
+ script:
+  - docker build -f ./tm-client/Dockerfile -t registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-client:latest .
+  - docker login -u vpavlova -p GP1X5JYicHfctk56CPYn registry.gitlab.com
+  - docker push registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-client:latest
+ dependencies:
+  - tm-client
+
+
 
