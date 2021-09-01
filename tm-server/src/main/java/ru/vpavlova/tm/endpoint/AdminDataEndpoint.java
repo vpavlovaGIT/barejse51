@@ -12,7 +12,9 @@ import ru.vpavlova.tm.service.BackupService;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebService;
 
+@WebService
 public class AdminDataEndpoint extends AbstractEndpoint implements IAdminDataEndpoint {
 
     private Backup backup;

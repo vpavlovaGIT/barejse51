@@ -6,7 +6,7 @@
 
     <groupId>ru.vpavlova.tm</groupId>
     <artifactId>task-manager-client</artifactId>
-    <version>2.0.0</version>
+    <version>1.0.51</version>
 
     <name>Task Manager Client</name>
     <url>https://gitlab.com/vpavlova/task-manager-tsk-06</url>
@@ -170,7 +170,7 @@
     </dependencies>
 
     <build>
-        <finalName>task-manager</finalName>
+<!--        <finalName>task-manager-client.{$version}</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
