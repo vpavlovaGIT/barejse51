@@ -1,6 +1,6 @@
 FROM java:8
 MAINTAINER vpavlova@t1-consulting.ru
-ADD ./tm-server/target/task-manager-server-1.jar /opt/tm/
+ADD ./tm-server/target/task-manager-server-1.0.51.jar /opt/tm/
 EXPOSE 8080
 EXPOSE 5701
 EXPOSE 61616
