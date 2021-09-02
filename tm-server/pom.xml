@@ -198,7 +198,6 @@
     </dependencies>
 
     <build>
-<!--        <finalName>task-manager</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

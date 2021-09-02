@@ -170,7 +170,6 @@
     </dependencies>
 
     <build>
-<!--        <finalName>task-manager-client.{$version}</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

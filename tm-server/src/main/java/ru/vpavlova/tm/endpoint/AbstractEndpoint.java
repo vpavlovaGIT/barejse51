@@ -8,7 +8,7 @@ public class AbstractEndpoint {
     @NotNull
     final ServiceLocator serviceLocator;
 
-    public AbstractEndpoint( ServiceLocator serviceLocator) {
+    public AbstractEndpoint(ServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
     }
 
