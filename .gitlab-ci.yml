@@ -37,7 +37,7 @@ publish-tm-server:
   stage: deploy
   script:
     - docker build -f ./tm-server/Dockerfile -t registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-server:latest .
-    - docker login -u vpavlova -p GP1X5JYicHfctk56CPYn registry.gitlab.com
+    - docker login -u vpavlova -p bPocf8udetLAjHzrFEDi registry.gitlab.com
     - docker push registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-server:latest
   dependencies:
     - tm-server
@@ -47,7 +47,7 @@ publish-tm-logger:
   stage: deploy
   script:
     - docker build -f ./tm-logger/Dockerfile -t registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-logger:latest .
-    - docker login -u vpavlova -p GP1X5JYicHfctk56CPYn registry.gitlab.com
+    - docker login -u vpavlova -p bPocf8udetLAjHzrFEDi registry.gitlab.com
     - docker push registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-logger:latest
   dependencies:
     - tm-logger
@@ -57,7 +57,7 @@ publish-tm-client:
   stage: deploy
   script:
     - docker build -f ./tm-client/Dockerfile -t registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-client:latest .
-    - docker login -u vpavlova -p GP1X5JYicHfctk56CPYn registry.gitlab.com
+    - docker login -u vpavlova -p bPocf8udetLAjHzrFEDi registry.gitlab.com
     - docker push registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-client:latest
   dependencies:
     - tm-client
