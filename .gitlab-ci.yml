@@ -62,5 +62,14 @@ publish-tm-client:
   dependencies:
     - tm-client
 
+publish-tm-balancer:
+  image: docker:19.03.0
+  stage: deploy
+  script:
+    - docker build -f ./tm-balancer/Dockerfile -t registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-balancer:latest .
+    - docker login -u vpavlova -p bPocf8udetLAjHzrFEDi registry.gitlab.com
+    - docker push registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-balancer:latest
+  only:
+    - master
 
 

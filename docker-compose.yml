@@ -1,0 +1,82 @@
+version: '2'
+services:
+
+  mysql:
+    image: mysql:5.6.51
+    hostname: mysql
+    restart: always
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: task_manager
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - /volumes/mysql:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8888:80
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+
+  balancer:
+    image: registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-balancer:latest
+    hostname: server
+    ports:
+      - 8080:80
+
+  tm-server-alpha:
+    image: registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-server:latest
+    hostname: alpha
+    ports:
+      - 8081:8080
+    depends_on:
+      - mysql
+    environment:
+      jdbc.url: jdbc:mysql://mysql:3306/task_manager
+      server.host: alpha
+      server.port: 8080
+      jdbc.user: root
+      jdbc.password: root
+    networks:
+      - default
+
+  tm-server-betta:
+    image: registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-server:latest
+    hostname: betta
+    ports:
+      - 8082:8080
+    depends_on:
+      - mysql
+    environment:
+      jdbc.url: jdbc:mysql://mysql:3306/task_manager
+      server.host: betta
+      server.port: 8080
+      jdbc.user: root
+      jdbc.password: root
+    networks:
+      - default
+
+  tm-server-gamma:
+    image: registry.gitlab.com/vpavlova/task-manager-tsk-51/tm-server:latest
+    hostname: gamma
+    ports:
+      - 8083:8080
+    depends_on:
+      - mysql
+    environment:
+      jdbc.url: jdbc:mysql://mysql:3306/task_manager
+      server.host: gamma
+      server.port: 8080
+      jdbc.user: root
+      jdbc.password: root
+    networks:
+      - default
